@@ -1,0 +1,21 @@
+@import '~ag-grid-community/src/styles/ag-grid.scss';
+@import '~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss';
+@import '~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin.scss';
+
+.ag-theme-custom-react {
+	@include ag-theme-base(
+		(
+			background-color: #c7d9eb,
+			foreground-color: black,
+			odd-row-background-color: #b4cce4,
+			header-background-color: #22415e,
+			header-foreground-color: #ffffff,
+			selected-row-background-color: hsl(213, 63%, 55%),
+			range-selection-border-color: transparent,
+			header-column-separator: true,
+			row-hover-color: hsl(220, 78%, 78%),
+			row-height: 30px,
+			checkbox-background-color: white,
+		)
+	);
+}

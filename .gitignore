@@ -1,0 +1,4 @@
+/.idea/
+/ExpressServer/node_modules/
+/ExpressServer/media/
+/WpmDevelopment/client/.gitignore
