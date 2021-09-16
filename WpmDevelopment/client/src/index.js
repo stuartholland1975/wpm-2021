@@ -9,6 +9,7 @@ import { ApolloClient, ApolloLink, ApolloProvider } from '@apollo/client';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
+import 'react-image-gallery/styles/scss/image-gallery.scss';
 import { cache } from './cache';
 
 export const client = new ApolloClient({
@@ -23,7 +24,7 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: 'http://workpm.ddns.net:5000/graphql',
+      uri: '/graphql',
     }),
   ]),
   cache,

@@ -26,6 +26,8 @@ const DOCUMENTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media/documents')
 const IMAGES_UPLOAD_DIR_NAME = path.join(__dirname, 'media/images');
 //const REPORTS_UPLOAD_DIR_NAME = "/var/www/html/reports";
 const REPORTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media.reports');
+
+
 const cors = require("cors");
 const {
     postgraphilePolyRelationCorePlugin,
@@ -38,7 +40,7 @@ const postGraphOptions = {
     dynamicJson: true,
     enhanceGraphiql: true,
     allowExplain: true,
-    enableCors: true,
+   // enableCors: true,
     //  live: false,
     // ownerConnectionString: process.env.ROOT_DATABASE_URL || "postgres://postgres:987jmo00@192.168.0.18:5432/work_package_manager",
     // ignoreIndexes: false,
@@ -94,6 +96,7 @@ const middleware = postgraphile(
     "wpm_graphql",
     postGraphOptions
 );
+app.use(express.static(path.join(__dirname, 'media')));
 
 app.use(middleware);
 
@@ -110,10 +113,7 @@ async function resolveDocumentUpload(upload) {
     const { filename, mimetype, encoding, createReadStream } = upload;
     const stream = createReadStream();
     // Save file to the local filesystem
-    const { id, path } = await saveDocument({ stream, filename }).then(
-        console.log("FILE SAVED")
-    );
-
+    const { id, path } = await saveDocument({ stream, filename })
     // Return metadata to save it to Postgres
     return {
         id,
@@ -127,11 +127,8 @@ async function resolveDocumentUpload(upload) {
 async function resolveImageUpload(upload) {
     const { filename, mimetype, encoding, createReadStream } = upload;
     const stream = createReadStream();
-    // Save file to the local filesystem
-    const { id, path } = await saveImage({ stream, filename }).then(
-        console.log("FILE SAVED")
-    );
-    // Return metadata to save it to Postgres
+
+    const { id, path } = await saveImage({ stream, filename })
     return {
         id,
         path,
@@ -144,12 +141,8 @@ async function resolveImageUpload(upload) {
 async function resolveReportUpload(upload) {
     const { filename, mimetype, encoding, createReadStream } = upload;
     const stream = createReadStream();
-    // Save file to the local filesystem
-    const { id, path } = await saveReport({ stream, filename }).then(
-        console.log("FILE SAVED")
-    );
 
-    // Return metadata to save it to Postgres
+    const { id, path } = await saveReport({ stream, filename })
     return {
         id,
         path,
