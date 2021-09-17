@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import OrderLocations from './OrderLocations';
 import OrderItems from './OrderItems';
 import OrderImages from './OrderImages';
+import OrderDocuments from "./OrderDocuments";
 
 const OrderAdmin = () => {
   return (
@@ -22,6 +23,9 @@ const OrderAdmin = () => {
         </Route>
         <Route path='/orders/admin/images/:orderId' exact>
           <OrderImages />
+        </Route>
+          <Route path='/orders/admin/documents/:orderId' exact>
+          <OrderDocuments />
         </Route>
       </Switch>
     </>

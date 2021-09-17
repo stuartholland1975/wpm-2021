@@ -30,7 +30,9 @@ export default function NavBar() {
     text = 'WORK ORDER ITEMS';
   } else if (routeMatch.pathname.startsWith('/orders/admin/images')) {
     text = 'WORK ORDER IMAGES';
-  } else {
+  } else if (routeMatch.pathname.startsWith('/orders/admin/documents')) {
+    text = 'WORK ORDER DOCUMENTS';
+  }else {
     text = 'WORK PACKAGE MANAGER';
   }
 
