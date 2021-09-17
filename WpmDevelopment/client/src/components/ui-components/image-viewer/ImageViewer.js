@@ -1,10 +1,6 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
 import ImageGallery from 'react-image-gallery';
 import { formatDate, formatExifDate } from '../../../functions/commonFunctions';
-import { CircularProgress } from '@mui/material';
-import OrderImageButtons from '../../button-bars/OrderImageButtons';
 
 const ImageViewer = (props) => {
   const images = props.data.imageDetails.nodes.map((item) => ({

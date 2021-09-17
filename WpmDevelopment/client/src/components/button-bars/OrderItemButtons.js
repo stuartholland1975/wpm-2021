@@ -6,7 +6,6 @@ import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
 import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
 
 function Item(props) {
   const { sx, ...other } = props;

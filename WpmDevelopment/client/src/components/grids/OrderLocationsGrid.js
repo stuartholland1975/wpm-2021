@@ -3,7 +3,6 @@ import { AgGridReact } from 'ag-grid-react';
 import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
 import { gridSelectionsVar, toggleCompleteVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
-import { Box } from '@mui/material';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,

@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     background: 'linear-gradient(hsl(235, 50%, 50%), hsl(235, 94%, 25%))',
     color: 'white',
     borderRadius: 0,
-    padding: '5px 25px',
+
     fontWeight: 600,
     textTransform: 'uppercase',
     border: '5px solid',
