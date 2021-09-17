@@ -11,7 +11,6 @@ import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import { cache } from './cache';
-import { ModalProvider } from 'react-modal-hook';
 
 export const client = new ApolloClient({
   link: ApolloLink.from([
@@ -25,7 +24,7 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: 'http://192.168.0.17:5000/graphql',
+      uri: 'http://workpm.ddns.net:5000/graphql',
      // credentials: 'include'
     }),
   ]),
@@ -37,11 +36,11 @@ function initialise() {
   if (cssHasLoaded('ag-theme-custom-react')) {
     ReactDOM.render(
       <Router>
-        <ModalProvider>
+
           <ApolloProvider client={client}>
           <App />
         </ApolloProvider>
-        </ModalProvider>
+
 
       </Router>,
       document.getElementById('root')
