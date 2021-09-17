@@ -49,7 +49,9 @@ const OrderAdminButtons = () => {
         <NavigationButton label='documents' />
       </Item>
       <Item>
-        <NavigationButton label='images' onClick={() =>
+        <NavigationButton
+          label='images'
+          onClick={() =>
             history.push({
               pathname: `/orders/admin/images/${history.location.state}`,
               state: history.location.state,
