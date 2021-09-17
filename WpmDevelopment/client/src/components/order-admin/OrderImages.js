@@ -2,33 +2,25 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
-import { formatDate } from "../../functions/commonFunctions";
+import { formatDate,formatExifDate } from "../../functions/commonFunctions";
 import {CircularProgress} from "@mui/material";
+import OrderImageButtons from "../button-bars/OrderImageButtons";
 
 const GET_ORDER_IMAGES = gql`
   query GetOrderImages($id: Int!) {
-    images(
-      filter: { orderheaderId: { equalTo: $id } }
-      orderBy: SITELOCATION_ID_ASC
-    ) {
-      nodes {
-        exif
-        dateTakenManual
-        headerImageFile
-        id
-        imageType {
-          id
-          longName
-          shortName
-        }
-        sitelocation {
-          id
-          reference
-          worksheetReference
-        }
-        orderheaderId
-      }
+    imageDetails(filter: {orderheaderId: {equalTo: $id}}) {
+    totalCount
+    nodes {
+      headerImageFile
+      id
+      longName
+      shortName
+      reference
+      worksheetReference
+      dateTakenManual
+      exifDate
     }
+  }
   }
 `;
 
@@ -42,17 +34,20 @@ const OrderImages = () => {
 
   const images =
     data &&
-    data.images.nodes.map((item) => {
+    data.imageDetails.nodes.map((item) => {
+
       return {
-        original: `/images/${item.headerImageFile.id}`,
-        thumbnail: `http://localhost:5000/images/${item.headerImageFile.id}`,
-        originalHeight: 750,
-        // originalTitle: item.sitelocation.worksheetReference,
+        original: `http://192.168.0.17:5000/images/${item.headerImageFile.id}`,
+        thumbnail: `http://192.168.0.17:5000/images/${item.headerImageFile.id}`,
+        originalHeight: 800,
+       //  originalTitle: item.worksheetReference,
+          thumbnailTitle: item.reference,
         description: (
           <div style={{ textAlign: "left" }}>
-            <p>WORKSHEET: {item.sitelocation.worksheetReference}</p>
-            <p>{item.imageType.longName}</p>
-            <p>{formatDate(item.dateTakenManual)}</p>
+            <p>WORKSHEET: {item.worksheetReference}</p>
+            <p>{item.longName}</p>
+              <p>{item.exifDate ? formatExifDate(item.exifDate) :formatDate(item.dateTakenManual) }</p>
+
           </div>
         ),
       };
@@ -63,10 +58,8 @@ const OrderImages = () => {
     )
   }
   return (
-    <>
-      <hr />
-      {data && data.images.nodes.length > 0 ? (
-
+    <div style={{marginTop:'50px'}}>
+      {data && data.imageDetails.nodes.length > 0 ? (
           <ImageGallery
             items={images}
             slideInterval={2000}
@@ -81,7 +74,7 @@ const OrderImages = () => {
           NO IMAGES ARE CURRENLTY ASSOCIATED WITH THIS ORDER
         </div>
       )}
-    </>
+    </div>
   );
 };
 

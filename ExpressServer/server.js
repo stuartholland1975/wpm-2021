@@ -40,7 +40,7 @@ const postGraphOptions = {
     dynamicJson: true,
     enhanceGraphiql: true,
     allowExplain: true,
-   // enableCors: true,
+    enableCors: true,
     //  live: false,
     // ownerConnectionString: process.env.ROOT_DATABASE_URL || "postgres://postgres:987jmo00@192.168.0.18:5432/work_package_manager",
     // ignoreIndexes: false,

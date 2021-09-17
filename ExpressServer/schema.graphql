@@ -365,6 +365,40 @@ type Query implements Node {
     filter: ImageFilter
   ): ImagesConnection
 
+  """Reads and enables pagination through a set of `ImageDetail`."""
+  imageDetails(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ImageDetail`."""
+    orderBy: [ImageDetailsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ImageDetailCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ImageDetailFilter
+  ): ImageDetailsConnection
+
   """Reads and enables pagination through a set of `ImageType`."""
   imageTypes(
     """Only read the first `n` values of the set."""
@@ -28616,6 +28650,482 @@ type DocumentsEdge {
 
   """The `Document` at the end of the edge."""
   node: Document
+}
+
+"""A connection to a list of `ImageDetail` values."""
+type ImageDetailsConnection {
+  """A list of `ImageDetail` objects."""
+  nodes: [ImageDetail]!
+
+  """
+  A list of edges which contains the `ImageDetail` and cursor to aid in pagination.
+  """
+  edges: [ImageDetailsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ImageDetail` you could get from the connection."""
+  totalCount: Int!
+
+  """
+  Aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  aggregates: ImageDetailAggregates
+
+  """
+  Grouped aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  groupedAggregates(
+    """The method to use when grouping `ImageDetail` for these aggregates."""
+    groupBy: [ImageDetailGroupBy!]!
+
+    """Conditions on the grouped aggregates."""
+    having: ImageDetailHavingInput
+  ): [ImageDetailAggregates!]
+}
+
+type ImageDetail {
+  id: Int
+  sitelocationId: Int
+  headerImageFile: JSON
+  imageTypeId: Int
+  dateTakenManual: Date
+  exifDate: JSON
+  reference: String
+  worksheetReference: String
+  shortName: String
+  longName: String
+  orderheaderId: Int
+}
+
+"""A `ImageDetail` edge in the connection."""
+type ImageDetailsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ImageDetail` at the end of the edge."""
+  node: ImageDetail
+}
+
+type ImageDetailAggregates {
+  keys: [String!]
+
+  """
+  Sum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  sum: ImageDetailSumAggregates
+
+  """
+  Distinct count aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  distinctCount: ImageDetailDistinctCountAggregates
+
+  """
+  Minimum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  min: ImageDetailMinAggregates
+
+  """
+  Maximum aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  max: ImageDetailMaxAggregates
+
+  """
+  Mean average aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  average: ImageDetailAverageAggregates
+
+  """
+  Sample standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevSample: ImageDetailStddevSampleAggregates
+
+  """
+  Population standard deviation aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  stddevPopulation: ImageDetailStddevPopulationAggregates
+
+  """
+  Sample variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  varianceSample: ImageDetailVarianceSampleAggregates
+
+  """
+  Population variance aggregates across the matching connection (ignoring before/after/first/last/offset)
+  """
+  variancePopulation: ImageDetailVariancePopulationAggregates
+}
+
+type ImageDetailSumAggregates {
+  """Sum of id across the matching connection"""
+  id: BigInt!
+
+  """Sum of sitelocationId across the matching connection"""
+  sitelocationId: BigInt!
+
+  """Sum of imageTypeId across the matching connection"""
+  imageTypeId: BigInt!
+
+  """Sum of orderheaderId across the matching connection"""
+  orderheaderId: BigInt!
+}
+
+type ImageDetailDistinctCountAggregates {
+  """Distinct count of id across the matching connection"""
+  id: BigInt
+
+  """Distinct count of sitelocationId across the matching connection"""
+  sitelocationId: BigInt
+
+  """Distinct count of headerImageFile across the matching connection"""
+  headerImageFile: BigInt
+
+  """Distinct count of imageTypeId across the matching connection"""
+  imageTypeId: BigInt
+
+  """Distinct count of dateTakenManual across the matching connection"""
+  dateTakenManual: BigInt
+
+  """Distinct count of exifDate across the matching connection"""
+  exifDate: BigInt
+
+  """Distinct count of reference across the matching connection"""
+  reference: BigInt
+
+  """Distinct count of worksheetReference across the matching connection"""
+  worksheetReference: BigInt
+
+  """Distinct count of shortName across the matching connection"""
+  shortName: BigInt
+
+  """Distinct count of longName across the matching connection"""
+  longName: BigInt
+
+  """Distinct count of orderheaderId across the matching connection"""
+  orderheaderId: BigInt
+}
+
+type ImageDetailMinAggregates {
+  """Minimum of id across the matching connection"""
+  id: Int
+
+  """Minimum of sitelocationId across the matching connection"""
+  sitelocationId: Int
+
+  """Minimum of imageTypeId across the matching connection"""
+  imageTypeId: Int
+
+  """Minimum of orderheaderId across the matching connection"""
+  orderheaderId: Int
+}
+
+type ImageDetailMaxAggregates {
+  """Maximum of id across the matching connection"""
+  id: Int
+
+  """Maximum of sitelocationId across the matching connection"""
+  sitelocationId: Int
+
+  """Maximum of imageTypeId across the matching connection"""
+  imageTypeId: Int
+
+  """Maximum of orderheaderId across the matching connection"""
+  orderheaderId: Int
+}
+
+type ImageDetailAverageAggregates {
+  """Mean average of id across the matching connection"""
+  id: BigFloat
+
+  """Mean average of sitelocationId across the matching connection"""
+  sitelocationId: BigFloat
+
+  """Mean average of imageTypeId across the matching connection"""
+  imageTypeId: BigFloat
+
+  """Mean average of orderheaderId across the matching connection"""
+  orderheaderId: BigFloat
+}
+
+type ImageDetailStddevSampleAggregates {
+  """Sample standard deviation of id across the matching connection"""
+  id: BigFloat
+
+  """
+  Sample standard deviation of sitelocationId across the matching connection
+  """
+  sitelocationId: BigFloat
+
+  """
+  Sample standard deviation of imageTypeId across the matching connection
+  """
+  imageTypeId: BigFloat
+
+  """
+  Sample standard deviation of orderheaderId across the matching connection
+  """
+  orderheaderId: BigFloat
+}
+
+type ImageDetailStddevPopulationAggregates {
+  """Population standard deviation of id across the matching connection"""
+  id: BigFloat
+
+  """
+  Population standard deviation of sitelocationId across the matching connection
+  """
+  sitelocationId: BigFloat
+
+  """
+  Population standard deviation of imageTypeId across the matching connection
+  """
+  imageTypeId: BigFloat
+
+  """
+  Population standard deviation of orderheaderId across the matching connection
+  """
+  orderheaderId: BigFloat
+}
+
+type ImageDetailVarianceSampleAggregates {
+  """Sample variance of id across the matching connection"""
+  id: BigFloat
+
+  """Sample variance of sitelocationId across the matching connection"""
+  sitelocationId: BigFloat
+
+  """Sample variance of imageTypeId across the matching connection"""
+  imageTypeId: BigFloat
+
+  """Sample variance of orderheaderId across the matching connection"""
+  orderheaderId: BigFloat
+}
+
+type ImageDetailVariancePopulationAggregates {
+  """Population variance of id across the matching connection"""
+  id: BigFloat
+
+  """Population variance of sitelocationId across the matching connection"""
+  sitelocationId: BigFloat
+
+  """Population variance of imageTypeId across the matching connection"""
+  imageTypeId: BigFloat
+
+  """Population variance of orderheaderId across the matching connection"""
+  orderheaderId: BigFloat
+}
+
+"""Grouping methods for `ImageDetail` for usage during aggregation."""
+enum ImageDetailGroupBy {
+  ID
+  SITELOCATION_ID
+  HEADER_IMAGE_FILE
+  IMAGE_TYPE_ID
+  DATE_TAKEN_MANUAL
+  EXIF_DATE
+  REFERENCE
+  WORKSHEET_REFERENCE
+  SHORT_NAME
+  LONG_NAME
+  ORDERHEADER_ID
+}
+
+"""Conditions for `ImageDetail` aggregates."""
+input ImageDetailHavingInput {
+  AND: [ImageDetailHavingInput!]
+  OR: [ImageDetailHavingInput!]
+  sum: ImageDetailHavingSumInput
+  distinctCount: ImageDetailHavingDistinctCountInput
+  min: ImageDetailHavingMinInput
+  max: ImageDetailHavingMaxInput
+  average: ImageDetailHavingAverageInput
+  stddevSample: ImageDetailHavingStddevSampleInput
+  stddevPopulation: ImageDetailHavingStddevPopulationInput
+  varianceSample: ImageDetailHavingVarianceSampleInput
+  variancePopulation: ImageDetailHavingVariancePopulationInput
+}
+
+input ImageDetailHavingSumInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingDistinctCountInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingMinInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingMaxInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingAverageInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingStddevSampleInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingStddevPopulationInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingVarianceSampleInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+input ImageDetailHavingVariancePopulationInput {
+  id: HavingIntFilter
+  sitelocationId: HavingIntFilter
+  imageTypeId: HavingIntFilter
+  dateTakenManual: HavingDatetimeFilter
+  orderheaderId: HavingIntFilter
+}
+
+"""Methods to use when ordering `ImageDetail`."""
+enum ImageDetailsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  SITELOCATION_ID_ASC
+  SITELOCATION_ID_DESC
+  HEADER_IMAGE_FILE_ASC
+  HEADER_IMAGE_FILE_DESC
+  IMAGE_TYPE_ID_ASC
+  IMAGE_TYPE_ID_DESC
+  DATE_TAKEN_MANUAL_ASC
+  DATE_TAKEN_MANUAL_DESC
+  EXIF_DATE_ASC
+  EXIF_DATE_DESC
+  REFERENCE_ASC
+  REFERENCE_DESC
+  WORKSHEET_REFERENCE_ASC
+  WORKSHEET_REFERENCE_DESC
+  SHORT_NAME_ASC
+  SHORT_NAME_DESC
+  LONG_NAME_ASC
+  LONG_NAME_DESC
+  ORDERHEADER_ID_ASC
+  ORDERHEADER_ID_DESC
+}
+
+"""
+A condition to be used against `ImageDetail` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ImageDetailCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `sitelocationId` field."""
+  sitelocationId: Int
+
+  """Checks for equality with the object’s `headerImageFile` field."""
+  headerImageFile: JSON
+
+  """Checks for equality with the object’s `imageTypeId` field."""
+  imageTypeId: Int
+
+  """Checks for equality with the object’s `dateTakenManual` field."""
+  dateTakenManual: Date
+
+  """Checks for equality with the object’s `exifDate` field."""
+  exifDate: JSON
+
+  """Checks for equality with the object’s `reference` field."""
+  reference: String
+
+  """Checks for equality with the object’s `worksheetReference` field."""
+  worksheetReference: String
+
+  """Checks for equality with the object’s `shortName` field."""
+  shortName: String
+
+  """Checks for equality with the object’s `longName` field."""
+  longName: String
+
+  """Checks for equality with the object’s `orderheaderId` field."""
+  orderheaderId: Int
+}
+
+"""
+A filter to be used against `ImageDetail` object types. All fields are combined with a logical ‘and.’
+"""
+input ImageDetailFilter {
+  """Filter by the object’s `id` field."""
+  id: IntFilter
+
+  """Filter by the object’s `sitelocationId` field."""
+  sitelocationId: IntFilter
+
+  """Filter by the object’s `headerImageFile` field."""
+  headerImageFile: JSONFilter
+
+  """Filter by the object’s `imageTypeId` field."""
+  imageTypeId: IntFilter
+
+  """Filter by the object’s `dateTakenManual` field."""
+  dateTakenManual: DateFilter
+
+  """Filter by the object’s `reference` field."""
+  reference: StringFilter
+
+  """Filter by the object’s `worksheetReference` field."""
+  worksheetReference: StringFilter
+
+  """Filter by the object’s `shortName` field."""
+  shortName: StringFilter
+
+  """Filter by the object’s `longName` field."""
+  longName: StringFilter
+
+  """Filter by the object’s `orderheaderId` field."""
+  orderheaderId: IntFilter
+
+  """Checks for all expressions in this list."""
+  and: [ImageDetailFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ImageDetailFilter!]
+
+  """Negates the expression."""
+  not: ImageDetailFilter
 }
 
 """A connection to a list of `ImageType` values."""

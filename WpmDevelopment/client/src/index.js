@@ -24,10 +24,12 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: '/graphql',
+      uri: 'http://192.168.0.17:5000/graphql',
+     // credentials: 'include'
     }),
   ]),
   cache,
+
 });
 
 function initialise() {
