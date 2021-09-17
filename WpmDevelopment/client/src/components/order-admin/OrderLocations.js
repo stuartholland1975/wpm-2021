@@ -34,10 +34,6 @@ const OrderLocations = () => {
     fetchPolicy: 'cache-and-network',
   });
 
-  console.log(
-    data &&
-      data.sitelocationWithValues.nodes.map((item) => typeof item.orderValue)
-  );
 
   if (loading) {
     return <CircularProgress />;

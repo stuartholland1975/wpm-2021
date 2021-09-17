@@ -115,7 +115,6 @@ const OrderItemsGrid = ({ data }) => {
   function selectedRow(params) {
     const selected = params.api.getSelectedRows();
     if (selected.length > 0) {
-      console.log(selected);
       gridSelectionsVar({
         ...gridSelectionsVar(),
         selectedItem: selected[0],
