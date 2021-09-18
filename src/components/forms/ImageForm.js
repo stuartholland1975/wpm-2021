@@ -1,8 +1,9 @@
 import React from 'react';
-import {Grid, TextField, MenuItem, Select, FormControl, CircularProgress, Divider} from "@mui/material";
+import {Grid, TextField, MenuItem, CircularProgress} from "@mui/material";
 import CreateButton from "../ui-components/buttons/CreateButton";
 import CancelButton from "../ui-components/buttons/CancelButton";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
+import {useForm} from "react-hook-form";
 import {DateTime} from "luxon";
 
 const GET_IMAGE_TYPES = gql`
@@ -16,26 +17,41 @@ const GET_IMAGE_TYPES = gql`
     }
   }
 `;
+
+const UPLOAD_IMAGE = gql`
+  mutation CreateImage($input: CreateImageInput!) {
+    createImage(input: $input) {
+      image {
+        orderheaderId
+      }
+    }
+  }
+`;
 const defaultDate = DateTime.now().toISODate()
 
 const ImageForm = ({hideModal}) => {
+    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+
     const {data, loading} = useQuery(GET_IMAGE_TYPES);
     const [imageType, setImageType] = React.useState("");
-
+    const [uploadImage] = useMutation((UPLOAD_IMAGE))
 
     const handleChangeImageType = event => {
         return setImageType(event.target.value);
     }
 
-    const handleSubmit = event => console.log(event)
+    const onSubmit = data => {
+        console.log(data)
+    }
 
     if (loading) return <CircularProgress/>
 
     return (
-        <FormControl fullWidth onSbmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4}>
                 <Grid item xs={6}>
                     <TextField
+                        {...register("dateTakenManual")}
                         label="Work Done Date"
                         type="date"
                         name="dateTakenManual"
@@ -49,6 +65,7 @@ const ImageForm = ({hideModal}) => {
                 <Grid item xs={6}>
                     <TextField
                         label="Select Image File"
+                        {...register("headerImageFile")}
                         type="file"
                         fullWidth
                         variant="filled"
@@ -72,13 +89,13 @@ const ImageForm = ({hideModal}) => {
                     </TextField>
                 </Grid>
                 <Grid item xs={6}>
-                    <CreateButton type={"submit"} label={"SAVE IMAGE"} fullWidth/>
+                    <CreateButton type={'submit'} label={"SAVE IMAGE"} fullWidth/>
                 </Grid>
                 <Grid item xs={6}>
                     <CancelButton label={"CANCEL"} fullWidth onClick={hideModal}/>
                 </Grid>
             </Grid>
-        </FormControl>
+        </form>
 
     );
 };

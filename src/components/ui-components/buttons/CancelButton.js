@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-import ToggleOffIcon from '@mui/icons-material/ToggleOff';
 
 const useStyles = makeStyles({
   root: {
