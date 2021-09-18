@@ -34,7 +34,7 @@ const ImageForm = ({hideModal}) => {
 
     const {data, loading} = useQuery(GET_IMAGE_TYPES);
     const [imageType, setImageType] = React.useState("");
-   // const [uploadImage] = useMutation((UPLOAD_IMAGE))
+    const [uploadImage] = useMutation((UPLOAD_IMAGE))
 
     const handleChangeImageType = event => {
         return setImageType(event.target.value);
@@ -42,6 +42,9 @@ const ImageForm = ({hideModal}) => {
 
     const onSubmit = data => {
         console.log(data)
+        uploadImage({
+            variables: {}
+        })
     }
 
     if (loading) return <CircularProgress/>
