@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
 import { AgGridReact } from 'ag-grid-react';
-import { gridSelectionsVar, toggleCompleteVar } from '../../cache';
+import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
 
 const rowClassRules = {
