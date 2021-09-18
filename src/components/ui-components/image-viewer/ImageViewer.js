@@ -29,12 +29,12 @@ const ImageViewer = (props) => {
       {images.length > 0 ? (
         <ImageGallery
           items={images}
-          slideInterval={4000}
+         // slideInterval={4000}
         //  thumbnailPosition='bottom'
           onClick={handleImageClick}
           lazyLoad={true}
           showThumbnails={false}
-          autoPlay={true}
+        //  autoPlay={true}
         />
       ) : (
         <div className='no-data-message'>
