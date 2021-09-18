@@ -30,11 +30,11 @@ const UPLOAD_IMAGE = gql`
 const defaultDate = DateTime.now().toISODate()
 
 const ImageForm = ({hideModal}) => {
-    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+    const {register, handleSubmit} = useForm();
 
     const {data, loading} = useQuery(GET_IMAGE_TYPES);
     const [imageType, setImageType] = React.useState("");
-    const [uploadImage] = useMutation((UPLOAD_IMAGE))
+   // const [uploadImage] = useMutation((UPLOAD_IMAGE))
 
     const handleChangeImageType = event => {
         return setImageType(event.target.value);
