@@ -22,9 +22,9 @@ const GET_ORDER_IMAGES = gql`
   }
 `;
 
-const OrderImageData = (props) => {
+const OrderImageData = () => {
   const history = useHistory();
-  const { data, loading, error } = useQuery(GET_ORDER_IMAGES, {
+  const { data, loading } = useQuery(GET_ORDER_IMAGES, {
      variables: { id: Number(history.location.state) },
 
     fetchPolicy: 'cache-and-network',

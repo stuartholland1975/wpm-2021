@@ -66,9 +66,9 @@ const DocumentDisplay = (data) => (
     </Card>
 );
 
-const OrderDocuments = (props) => {
+const OrderDocuments = () => {
     const {orderId} = useParams();
-    const {data, loading, error} = useQuery(GET_ORDER_DOCUMENTS, {
+    const {data, loading} = useQuery(GET_ORDER_DOCUMENTS, {
         variables: {orderId: Number(orderId)},
         fetchPolicy: 'network-only',
     });

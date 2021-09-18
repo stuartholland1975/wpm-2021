@@ -90,7 +90,7 @@ const columnTypes = {
 };
 
 const OrderItemsGrid = ({ data }) => {
-  const toggleComplete = useReactiveVar(toggleCompleteVar);
+ // const toggleComplete = useReactiveVar(toggleCompleteVar);
   const selectedItem = useReactiveVar(gridSelectionsVar).selectedItem;
 
   const gridOptions = {

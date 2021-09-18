@@ -11,6 +11,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import { cache } from './cache';
+import {ModalProvider} from "react-modal-hook";
 
 export const client = new ApolloClient({
   link: ApolloLink.from([
@@ -38,7 +39,10 @@ function initialise() {
       <Router>
 
           <ApolloProvider client={client}>
-          <App />
+            <ModalProvider>
+               <App />
+            </ModalProvider>
+
         </ApolloProvider>
 
 
