@@ -52,8 +52,7 @@
       "last 1 firefox version",
       "last 1 safari version"
     ],
-    "proxy": [
-      "http://workpm.ddns.net"
-    ]
+    "proxy": "https://workpm.ddns.net"
+
   }
 }

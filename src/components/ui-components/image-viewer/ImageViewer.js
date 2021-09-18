@@ -4,8 +4,8 @@ import { formatDate, formatExifDate } from '../../../functions/commonFunctions';
 
 const ImageViewer = (props) => {
   const images = props.data.imageDetails.nodes.map((item) => ({
-    original: `http://192.168.0.17:5000/images/${item.headerImageFile.id}`,
-    thumbnail: `http://192.168.0.17:5000/images/${item.headerImageFile.id}`,
+    original: `https://workpm.ddns.net/images/${item.headerImageFile.id}`,
+    thumbnail: `https://workpm.ddns.net/images/${item.headerImageFile.id}`,
     originalHeight: 800,
     //  originalTitle: item.worksheetReference,
     thumbnailTitle: item.reference,

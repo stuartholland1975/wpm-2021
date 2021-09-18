@@ -24,8 +24,8 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: 'http://workpm.ddns.net:5000/graphql',
-     // credentials: 'include'
+      uri: 'https://workpm.ddns.net/graphql',
+    //  credentials: 'include'
     }),
   ]),
   cache,
