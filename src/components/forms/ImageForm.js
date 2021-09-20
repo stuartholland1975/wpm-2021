@@ -115,7 +115,7 @@ const ImageForm = ({hideModal}) => {
     });
     const [itemType, setItemType] = React.useState({});
     const [imageExif, setImageExif] = React.useState({});
-    const [imageFile, setImageFile] = React.useState({})
+
 
     const handleChange = (event) => {
         setItemType(event.target.value);
@@ -127,8 +127,19 @@ const ImageForm = ({hideModal}) => {
         const fd = new FormData(event.target);
         const dateTakenManual = fd.get("dateTakenManual");
         const headerImageFile = fd.get("headerImageFile");
+        const exifData = EXIF.getData(event.target.files[0], function () {
 
-        console.log(imageFile, "FD")
+            const data = this.exifdata
+            let pairs = Object.entries(data)
+            pairs.forEach(entry => {
+                const [key, value] = entry
+                setImageExif(prevState => ({
+                    ...prevState,
+                    [key]: typeof value === 'string' ? value.replace(/\0.*$/g, '') : value
+                }))
+            })
+        })
+        console.log(imageExif)
 
         uploadImage({
             variables: {
@@ -137,10 +148,10 @@ const ImageForm = ({hideModal}) => {
                         createdAt: dt,
                         dateTakenManual,
                         headerImageFile,
-                        // headerImageFile: imageFile,
+
                         imageTypeId: itemType.id,
                         sitelocationId: gridSelectionsVar().selectedLocation.id,
-                        exif: imageExif,
+                        exif: exifData,
                     },
                 },
             },
@@ -171,23 +182,14 @@ const ImageForm = ({hideModal}) => {
                         InputLabelProps={{shrink: true}}
                         name="headerImageFile"
                         required
-                        onChange={(event) => (
-                            event.target.files.length > 0
-                                ? event.target.files[0].name
-                                : "",
-                                EXIF.getData(event.target.files[0], function () {
-                                    setImageFile(event.target.files[0])
-                                    const data = this.exifdata
-                                    let pairs = Object.entries(data)
-                                    pairs.forEach(entry => {
-                                        const [key, value] = entry
-                                        setImageExif(prevState => ({
-                                            ...prevState,
-                                            [key]: typeof value === 'string' ? value.replace(/\0.*$/g, '') : value
-                                        }))
-                                    })
-                                })
-                        )}/>
+                        onChange={(event) =>
+                            (
+                                event.target.files.length > 0
+                                    ? event.target.files[0].name
+                                    : ""
+
+                            )
+                        }/>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
