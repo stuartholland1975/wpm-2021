@@ -4,7 +4,7 @@ import CancelButton from "../ui-components/buttons/CancelButton";
 import {Grid, TextField, MenuItem} from "@mui/material";
 import React from "react";
 import {DateTime} from "luxon";
-//import EXIF from "exif-js";
+import exifr from 'exifr'
 import {gridSelectionsVar} from "../../cache";
 
 const dt = DateTime.now().toISO();
@@ -98,6 +98,7 @@ const GET_SINGLE_ORDERHEADER = gql`
 
 const ImageForm = ({hideModal}) => {
 
+
     const [uploadImage] = useMutation(UPLOAD_IMAGE, {
         /*refetchQueries: [
           {
@@ -114,54 +115,64 @@ const ImageForm = ({hideModal}) => {
         onCompleted: () => hideModal()
     });
     const [itemType, setItemType] = React.useState({});
-   // const [imageExif, setImageExif] = React.useState({});
+
+    const [imageFile, setImageFile] = React.useState()
+
 
 
     const handleChange = (event) => {
         setItemType(event.target.value);
     };
+
+
     const {data} = useQuery(GET_IMAGE_TYPES);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const fd = new FormData(event.target);
-        const dateTakenManual = fd.get("dateTakenManual");
-        const headerImageFile = fd.get("headerImageFile");
-       /*  const exifData = EXIF.getData(headerImageFile.files[0], function () {
+    const onSubmit = (event) => {
+        event.preventDefault()
+        console.log(event.target)
+        let fd = new FormData(event.target)
+        const dateTakenManual = fd.get("dateTakenManual")
+            //   const headerImageFile = fd.get("headerImageFile")
+        exifr.parse(imageFile).then(output => {
+            console.log(output);
 
-            const data = this.exifdata
-            let pairs = Object.entries(data)
-            pairs.forEach(entry => {
-                const [key, value] = entry
-                setImageExif(prevState => ({
-                    ...prevState,
-                    [key]: typeof value === 'string' ? value.replace(/\0.*$/g, '') : value
-                }))
-            })
-        })
-        console.log(imageExif) */
-
-        uploadImage({
+            uploadImage({
             variables: {
                 input: {
                     image: {
                         createdAt: dt,
                         dateTakenManual,
-                        headerImageFile,
-
+                        headerImageFile: imageFile,
                         imageTypeId: itemType.id,
                         sitelocationId: gridSelectionsVar().selectedLocation.id,
-                      //  exif: exifData,
+                        exif: output
                     },
                 },
             },
         })
+        })
+
+        /*uploadImage({
+            variables: {
+                input: {
+                    image: {
+                        createdAt: dt,
+                        dateTakenManual,
+                        headerImageFile: imageFileRef.current,
+                        imageTypeId: itemType.id,
+                        sitelocationId: gridSelectionsVar().selectedLocation.id,
+                        exif: imageExif
+                    },
+                },
+            },
+        })*/
     };
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <TextField
+                        //  {...register("dateTakenManual")}
                         label="Work Done Date"
                         type="date"
                         name="dateTakenManual"
@@ -177,19 +188,17 @@ const ImageForm = ({hideModal}) => {
                         label="Select Image File"
                         type="file"
                         fullWidth
-                        //  inputProps={{ accept: ".pdf" }}
-                        variant="filled"
+                                               variant="filled"
                         InputLabelProps={{shrink: true}}
                         name="headerImageFile"
-                        required
-                        onChange={(event) =>
-                            (
-                                event.target.files.length > 0
-                                    ? event.target.files[0].name
-                                    : ""
 
-                            )
-                        }/>
+                        required
+                        onChange={(event) => (
+                            event.target.files.length > 0 &&
+                            setImageFile(event.target.files[0])
+                                )}
+                       // onChange={handleSelectFile}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
