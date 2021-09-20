@@ -98,7 +98,6 @@ const GET_SINGLE_ORDERHEADER = gql`
 
 const ImageForm = ({hideModal}) => {
 
-
     const [uploadImage] = useMutation(UPLOAD_IMAGE, {
         /*refetchQueries: [
           {
@@ -118,12 +117,9 @@ const ImageForm = ({hideModal}) => {
 
     const [imageFile, setImageFile] = React.useState()
 
-
-
     const handleChange = (event) => {
         setItemType(event.target.value);
     };
-
 
     const {data} = useQuery(GET_IMAGE_TYPES);
 
@@ -151,21 +147,6 @@ const ImageForm = ({hideModal}) => {
             },
         })
         })
-
-        /*uploadImage({
-            variables: {
-                input: {
-                    image: {
-                        createdAt: dt,
-                        dateTakenManual,
-                        headerImageFile: imageFileRef.current,
-                        imageTypeId: itemType.id,
-                        sitelocationId: gridSelectionsVar().selectedLocation.id,
-                        exif: imageExif
-                    },
-                },
-            },
-        })*/
     };
     return (
         <form onSubmit={onSubmit}>
@@ -197,7 +178,6 @@ const ImageForm = ({hideModal}) => {
                             event.target.files.length > 0 &&
                             setImageFile(event.target.files[0])
                                 )}
-                       // onChange={handleSelectFile}
                     />
                 </Grid>
                 <Grid item xs={12}>
