@@ -127,7 +127,7 @@ const ImageForm = ({hideModal}) => {
         const fd = new FormData(event.target);
         const dateTakenManual = fd.get("dateTakenManual");
         const headerImageFile = fd.get("headerImageFile");
-        const exifData = EXIF.getData(event.target.files[0], function () {
+       /*  const exifData = EXIF.getData(headerImageFile.files[0], function () {
 
             const data = this.exifdata
             let pairs = Object.entries(data)
@@ -139,7 +139,7 @@ const ImageForm = ({hideModal}) => {
                 }))
             })
         })
-        console.log(imageExif)
+        console.log(imageExif) */
 
         uploadImage({
             variables: {
@@ -151,7 +151,7 @@ const ImageForm = ({hideModal}) => {
 
                         imageTypeId: itemType.id,
                         sitelocationId: gridSelectionsVar().selectedLocation.id,
-                        exif: exifData,
+                      //  exif: exifData,
                     },
                 },
             },
