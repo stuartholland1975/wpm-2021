@@ -4,7 +4,7 @@ import CancelButton from "../ui-components/buttons/CancelButton";
 import {Grid, TextField, MenuItem} from "@mui/material";
 import React from "react";
 import {DateTime} from "luxon";
-import EXIF from "exif-js";
+//import EXIF from "exif-js";
 import {gridSelectionsVar} from "../../cache";
 
 const dt = DateTime.now().toISO();
@@ -114,7 +114,7 @@ const ImageForm = ({hideModal}) => {
         onCompleted: () => hideModal()
     });
     const [itemType, setItemType] = React.useState({});
-    const [imageExif, setImageExif] = React.useState({});
+   // const [imageExif, setImageExif] = React.useState({});
 
 
     const handleChange = (event) => {
