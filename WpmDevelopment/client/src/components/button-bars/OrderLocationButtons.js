@@ -4,8 +4,9 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import { gridSelectionsVar } from '../../cache';
-import { useReactiveVar } from '@apollo/client';
+import {gridSelectionsVar} from '../../cache';
+import {useReactiveVar} from '@apollo/client';
+import OrderImageAdmin from "../order-admin/OrderImageAdmin";
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -54,7 +55,7 @@ const OrderLocationButtons = (props) => {
         />
       </Item>
       <Item item>
-        <CreateButton label='add image' disabled={selectedLocation === false} />
+       <OrderImageAdmin/>
       </Item>
       <Item>
         <NavigationButton

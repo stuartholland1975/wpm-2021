@@ -1,7 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import {gql, useQuery} from '@apollo/client';
+import {useHistory} from 'react-router-dom';
+import {CircularProgress} from '@mui/material';
 import ImageViewer from '../ui-components/image-viewer/ImageViewer';
 
 const GET_ORDER_IMAGES = gql`
@@ -22,9 +22,9 @@ const GET_ORDER_IMAGES = gql`
   }
 `;
 
-const OrderImageData = (props) => {
+const OrderImageData = () => {
   const history = useHistory();
-  const { data, loading, error } = useQuery(GET_ORDER_IMAGES, {
+  const { data, loading } = useQuery(GET_ORDER_IMAGES, {
      variables: { id: Number(history.location.state) },
 
     fetchPolicy: 'cache-and-network',

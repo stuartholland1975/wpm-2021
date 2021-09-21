@@ -40,6 +40,7 @@
 		"postgraphile-plugin-nested-mutations": "^1.1.0",
 		"postgraphile-plugin-upload-field": "^1.0.0-alpha.10",
 		"postgraphile-polymorphic-relation-plugin": "^1.1.6",
-		"postgraphile-table-extension-plugin": "^1.0.0"
+		"postgraphile-table-extension-plugin": "^1.0.0",
+		"sharp": "^0.29.1"
 	}
 }

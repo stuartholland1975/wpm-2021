@@ -1,8 +1,8 @@
 import React from 'react';
 import OrderheaderGrid from '../grids/OrderheaderGrid';
 import OrderheaderButtons from '../button-bars/OrderheaderButtons';
-import { useQuery, gql } from '@apollo/client';
-import { CircularProgress } from '@mui/material';
+import {gql, useQuery} from '@apollo/client';
+import {CircularProgress} from '@mui/material';
 
 const GET_ALL_ORDER_HEADERS = gql`
 	query GetOrderheadersWithValues {

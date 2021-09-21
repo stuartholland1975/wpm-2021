@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
-import { gridSelectionsVar, toggleCompleteVar } from '../../cache';
-import { useReactiveVar } from '@apollo/client';
+import React, {useEffect} from 'react';
+import {AgGridReact} from 'ag-grid-react';
+import {formatNumberGridTwoDecimals} from '../../functions/commonFunctions';
+import {gridSelectionsVar, toggleCompleteVar} from '../../cache';
+import {useReactiveVar} from '@apollo/client';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,

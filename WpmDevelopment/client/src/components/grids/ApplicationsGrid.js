@@ -1,10 +1,7 @@
 import React from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import {
-  formatDateGrid,
-  formatNumberGridTwoDecimals,
-} from '../../functions/commonFunctions';
-import { WpmGridContext } from '../../wpmGridContext';
+import {AgGridReact} from 'ag-grid-react';
+import {formatDateGrid, formatNumberGridTwoDecimals,} from '../../functions/commonFunctions';
+import {WpmGridContext} from '../../wpmGridContext';
 
 const cellClassRulesSubmiited = {
   "cell-pass": params => params.value === true,

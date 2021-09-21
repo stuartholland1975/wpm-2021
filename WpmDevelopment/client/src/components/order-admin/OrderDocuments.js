@@ -1,16 +1,12 @@
 import React from 'react';
-import {useQuery, gql} from '@apollo/client';
-import {Document, Page} from 'react-pdf/dist/esm/entry.webpack';
+import {gql, useQuery} from '@apollo/client';
+import {Document, Page, pdfjs} from 'react-pdf/dist/esm/entry.webpack';
 import {useParams} from 'react-router-dom';
-import {
-    Box,
-    CircularProgress,
-    Card,
-    CardContent,
-    CardActionArea,
-} from '@mui/material';
+import {Box, Card, CardActionArea, CardContent, CircularProgress,} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import OrderDocumentButtons from "../button-bars/OrderDocumentButtons";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const GET_ORDER_DOCUMENTS = gql`
   query GetOrderDocuments($orderId: Int!) {
@@ -39,7 +35,7 @@ const DocumentDisplay = (data) => (
         key={data.document.id}
     >
         <CardActionArea
-            href={`http://192.168.0.17:5000/documents/${data.document.headerDocumentFile.id}`}
+            href={`https://workpm.ddns.net/documents/${data.document.headerDocumentFile.id}`}
             target='_blank'
         >
             <Typography
@@ -53,7 +49,8 @@ const DocumentDisplay = (data) => (
 
 
             <CardContent><Document
-                file={`http://192.168.0.17:5000/documents/${data.document.headerDocumentFile.id}`}
+
+                file={{url: `https://workpm.ddns.net/documents/${data.document.headerDocumentFile.id}`}}
             >
                 <Page pageNumber={1} width={350}/>
             </Document></CardContent>
@@ -64,9 +61,9 @@ const DocumentDisplay = (data) => (
     </Card>
 );
 
-const OrderDocuments = (props) => {
+const OrderDocuments = () => {
     const {orderId} = useParams();
-    const {data, loading, error} = useQuery(GET_ORDER_DOCUMENTS, {
+    const {data, loading} = useQuery(GET_ORDER_DOCUMENTS, {
         variables: {orderId: Number(orderId)},
         fetchPolicy: 'network-only',
     });

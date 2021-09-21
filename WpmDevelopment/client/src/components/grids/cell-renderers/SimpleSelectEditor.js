@@ -1,10 +1,5 @@
-import React, {
-    useState,
-    forwardRef,
-    useImperativeHandle,
-    useRef
-} from 'react';
-import { MenuItem, Select } from '@material-ui/core';
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
+import {MenuItem, Select} from '@material-ui/core';
 
 export default forwardRef((props, ref) => {
     const [value, setValue] = useState('');
