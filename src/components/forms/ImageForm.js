@@ -131,6 +131,7 @@ const ImageForm = ({hideModal}) => {
             //   const headerImageFile = fd.get("headerImageFile")
         exifr.parse(imageFile).then(output => {
             console.log(output);
+            exifr.thumbnail(imageFile).then(output => console.log("THUMB", output))
 
             uploadImage({
             variables: {
