@@ -84,8 +84,7 @@ query GetSingleLocation($id: Int!) {
 `
 
 const ImageForm = ({hideModal}) => {
-
-
+  
   const [uploadImage] = useMutation(UPLOAD_IMAGE, {
     refetchQueries: [
       {

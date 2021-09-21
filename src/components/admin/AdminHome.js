@@ -1,6 +1,8 @@
 import React from 'react';
 import NavigateButton from '../ui-components/buttons/NavigationButton'
 import {Box} from "@mui/material";
+import GlobalDocuments from "./GlobalDocuments";
+import {Route, Switch, useHistory} from "react-router-dom";
 
 function Item(props) {
   const {sx, ...other} = props;
@@ -16,22 +18,30 @@ function Item(props) {
 }
 
 const AdminHome = () => {
+  const history = useHistory()
   return (
-    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2}}>
-
-      <Item item>
-        <NavigateButton label={"GLOBAL DOCUMENTS"} fullWidth/>
-      </Item>
-      <Item item>
-        <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
-      </Item>
-      <Item item>
-        <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
-      </Item>
-      <Item item>
-        <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
-      </Item>
-    </Box>
+    <>
+      <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2}}>
+        <Item item>
+          <NavigateButton label={"GLOBAL DOCUMENTS"} fullWidth onClick={() => history.push("/admin/global/documents")}/>
+        </Item>
+        <Item item>
+          <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
+        </Item>
+        <Item item>
+          <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
+        </Item>
+        <Item item>
+          <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
+        </Item>
+      </Box>
+      <br/>
+      <Switch>
+        <Route path={"/admin/global/documents"} exact>
+          <GlobalDocuments/>
+        </Route>
+      </Switch>
+    </>
   );
 };
 

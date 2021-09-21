@@ -4,7 +4,7 @@ import {Box} from '@mui/material';
 import {useHistory} from 'react-router-dom';
 
 function Item(props) {
-  const { sx, ...other } = props;
+  const {sx, ...other} = props;
   return (
     <Box
       sx={{
@@ -20,7 +20,7 @@ const OrderAdminButtons = (props) => {
   const history = useHistory();
   console.log(history.location.pathname.startsWith('/orders/admin/locations'));
   return (
-    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
+    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2}}>
       <Item>
         <NavigationButton
           label='locations'
@@ -48,15 +48,15 @@ const OrderAdminButtons = (props) => {
         />
       </Item>
       <Item item>
-        <NavigationButton label='worksheets' />
+        <NavigationButton label='worksheets'/>
       </Item>
       <Item>
         <NavigationButton label='documents' onClick={() =>
-            history.push({
-              pathname: `/orders/admin/documents/${history.location.state}`,
-              state: history.location.state,
-            })
-          }/>
+          history.push({
+            pathname: `/orders/admin/documents/${history.location.state}`,
+            state: history.location.state,
+          })
+        }/>
       </Item>
       <Item>
         <NavigationButton
@@ -72,6 +72,7 @@ const OrderAdminButtons = (props) => {
           }
         />
       </Item>
+      
     </Box>
   );
 };
