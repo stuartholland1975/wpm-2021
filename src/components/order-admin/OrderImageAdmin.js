@@ -5,8 +5,6 @@ import CreateButton from "../ui-components/buttons/CreateButton";
 import ImageForm from "../forms/ImageForm";
 
 
-
-
 const OrderImageAdmin = () => {
 
     const [showModal, hideModal] = useModal(() => (

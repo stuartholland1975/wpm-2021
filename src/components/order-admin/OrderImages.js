@@ -1,7 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import {gql, useQuery} from '@apollo/client';
+import {useHistory} from 'react-router-dom';
+import {CircularProgress} from '@mui/material';
 import ImageViewer from '../ui-components/image-viewer/ImageViewer';
 
 const GET_ORDER_IMAGES = gql`

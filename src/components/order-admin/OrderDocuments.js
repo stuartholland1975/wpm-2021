@@ -1,16 +1,11 @@
 import React from 'react';
-import {useQuery, gql} from '@apollo/client';
+import {gql, useQuery} from '@apollo/client';
 import {Document, Page, pdfjs} from 'react-pdf/dist/esm/entry.webpack';
 import {useParams} from 'react-router-dom';
-import {
-    Box,
-    CircularProgress,
-    Card,
-    CardContent,
-    CardActionArea,
-} from '@mui/material';
+import {Box, Card, CardActionArea, CardContent, CircularProgress,} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import OrderDocumentButtons from "../button-bars/OrderDocumentButtons";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const GET_ORDER_DOCUMENTS = gql`

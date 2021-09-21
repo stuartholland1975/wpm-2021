@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationButton from '../ui-components/buttons/NavigationButton';
-import { Box } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import {Box} from '@mui/material';
+import {useHistory} from 'react-router-dom';
 
 function Item(props) {
   const { sx, ...other } = props;

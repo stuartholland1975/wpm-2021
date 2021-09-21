@@ -1,7 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import {gql, useQuery} from '@apollo/client';
+import {useHistory} from 'react-router-dom';
+import {CircularProgress} from '@mui/material';
 import OrderLocationsGrid from '../grids/OrderLocationsGrid';
 import OrderLocationButons from '../button-bars/OrderLocationButtons';
 

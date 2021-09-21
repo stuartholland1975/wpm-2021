@@ -1,7 +1,7 @@
 import React from 'react';
 import OrderAdminButtons from '../button-bars/OrderAdminButtons';
 import OrderStats from './OrderStats';
-import { Switch, Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import OrderLocations from './OrderLocations';
 import OrderItems from './OrderItems';
 import OrderImages from './OrderImages';

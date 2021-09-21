@@ -1,19 +1,16 @@
 import React from "react";
-import { AgGridReact } from "ag-grid-react";
-import {
-  formatNumberGridTwoDecimals,
-  formatNumberTwoDecimals
-} from "../../functions/commonFunctions";
+import {AgGridReact} from "ag-grid-react";
+import {formatNumberGridTwoDecimals, formatNumberTwoDecimals} from "../../functions/commonFunctions";
 import SimpleDateEditor from "./cell-renderers/SimpleDateEditor";
 import SimpleNumericCellEditor from "./cell-renderers/SimpleNumericEditor";
 import SimpleSelectEditor from "./cell-renderers/SimpleSelectEditor";
 import OrderItemProgressButtons from "../button-bars/OrderItemProgressButtons";
-import { useMutation } from "@apollo/client";
-import { CREATE_BULK_WORKSHEETS } from "../../gql/mutations";
-import { v4 as uuidv4 } from "uuid";
+import {useMutation} from "@apollo/client";
+import {CREATE_BULK_WORKSHEETS} from "../../gql/mutations";
+import {v4 as uuidv4} from "uuid";
 import ConfirmAlertModal from "../ui-components/ConfirmAlertModal";
-import { useModal } from "react-modal-hook";
-import { useHistory } from "react-router-dom";
+import {useModal} from "react-modal-hook";
+import {useHistory} from "react-router-dom";
 import AutocompleteEditor from "./cell-renderers/AutocompleteEditor";
 
 const WorkProgressGrid = ({

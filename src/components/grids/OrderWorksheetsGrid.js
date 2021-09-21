@@ -1,9 +1,6 @@
 import React from "react";
-import { AgGridReact } from "ag-grid-react";
-import {
-  formatDateGrid,
-  formatNumberGridTwoDecimals,
-} from "../../functions/commonFunctions";
+import {AgGridReact} from "ag-grid-react";
+import {formatDateGrid, formatNumberGridTwoDecimals,} from "../../functions/commonFunctions";
 
 const columnDefs = [
   {

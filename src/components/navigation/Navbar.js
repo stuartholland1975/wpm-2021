@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import NavLogo from './NavLogo';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import {NavLink, useHistory, useLocation} from 'react-router-dom';
 
 export default function NavBar() {
   let routeMatch = useLocation();

@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {forwardRef, useImperativeHandle, useRef, useState} from "react";
 
 export default forwardRef((props, ref) => {
     const inputRef = useRef();

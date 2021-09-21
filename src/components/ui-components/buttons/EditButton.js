@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
+import {makeStyles} from '@mui/styles';
 import EditIcon from '@mui/icons-material/Edit';
 
 const useStyles = makeStyles({

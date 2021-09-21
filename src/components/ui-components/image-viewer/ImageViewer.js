@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageGallery from 'react-image-gallery';
-import { formatDate, formatExifDate } from '../../../functions/commonFunctions';
+import {formatDate, formatExifDate} from '../../../functions/commonFunctions';
 
 const ImageViewer = (props) => {
   const images = props.data.imageDetails.nodes.map((item) => ({

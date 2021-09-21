@@ -1,9 +1,8 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { gridSelectionsVar } from '../../cache';
-import { useReactiveVar } from '@apollo/client';
-import { Typography, CircularProgress, Box } from '@mui/material';
-import { formatNumberNoDecimals } from '../../functions/commonFunctions';
+import {gql, useQuery, useReactiveVar} from '@apollo/client';
+import {gridSelectionsVar} from '../../cache';
+import {Box, CircularProgress, Typography} from '@mui/material';
+import {formatNumberNoDecimals} from '../../functions/commonFunctions';
 
 const GET_SINGLE_ORDERHEADER = gql`
 	query GetSingleOrderheader($id: Int!) {
