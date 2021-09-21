@@ -1,6 +1,7 @@
 import React from 'react';
 import ImageGallery from 'react-image-gallery';
-import {formatDate, formatExifDate} from '../../../functions/commonFunctions';
+import { formatDate } from '../../../functions/commonFunctions';
+
 
 const ImageViewer = (props) => {
   const images = props.data.imageDetails.nodes.map((item) => ({
@@ -8,14 +9,14 @@ const ImageViewer = (props) => {
     thumbnail: `https://workpm.ddns.net/images/thumbnails/${item.headerImageFile.id}`,
     originalHeight: 800,
     //  originalTitle: item.worksheetReference,
-  //  thumbnailTitle: item.reference,
+    //  thumbnailTitle: item.reference,
     description: (
       <div style={{ textAlign: 'left' }}>
         <p>WORKSHEET: {item.worksheetReference}</p>
         <p>{item.longName}</p>
         <p>
           {item.exifDate
-            ? formatExifDate(item.exifDate)
+            ? formatDate(item.exifDate)
             : formatDate(item.dateTakenManual)}
         </p>
       </div>
@@ -29,7 +30,7 @@ const ImageViewer = (props) => {
       {images.length > 0 ? (
         <ImageGallery
           items={images}
-         // slideInterval={4000}
+          // slideInterval={4000}
           thumbnailPosition='bottom'
           onClick={handleImageClick}
           lazyLoad={true}

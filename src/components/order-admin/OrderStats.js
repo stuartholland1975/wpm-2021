@@ -1,10 +1,10 @@
 import React from 'react';
-import {gql, useQuery, useReactiveVar} from '@apollo/client';
-import {gridSelectionsVar} from '../../cache';
-import {Box, CircularProgress, Typography} from '@mui/material';
-import {formatNumberNoDecimals} from '../../functions/commonFunctions';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
+import { gridSelectionsVar } from '../../cache';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { formatNumberNoDecimals } from '../../functions/commonFunctions';
 
-const GET_SINGLE_ORDERHEADER = gql`
+export const GET_SINGLE_ORDERHEADER = gql`
 	query GetSingleOrderheader($id: Int!) {
 		orderheaderWithValue(id: $id) {
 			area
@@ -127,7 +127,7 @@ const OrderStats = () => {
 				<Typography>
 					{formatNumberNoDecimals(
 						data.orderheaderWithValue.orderValueTotal -
-							data.orderheaderWithValue.orderValueTotalComplete
+						data.orderheaderWithValue.orderValueTotalComplete
 					)}
 				</Typography>
 			</Item>
@@ -144,7 +144,7 @@ const OrderStats = () => {
 				<Typography>
 					{formatNumberNoDecimals(
 						data.orderheaderWithValue.orderValueTotalComplete -
-							data.orderheaderWithValue.orderValueTotalApplied
+						data.orderheaderWithValue.orderValueTotalApplied
 					)}
 				</Typography>
 			</Item>

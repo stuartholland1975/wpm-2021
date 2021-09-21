@@ -10,26 +10,25 @@ import OrderDocuments from "./OrderDocuments";
 const OrderAdmin = () => {
   return (
     <>
-      <br />
-      <OrderAdminButtons />
-      <OrderStats />
-      <hr />
+      <br/>
+      <OrderAdminButtons/>
+      <OrderStats/>
+      <hr/>
       <Switch>
         <Route path='/orders/admin/locations/:orderId' exact>
-          <OrderLocations />
+          <OrderLocations/>
         </Route>
         <Route path='/orders/admin/items/:orderId' exact>
-          <OrderItems />
+          <OrderItems/>
         </Route>
         <Route path='/orders/admin/images/:orderId' exact>
-          <OrderImages />
+          <OrderImages/>
         </Route>
-          <Route path='/orders/admin/documents/:orderId' exact>
-          <OrderDocuments />
+        <Route path='/orders/admin/documents/:orderId' exact>
+          <OrderDocuments/>
         </Route>
       </Switch>
     </>
   );
 };
-
 export default OrderAdmin;
