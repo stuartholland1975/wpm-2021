@@ -3,7 +3,7 @@ import {gql, useQuery} from '@apollo/client';
 import {useHistory} from 'react-router-dom';
 import {CircularProgress} from '@mui/material';
 import OrderItemsGrid from '../grids/OrderItemsGrid';
-import OrderItemButons from '../button-bars/OrderItemButtons';
+import OrderItemButtons from '../button-bars/OrderItemButtons';
 
 export const GET_ORDER_DETAILS = gql`
   query GetOrderdetails($id: Int!) {
@@ -33,19 +33,19 @@ export const GET_ORDER_DETAILS = gql`
 const OrderItems = () => {
   const history = useHistory();
 
-  const { data, loading } = useQuery(GET_ORDER_DETAILS, {
-    variables: { id: Number(history.location.state) },
+  const {data, loading} = useQuery(GET_ORDER_DETAILS, {
+    variables: {id: Number(history.location.state)},
     fetchPolicy: 'cache-and-network',
   });
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress/>;
   }
 
   return (
     <>
-      <OrderItemButons />
-      <OrderItemsGrid data={data.orderdetailWithValues.nodes} />
+      <OrderItemButtons/>
+      <OrderItemsGrid data={data.orderdetailWithValues.nodes}/>
     </>
   );
 };
