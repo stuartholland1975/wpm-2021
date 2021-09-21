@@ -1,26 +1,30 @@
 import Home from './components/home/Home';
 import TestComponent from './components/test-components/TestComponent';
 import NavBar from './components/navigation/Navbar';
-import { Switch, Route } from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Orderheaders from './components/orderheaders/Orderheaders';
 import OrderAdmin from './components/order-admin/OrderAdmin';
+import AdminHome from "./components/admin/AdminHome";
 
 function App() {
   return (
     <div className='App'>
-      <NavBar />
+      <NavBar/>
       <Switch>
         <Route path='/' exact>
-          <Home />
+          <Home/>
         </Route>
         <Route path='/test' exact>
-          <TestComponent />
+          <TestComponent/>
         </Route>
         <Route path='/orders' exact>
-          <Orderheaders />
+          <Orderheaders/>
         </Route>
         <Route path='/orders/admin/:orderId'>
-          <OrderAdmin />
+          <OrderAdmin/>
+        </Route>
+        <Route path='/admin'>
+          <AdminHome/>
         </Route>
       </Switch>
     </div>
