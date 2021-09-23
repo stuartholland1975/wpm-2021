@@ -26,16 +26,19 @@ const GET_ORDER_DOCUMENTS = gql`
 
 const DocumentDisplay = (data) => (
   <Box
-
-    xs={'auto'}
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: "center",
+      alignItems: "center",
+      m: 0.5
+    }}
     key={data.document.id}
+    spacing={2}
   >
     <Card sx={{
       bgcolor: '#d0ddea',
-      height: 600,
-      // p: 2,
-      ml: 1, mr: 1,
-
+      height: 525
     }}>
       <CardActionArea
         href={`https://workpm.ddns.net/documents/${data.document.headerDocumentFile.id}`}
@@ -45,6 +48,7 @@ const DocumentDisplay = (data) => (
           sx={{
             textDecoration: 'underline',
             mb: 1,
+            mt: 2,
             color: 'navy',
             textTransform: 'uppercase',
             fontSize: 18,
@@ -84,7 +88,8 @@ const OrderDocuments = () => {
         '      minmax(100px, 1fr)\n' +
         '      repeat(6, 1fr)'
     }}>*/}
-    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2, height: 600}}>
+    {/*<Box sx={{display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2, height: 600}}>*/}
+    <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'middle', maxHeight: '75vh'}}>
       {data.orderheaderDocuments.nodes.length > 0 ? (
 
         data.orderheaderDocuments.nodes.map((item) => DocumentDisplay(item))
