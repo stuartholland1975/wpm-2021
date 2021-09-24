@@ -15,6 +15,7 @@ const GET_ORDER_DOCUMENTS = gql`
         document {
           createdAt
           headerDocumentFile
+          global
           id
           title
         }
@@ -79,16 +80,7 @@ const OrderDocuments = () => {
   if (loading) return <CircularProgress/>;
 
   return (<>
-    <OrderDocumentButtons/>
-    {/* <Box sx={{
-      height: 600,
-      alignContent: 'center',
-      display: 'grid',
-      gridTemplateColumns:
-        '      minmax(100px, 1fr)\n' +
-        '      repeat(6, 1fr)'
-    }}>*/}
-    {/*<Box sx={{display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2, height: 600}}>*/}
+    <OrderDocumentButtons data={data}/>
     <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'middle', maxHeight: '75vh'}}>
       {data.orderheaderDocuments.nodes.length > 0 ? (
 

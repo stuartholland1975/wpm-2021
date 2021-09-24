@@ -60,7 +60,7 @@ const OrderAdminButtons = (props) => {
       </Item>
       <Item>
         <NavigationButton
-          label='images'
+          label='view images'
           //    disabled={history.location.pathname.startsWith(
           //      '/orders/admin/images'
           //    )}
@@ -72,7 +72,7 @@ const OrderAdminButtons = (props) => {
           }
         />
       </Item>
-      
+
     </Box>
   );
 };
