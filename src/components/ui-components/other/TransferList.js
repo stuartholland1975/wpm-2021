@@ -72,7 +72,7 @@ export default function TransferList({existing, options}) {
 
   React.useEffect(() => {
     mutationApiVar({...mutationApiVar(), data: existing})
-  }, [])
+  }, [existing])
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
