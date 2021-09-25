@@ -8,7 +8,7 @@ import OrderDocumentButtons from "../button-bars/OrderDocumentButtons";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const GET_ORDER_DOCUMENTS = gql`
+export const GET_ORDER_DOCUMENTS = gql`
   query GetOrderDocuments($orderId: Int!) {
     orderheaderDocuments(filter: { orderheaderId: { equalTo: $orderId } }) {
       nodes {

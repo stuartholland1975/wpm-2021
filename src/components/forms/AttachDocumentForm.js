@@ -7,6 +7,8 @@ import {gridSelectionsVar, mutationApiVar} from "../../cache";
 import ModalFormButtons from "../ui-components/modals/ModalFormButtons";
 import React from "react";
 import {removeCommon, removedFromInitial} from "../../functions/commonFunctions";
+import {GET_SINGLE_ORDERHEADER} from "../order-admin/OrderStats";
+import {GET_ORDER_DOCUMENTS} from "../order-admin/OrderDocuments";
 
 const GET_UNATTACHED_GLOBAL_DOCUMENTS = gql`
   query GetUnattachedGlobalDocuments($existing: [Int!]) {
@@ -18,19 +20,25 @@ const GET_UNATTACHED_GLOBAL_DOCUMENTS = gql`
   }
 }
 `;
+
 const REMOVE_GLOBAL_DOCUMENT_FROM_ORDER = gql`
-mutation RemoveGlobalDocumentFromOrder($orderId: Int!, $docId: Int!) {
-  deleteOrderheaderDocument(input: {orderheaderId: $orderId, documentId: $docId}) {
+mutation RemoveGlobalDocumentFromOrder($mnPatch: [OrderheaderDocumentPatch!]) {
+  mnDeleteOrderheaderDocument(input: {mnPatch: $mnPatch}) {
     deletedOrderheaderDocumentNodeId
   }
 }
 `
 const ATTACH_GLOBAL_DOCUMENT = gql`
-mutation AttachGlobalDocument($orderId: Int!, $docId: Int!) {
-createOrderheaderDocument(
-    input: {orderheaderDocument: {documentId: $docId, orderheaderId: $orderId}}
-  ) {
-    clientMutationId
+mutation AttachGlobalDocument($mnOrderheaderDocument: [OrderheaderDocumentInput!]) {
+mnCreateOrderheaderDocument(input: {mnOrderheaderDocument: $mnOrderheaderDocument}) {
+    document
+  {
+    createdAt
+    headerDocumentFile
+    global
+    id
+    title
+  }
   }
 }
 `
@@ -38,6 +46,7 @@ createOrderheaderDocument(
 const AttachDocumentForm = (props) => {
 
   const existingGlobal = props.existing.filter(obj => obj.global)
+  const selectedOrder = gridSelectionsVar().selectedOrder
   const {
     data,
     loading
@@ -45,33 +54,71 @@ const AttachDocumentForm = (props) => {
       variables: {existing: existingGlobal.map(item => item.id)}
     }
   )
-  const [removeDocument] = useMutation(REMOVE_GLOBAL_DOCUMENT_FROM_ORDER)
-  const [attachDocument] = useMutation(ATTACH_GLOBAL_DOCUMENT)
-  const selectedOrder = gridSelectionsVar().selectedOrder
-
-  const processDeletions = (id) => {
-    removeDocument({
-      variables: {orderId: Number(selectedOrder), docId: id}
-    }).then(r => console.log(r))
-  }
-  const processAdditions = (id) => {
-    attachDocument({
-      variables: {orderId: Number(selectedOrder), docId: id}
-    }).then(r => console.log(r))
-  }
+  const [removeDocument] = useMutation(REMOVE_GLOBAL_DOCUMENT_FROM_ORDER, {
+    refetchQueries: [
+      {query: GET_SINGLE_ORDERHEADER, variables: {id: Number(selectedOrder)}},
+      {query: GET_ORDER_DOCUMENTS, variables: {orderId: Number(selectedOrder)}}
+    ],
+    awaitRefetchQueries: true
+  })
+  const [attachDocument] = useMutation(ATTACH_GLOBAL_DOCUMENT, {
+    refetchQueries: [
+      {query: GET_SINGLE_ORDERHEADER, variables: {id: Number(selectedOrder)}},
+      {query: GET_ORDER_DOCUMENTS, variables: {orderId: Number(selectedOrder)}}
+    ],
+    awaitRefetchQueries: true
+  })
 
   const handleSubmit = () => {
     const selected = mutationApiVar().data.map(item => item.id)
     const existing = existingGlobal.map(item => item.id)
     const additions = removeCommon(existing, selected)
     const deletions = removedFromInitial(existing, selected)
-    if (deletions.length > 0) {
-      deletions.forEach(processDeletions)
+    if (deletions.length > 0 && additions.length === 0) {
+      const deletionsApiObject = deletions.map(item => ({
+        orderheaderId: Number(selectedOrder),
+        documentId: Number(item)
+      }))
+      removeDocument({
+        variables: {mnPatch: deletionsApiObject}
+      }).then(
+        props.hideModal()
+      )
+
     }
-    if (additions.length > 0) {
-      additions.forEach(processAdditions)
+    else if (additions.length > 0 && deletions.length === 0) {
+      const additionsApiObject = additions.map(item => ({
+        orderheaderId: Number(selectedOrder),
+        documentId: Number(item)
+      }))
+      attachDocument({
+        variables: {mnOrderheaderDocument: additionsApiObject}
+      }).then(
+        props.hideModal()
+      )
+
     }
-    props.hideModal()
+    else if (additions.length > 0 && deletions.length > 0) {
+      const deletionsApiObject = deletions.map(item => ({
+        orderheaderId: Number(selectedOrder),
+        documentId: Number(item)
+      }))
+      const additionsApiObject = additions.map(item => ({
+        orderheaderId: Number(selectedOrder),
+        documentId: Number(item)
+      }))
+      const result = Promise.all([
+        attachDocument({
+          variables: {mnOrderheaderDocument: additionsApiObject}
+        }),
+        removeDocument({
+          variables: {mnPatch: deletionsApiObject}
+        })
+      ])
+      result.then(
+        props.hideModal()
+      )
+    }
   }
 
   if (loading) return <CircularProgress/>
