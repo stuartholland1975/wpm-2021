@@ -2,7 +2,8 @@ import React, {Suspense, lazy} from 'react';
 import OrderAdminButtons from '../button-bars/OrderAdminButtons';
 import OrderStats from './OrderStats';
 import {Route, Switch} from 'react-router-dom';
-import {CircularProgress} from "@mui/material";
+import {CircularProgress} from '@mui/material';
+import OrderItemProgress from './OrderItemProgress';
 
 const OrderLocations = lazy(() => import('./OrderLocations'));
 const OrderItems = lazy(() => import('./OrderItems'));
@@ -20,6 +21,9 @@ const OrderAdmin = () => {
         <Switch>
           <Route path='/orders/admin/locations/:orderId' exact>
             <OrderLocations/>
+          </Route>
+          <Route path='/orders/admin/progress/:locationId' exact>
+            <OrderItemProgress/>
           </Route>
           <Route path='/orders/admin/items/:orderId' exact>
             <OrderItems/>

@@ -1,37 +1,50 @@
-import {forwardRef, useImperativeHandle, useRef, useState} from "react";
+import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {numberOnly} from "../../../functions/commonFunctions";
 
 export default forwardRef((props, ref) => {
-    const inputRef = useRef();
-    const [value, setValue] = useState(props.value);
+  const inputRef = useRef();
+  const {qtyOs} = props.data
+  const [value, setValue] = useState(qtyOs)
 
-    function inputHandler(e) {
-        if (Number(e.target.value) <= Number(props.data.qtyOs)) {
-            setValue(e.target.value);
-        } else {
-            alert("Qty Done Cannot Exceed Qty Outstanding")
-            setValue('')
-        }
+
+  const onChangeListener = useCallback(event => {
+    if (Number(event.target.value) > Number(value)) {
+      alert('Qty Done Cannot Exceed Qty Outstanding');
+      setValue(value);
     }
+    else {
+      setValue(event.target.value);
+    }
+  }, [value]);
 
-    useImperativeHandle(ref, () => {
-        return {
-            getValue: () => {
-                return value;
-            },
-            afterGuiAttached: () => {
-                setValue(props.data.qtyOs);
-                inputRef.current.focus();
-                inputRef.current.select();
-            }
-        };
-    });
-    return (
-        <input
-            type="number"
-            className="ag-input-field-input ag-text-field-input"
-            ref={inputRef}
-            onChange={inputHandler}
-            value={value}
-        />
-    )
-})
+
+  const onKeyPressListener = useCallback(event => {
+    if (!numberOnly(event.nativeEvent)) {
+      console.log(numberOnly(event))
+      event.preventDefault();
+    }
+  }, []);
+
+  useEffect(() => {
+    inputRef.current.focus()
+    inputRef.current.select()
+  }, [])
+
+  useImperativeHandle(ref, () => {
+    return {
+      getValue() {
+        return value;
+      }
+    };
+  });
+
+  return (
+    <input
+      className='ag-input-field-input ag-text-field-input'
+      ref={inputRef}
+      onChange={onChangeListener}
+      value={value}
+      onKeyPress={onKeyPressListener}
+    />
+  );
+});

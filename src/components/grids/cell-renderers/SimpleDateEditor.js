@@ -1,38 +1,44 @@
-import {forwardRef, useImperativeHandle, useRef, useState} from "react";
+import {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {DateTime} from "luxon";
 
 export default forwardRef((props, ref) => {
-    DateTime.now().toISODate();
-    const inputRef = useRef();
-    const [value, setValue] = useState('');
+  DateTime.now().toISODate();
+  const inputRef = useRef();
+  const [value, setValue] = useState('');
 
-    function inputHandler(e) {
-        setValue(e.target.value.toLocaleString());
+  const {lastRowDate, currentPeriod} = props
+
+  useEffect(() => {
+    if (lastRowDate) {
+      setValue(lastRowDate.data.date)
     }
+    else setValue(currentPeriod.weekEndingDate)
+    inputRef.current.focus();
+    inputRef.current.select();
+  }, [lastRowDate, currentPeriod])
 
-    useImperativeHandle(ref, () => {
-        return {
-            getValue: () => {
-                return value;
-            },
-            afterGuiAttached: () => {
-                if (props.lastRowDate) {
-                    setValue(props.lastRowDate.data.date)
-                } else setValue(props.currentPeriod.weekEndingDate)
-                inputRef.current.focus();
-                inputRef.current.select();
-            }
-        };
-    });
+  function inputHandler(e) {
+    setValue(e.target.value.toLocaleString());
+  }
 
-    return (
-        <input
-            type="date"
-            className="ag-input-field-input ag-text-field-input"
-            ref={inputRef}
-            onChange={inputHandler}
-            value={value}
+  useImperativeHandle(ref, () => {
+      return {
+        getValue: () => {
+          return value;
+        },
+      }
+    }
+  )
+  ;
 
-        />
-    )
+  return (
+    <input
+      type="date"
+      className="ag-input-field-input ag-text-field-input"
+      ref={inputRef}
+      onChange={inputHandler}
+      value={value}
+
+    />
+  )
 })

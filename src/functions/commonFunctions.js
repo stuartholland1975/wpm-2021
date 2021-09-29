@@ -32,6 +32,9 @@ export const removedFromInitial = (first, second) => {
   })
 }
 
+export const numberOnly = event => {
+  return event.key === '1' || event.key === '2' || event.key === '3' || event.key === '4' || event.key === '5' || event.key === '6' || event.key === '7' || event.key === '8' || event.key === '9' || event.key === '0' || event.key === '.';
+}
 
 
 

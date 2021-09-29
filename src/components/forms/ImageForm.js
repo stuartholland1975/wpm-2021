@@ -84,7 +84,7 @@ query GetSingleLocation($id: Int!) {
 `
 
 const ImageForm = ({hideModal}) => {
-  
+
   const [uploadImage] = useMutation(UPLOAD_IMAGE, {
     refetchQueries: [
       {
@@ -110,31 +110,31 @@ const ImageForm = ({hideModal}) => {
 
   const {data} = useQuery(GET_IMAGE_TYPES);
 
-  const onSubmit = (event) => {
+
+  const onSubmit = async (event) => {
     event.preventDefault()
     console.log(event.target)
     let fd = new FormData(event.target)
     const dateTakenManual = fd.get("dateTakenManual")
-    //   const headerImageFile = fd.get("headerImageFile")
-    exifr.parse(imageFile).then(output => {
-      console.log(output);
-      exifr.thumbnail(imageFile).then(output => console.log("THUMB", output))
+    const exif = await exifr.parse(imageFile)
+    const gps = await exifr.gps(imageFile)
 
-      uploadImage({
-        variables: {
-          input: {
-            image: {
-              createdAt: dt,
-              dateTakenManual,
-              headerImageFile: imageFile,
-              imageTypeId: itemType.id,
-              sitelocationId: gridSelectionsVar().selectedLocation.id,
-              exif: output
-            },
+    uploadImage({
+      variables: {
+        input: {
+          image: {
+            createdAt: dt,
+            dateTakenManual,
+            headerImageFile: imageFile,
+            imageTypeId: itemType.id,
+            sitelocationId: gridSelectionsVar().selectedLocation.id,
+            exif: exif,
+            exifGps: gps
           },
         },
-      })
+      },
     })
+
   };
   return (
     <form onSubmit={onSubmit}>

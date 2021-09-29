@@ -3,6 +3,7 @@ import NavigateButton from '../ui-components/buttons/NavigationButton'
 import {Box} from "@mui/material";
 import GlobalDocuments from "./GlobalDocuments";
 import {Route, Switch, useHistory} from "react-router-dom";
+import Periods from "./Periods";
 
 function Item(props) {
   const {sx, ...other} = props;
@@ -26,7 +27,7 @@ const AdminHome = () => {
           <NavigateButton label={"GLOBAL DOCUMENTS"} fullWidth onClick={() => history.push("/admin/global/documents")}/>
         </Item>
         <Item item>
-          <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
+          <NavigateButton label={"PERIODS"} fullWidth onClick={() => history.push("/admin/global/periods")}/>
         </Item>
         <Item item>
           <NavigateButton label={"SPARE ADMINISTRATION"} fullWidth/>
@@ -39,6 +40,9 @@ const AdminHome = () => {
       <Switch>
         <Route path={"/admin/global/documents"} exact>
           <GlobalDocuments/>
+        </Route>
+        <Route path={"/admin/global/periods"} exact>
+          <Periods/>
         </Route>
       </Switch>
     </>
