@@ -119,7 +119,7 @@ const ImageForm = ({hideModal}) => {
     const exif = await exifr.parse(imageFile)
     const gps = await exifr.gps(imageFile)
 
-    uploadImage({
+    await uploadImage({
       variables: {
         input: {
           image: {

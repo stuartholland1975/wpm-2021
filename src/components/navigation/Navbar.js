@@ -10,7 +10,7 @@ import {NavLink, useHistory, useLocation} from 'react-router-dom';
 export default function NavBar() {
   let routeMatch = useLocation();
   const history = useHistory();
-  let text = '';
+  let text;
 
   if (routeMatch.pathname === '/orders') {
     text = 'WORK ORDER LISTING';

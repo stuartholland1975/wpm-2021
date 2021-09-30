@@ -6,6 +6,7 @@ import DeleteButton from '../ui-components/buttons/DeleteButton'
 import ToggleButton from '../ui-components/buttons/ToggleButton'
 
 const TestComponent = () => {
+  
   return (
     <div>
       <NavigationButton label="navigation button"/>

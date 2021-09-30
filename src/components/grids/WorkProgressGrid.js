@@ -1,19 +1,11 @@
 import React from 'react';
 import {AgGridReact} from 'ag-grid-react';
-import {
-
-  formatNumberGridTwoDecimals,
-
-} from '../../functions/commonFunctions';
+import {formatNumberGridTwoDecimals} from '../../functions/commonFunctions';
 import SimpleDateEditor from './cell-renderers/SimpleDateEditor';
-
-import {gql} from '@apollo/client';
-//import {v4 as uuidv4} from 'uuid';
-//import {useHistory} from 'react-router-dom';
 import SimpleNumericEditor from "./cell-renderers/SimpleNumericEditor";
-//import SelectEditor from "./cell-renderers/SelectEditor";
-import TestEditor from './cell-renderers/NewSelect'
+import SimpleSelectEditor from './cell-renderers/SimpleSelectEditor'
 
+/*
 export const CREATE_BULK_WORKSHEETS = gql`
 	mutation CreateBulkWorksheets(
 		$input: WorksheetCreateBulkWorksheetsInput!
@@ -50,8 +42,11 @@ export const CREATE_BULK_WORKSHEETS = gql`
 		}
 	}
 `;
+*/
 
 const WorkProgressGrid = ({data, supervisors, currentPeriod}) => {
+  /** @namespace params.data.valueOs **/
+  /** @namespace params.data.qtyOs **/
   //const batchRef = React.useRef(uuidv4());
   // const history = useHistory();
   // const apiRef = React.useRef();
@@ -111,7 +106,7 @@ const WorkProgressGrid = ({data, supervisors, currentPeriod}) => {
       colId: 'supervisor',
       field: 'supervisor',
       editable: true,
-      cellEditorFramework: TestEditor,
+      cellEditorFramework: SimpleSelectEditor,
       width: 150,
       cellEditorParams: (params) => ({
         options: supervisors,

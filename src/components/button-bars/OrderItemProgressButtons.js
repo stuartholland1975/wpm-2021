@@ -3,6 +3,7 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import Box from '@mui/material/Box';
 import {gridSelectionsVar} from '../../cache';
 import {useReactiveVar} from '@apollo/client';
+import CancelButton from "../ui-components/buttons/CancelButton";
 
 //import {useHistory} from 'react-router-dom';
 
@@ -36,6 +37,13 @@ const OrderItemProgressButtons = (props) => {
           onClick={() => props.process(selectedLocation)}
         />
       </Item>
+      <Item>
+        <CancelButton
+          label='reset data'
+          onClick={() => props.process(selectedLocation)}
+        />
+      </Item>
+
       {/* <Item>
         <EditButton
           label='edit location'
