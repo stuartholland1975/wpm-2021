@@ -9,20 +9,23 @@ const rowClassRules = {
 };
 
 const columnDefs = [
-  { headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120 },
+  {headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120, cellStyle: {'text-align': 'left'}},
   {
     headerName: 'Item Type',
     field: 'typeShort',
     maxWidth: 120,
+    cellStyle: {'text-align': 'left'}
   },
-  { headerName: 'Worksheet', field: 'worksheetReference' },
+  {headerName: 'Worksheet', field: 'worksheetReference', cellStyle: {'text-align': 'left'}},
   {
     headerName: 'Activity Code',
     field: 'activityCode',
+    cellStyle: {'text-align': 'left'}
   },
   {
     headerName: 'Activity Description',
     field: 'activityDescription',
+    cellStyle: {'text-align': 'left'}
   },
   {
     headerName: 'Qty Ordered',
@@ -89,8 +92,8 @@ const columnTypes = {
   },
 };
 
-const OrderItemsGrid = ({ data }) => {
- // const toggleComplete = useReactiveVar(toggleCompleteVar);
+const OrderItemsGrid = ({data}) => {
+  // const toggleComplete = useReactiveVar(toggleCompleteVar);
   const selectedItem = useReactiveVar(gridSelectionsVar).selectedItem;
 
   const gridOptions = {
@@ -119,18 +122,19 @@ const OrderItemsGrid = ({ data }) => {
         ...gridSelectionsVar(),
         selectedItem: selected[0],
       });
-    } else {
-      gridSelectionsVar({ ...gridSelectionsVar(), selectedItem: false });
+    }
+    else {
+      gridSelectionsVar({...gridSelectionsVar(), selectedItem: false});
     }
   }
 
   React.useEffect(() => {
-    gridSelectionsVar({ ...gridSelectionsVar(), selectedItem: false });
+    gridSelectionsVar({...gridSelectionsVar(), selectedItem: false});
   }, [selectedItem]);
 
   return (
-    <div className='ag-theme-custom-react' style={{ marginLeft: 5, marginRight: 5 }}>
-      <AgGridReact gridOptions={gridOptions} reactUi={true} />
+    <div style={{marginLeft: 5, marginRight: 5}}>
+      <AgGridReact gridOptions={gridOptions} reactUi={false} className='ag-theme-custom-react'/>
     </div>
   );
 };

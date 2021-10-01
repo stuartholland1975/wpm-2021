@@ -9,16 +9,16 @@ const rowClassRules = {
 };
 
 const columnDefs = [
-  { field: 'id', hide: true, sort: 'asc' },
+  {field: 'id', hide: true, sort: 'asc'},
   {
     headerName: 'Worksheet Ref',
     field: 'worksheetReference',
-    // maxWidth: 150,
+    cellStyle: {'text-align': 'left'}
   },
   {
     headerName: 'Location',
     field: 'reference',
-   // minWidth: 300,
+    cellStyle: {'text-align': 'left'}
   },
   {
     headerName: 'Item Count',
@@ -108,7 +108,7 @@ const defaultColDef = {
   sortable: true,
   resizable: true,
   flex: true,
- // floatingFilter: true,
+  // floatingFilter: true,
 };
 
 const columnTypes = {
@@ -117,7 +117,7 @@ const columnTypes = {
   },
 };
 
-const OrderLocationsGrid = ({ data }) => {
+const OrderLocationsGrid = ({data}) => {
   const toggleComplete = useReactiveVar(toggleCompleteVar);
 
   /* useEffect(() => {
@@ -145,6 +145,7 @@ const OrderLocationsGrid = ({ data }) => {
     animateRows: true,
     rowClassRules: rowClassRules,
     onGridReady: (params) => params.api.sizeColumnsToFit(),
+    onGridSizeChanged: (params) => params.api.sizeColumnsToFit(),
     rowData: data,
   };
 
@@ -155,18 +156,19 @@ const OrderLocationsGrid = ({ data }) => {
         ...gridSelectionsVar(),
         selectedLocation: selected[0],
       });
-    } else {
-      gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
+    }
+    else {
+      gridSelectionsVar({...gridSelectionsVar(), selectedLocation: false});
     }
   }
 
   useEffect(() => {
-    gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
+    gridSelectionsVar({...gridSelectionsVar(), selectedLocation: false});
   }, []);
   return (
-    <div style={{ marginLeft: 5, marginRight: 5 }}>
+    <div style={{marginLeft: 5, marginRight: 5}}>
       <AgGridReact
-        reactUi={true}
+        reactUi={false}
         gridOptions={gridOptions}
         className='ag-theme-custom-react'
       />

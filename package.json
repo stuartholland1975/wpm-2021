@@ -61,7 +61,7 @@
       "last 1 safari version"
     ],
     "proxy": [
-      "https://workpm.ddns.net"
+      "http://localhost:5000"
     ]
   }
 }

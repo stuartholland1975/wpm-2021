@@ -75,7 +75,7 @@ const OrderDocuments = () => {
   const {orderId} = useParams();
   const {data, loading} = useQuery(GET_ORDER_DOCUMENTS, {
     variables: {orderId: Number(orderId)},
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
   if (loading) return <CircularProgress/>;
 
@@ -87,7 +87,7 @@ const OrderDocuments = () => {
         data.orderheaderDocuments.nodes.map((item) => DocumentDisplay(item))
       ) : (
         <div className='no-data-message'>
-          NO DOCUMENTS ARE CURRENLTY ASSOCIATED WITH THIS ORDER
+          NO DOCUMENTS ARE CURRENTLY ASSOCIATED WITH THIS ORDER
         </div>)}
 
     </Box>
