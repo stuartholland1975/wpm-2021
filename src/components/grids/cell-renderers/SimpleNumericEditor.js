@@ -15,7 +15,7 @@ export default forwardRef((props, ref) => {
     else {
       setValue(event.target.value);
     }
-  }, [value]);
+  }, [value, qtyOs]);
 
 
   const onKeyPressListener = useCallback(event => {
