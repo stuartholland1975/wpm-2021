@@ -12,13 +12,14 @@ import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { cache } from './cache';
 import { ModalProvider } from 'react-modal-hook';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 persistCache({
 	cache,
-	storage: new LocalStorageWrapper(window.localStorage),
+	storage: new LocalStorageWrapper(window.sessionStorage),
 });
 
 export const client = new ApolloClient({
@@ -27,8 +28,8 @@ export const client = new ApolloClient({
 			if (graphQLErrors)
 				graphQLErrors.map(({ message, locations, path }) =>
 					console.log(
-						`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-					),
+						`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+					)
 				);
 			if (networkError) console.log(`[Network error]: ${networkError}`);
 		}),
@@ -51,7 +52,7 @@ function initialise() {
 					</ModalProvider>
 				</ApolloProvider>
 			</Router>,
-			document.getElementById('root'),
+			document.getElementById('root')
 		);
 	} else {
 		setTimeout(initialise, 100);
@@ -66,7 +67,7 @@ ReactDOM.render(
 			</ApolloProvider>
 		</Router>
 	</React.StrictMode>,
-	document.getElementById('root'),
+	document.getElementById('root')
 );
 
 function cssHasLoaded(theme) {

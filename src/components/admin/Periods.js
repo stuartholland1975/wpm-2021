@@ -1,6 +1,5 @@
 /** @format */
 
-import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { CircularProgress } from '@mui/material';
 import PeriodsGrid from '../grids/PeriodsGrid';

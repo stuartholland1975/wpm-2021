@@ -47,12 +47,12 @@ const DocumentForm = ({ hideModal }) => {
 		},
 	});
 
-	const handleSubmit = async (event) => {
+	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.log(event);
 		let fd = new FormData(event.target);
 		const title = fd.get('title');
-		await submitDocument({
+		submitDocument({
 			variables: {
 				input: {
 					document: {
