@@ -32,6 +32,7 @@ const GridSelectionsInitialValue = {
 	selectedItem: false,
 	selectedApplication: false,
 	selectedDocument: false,
+	selectedPeriod: false,
 };
 
 const mutationApiInitialValue = {
