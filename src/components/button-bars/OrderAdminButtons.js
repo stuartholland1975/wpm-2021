@@ -22,7 +22,6 @@ const OrderAdminButtons = (props) => {
 	const history = useHistory();
 	let routeMatch = useLocation();
 
-	console.log(history.location.pathname.startsWith('/orders/admin/locations'));
 	return (
 		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
 			<Item>

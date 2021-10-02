@@ -107,7 +107,7 @@ const PeriodsGrid = (props) => {
     <div className="ag-theme-custom-react" style={{margin: 5}}>
       <AgGridReact
         gridOptions={gridOptions}
-        reactUi={true}
+        reactUi={false}
       />
     </div>
   );

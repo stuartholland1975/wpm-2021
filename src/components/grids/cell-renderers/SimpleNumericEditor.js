@@ -8,7 +8,7 @@ export default forwardRef((props, ref) => {
 
 
   const onChangeListener = useCallback(event => {
-    if (Number(event.target.value) > Number(value)) {
+    if (Number(event.target.value) > Number(qtyOs)) {
       alert('Qty Done Cannot Exceed Qty Outstanding');
       setValue(value);
     }

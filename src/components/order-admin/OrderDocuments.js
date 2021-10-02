@@ -75,7 +75,6 @@ const OrderDocuments = () => {
   const {orderId} = useParams();
   const {data, loading} = useQuery(GET_ORDER_DOCUMENTS, {
     variables: {orderId: Number(orderId)},
-    fetchPolicy: 'cache-and-network',
   });
   if (loading) return <CircularProgress/>;
 
