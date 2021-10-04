@@ -1,7 +1,7 @@
 import React from 'react';
 import {AgGridReact} from 'ag-grid-react';
 import {formatDateGrid, formatNumberGridTwoDecimals,} from '../../functions/commonFunctions';
-import {WpmGridContext} from '../../wpmGridContext';
+//import {WpmGridContext} from '../../wpmGridContext';
 
 const cellClassRulesSubmiited = {
   "cell-pass": params => params.value === true,
@@ -94,8 +94,8 @@ const columnTypes = {
   },
 };
 
-const ApplicationsGrid = ({ data }) => {
-  const { setSelectedApplication } = React.useContext(WpmGridContext);
+const ApplicationsGrid = ({data}) => {
+  //const { setSelectedApplication } = React.useContext(WpmGridContext);
   const gridOptions = {
     columnDefs,
     defaultColDef,
@@ -111,16 +111,17 @@ const ApplicationsGrid = ({ data }) => {
   function selectedRow(params) {
     const selected = params.api.getSelectedNodes();
     if (selected.length > 0) {
-      setSelectedApplication(selected[0].data);
-    } else {
-      setSelectedApplication(false);
+      //setSelectedApplication(selected[0].data);
+    }
+    else {
+      // setSelectedApplication(false);
     }
   }
 
   return (
     <>
-      <div className="grid-title">APPLICATIONS LISTING:</div>
-      <div className="ag-theme-custom-react" style={{ width: '100%' }}>
+
+      <div className='ag-theme-custom-react' style={{margin: 5}}>
         <AgGridReact
           gridOptions={gridOptions}
           rowData={data}

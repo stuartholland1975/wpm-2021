@@ -50,6 +50,9 @@ export default function NavBar() {
   else if (routeMatch.pathname.startsWith('/admin/global/periods')) {
     text = 'CONTRACT PERIODS ADMINISTRATION';
   }
+  else if (routeMatch.pathname.startsWith('/admin/global/applications')) {
+    text = 'CONTRACT APPLICATIONS ADMINISTRATION';
+  }
   else {
     text = 'WORK PACKAGE MANAGER';
   }
