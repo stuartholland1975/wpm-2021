@@ -1,6 +1,8 @@
 import React from 'react';
 import {AgGridReact} from 'ag-grid-react';
 import {formatDateGrid, formatNumberGridTwoDecimals,} from '../../functions/commonFunctions';
+import {useReactiveVar} from "@apollo/client";
+import {gridSelectionsVar} from "../../cache";
 //import {WpmGridContext} from '../../wpmGridContext';
 
 const cellClassRulesSubmiited = {
@@ -96,6 +98,8 @@ const columnTypes = {
 
 const ApplicationsGrid = ({data}) => {
   //const { setSelectedApplication } = React.useContext(WpmGridContext);
+  const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
+  console.log(selectedApplication)
   const gridOptions = {
     columnDefs,
     defaultColDef,
@@ -111,10 +115,13 @@ const ApplicationsGrid = ({data}) => {
   function selectedRow(params) {
     const selected = params.api.getSelectedNodes();
     if (selected.length > 0) {
-      //setSelectedApplication(selected[0].data);
+      gridSelectionsVar({
+        ...gridSelectionsVar(),
+        selectedApplication: selected[0].data.id,
+      });
     }
     else {
-      // setSelectedApplication(false);
+      gridSelectionsVar({...gridSelectionsVar(), selectedApplication: false});
     }
   }
 

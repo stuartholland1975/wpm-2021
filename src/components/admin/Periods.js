@@ -1,13 +1,14 @@
 /** @format */
 import React from 'react';
-import { gql, useQuery, useReactiveVar, useMutation } from '@apollo/client';
-import { CircularProgress, Box } from '@mui/material';
-import { gridSelectionsVar } from '../../cache';
+import {gql, useQuery, useReactiveVar, useMutation} from '@apollo/client';
+import {CircularProgress, Box} from '@mui/material';
+import {gridSelectionsVar} from '../../cache';
 import PeriodsGrid from '../grids/PeriodsGrid';
 import ActionButton from '../ui-components/buttons/ActionButton';
 import CreateButton from '../ui-components/buttons/CreateButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import EditButton from '../ui-components/buttons/EditButton';
+import {confirmAlert} from 'react-confirm-alert';
 
 const GET_ALL_PERIODS = gql`
 	query GetAllPeriods {
@@ -39,87 +40,102 @@ const RUN_PERIOD_INCREMENT = gql`
 `;
 
 function Item(props) {
-	const { sx, ...other } = props;
-	return (
-		<Box
-			sx={{
-				pt: 1,
-				pb: 1,
-				mt: 1,
-				mb: 1,
-				textAlign: 'center',
-				...sx,
-			}}
-			{...other}
-		/>
-	);
+  const {sx, ...other} = props;
+  return (
+    <Box
+      sx={{
+        pt: 1,
+        pb: 1,
+        mt: 1,
+        mb: 1,
+        textAlign: 'center',
+        ...sx,
+      }}
+      {...other}
+    />
+  );
 }
 
-const PeriodAdminButtons = ({ currentPeriod, refetch }) => {
-	const selectedPeriod = useReactiveVar(gridSelectionsVar).selectedPeriod;
+const PeriodAdminButtons = ({currentPeriod, refetch}) => {
+  const selectedPeriod = useReactiveVar(gridSelectionsVar).selectedPeriod;
 
-	const [incrementPeriod] = useMutation(RUN_PERIOD_INCREMENT, {
-		onCompleted: () => refetch(),
-	});
+  const [incrementPeriod] = useMutation(RUN_PERIOD_INCREMENT, {
+    onCompleted: () => refetch(),
+  });
 
-	const handlePeriodIncrement = () => {
-		incrementPeriod({
-			variables: { id: currentPeriod[0].id },
-		});
-	};
+  const handlePeriodIncrement = () => {
+    confirmAlert({
+      title: 'Confirm Period Increment!',
+      message: 'Are You Sure?',
+      buttons: [
+        {
+          label: 'SUBMIT',
+          onClick: () =>
+            incrementPeriod({
+              variables: {id: currentPeriod[0].id},
+            })
+        },
+        {
+          label: 'CANCEL',
+          //onClick: () => alert('Click No'),
+        },
+      ],
+    });
 
-	return (
-		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}>
-			<Item>
-				<ActionButton
-					label='run period increment'
-					onClick={handlePeriodIncrement}
-				/>
-			</Item>
-			<Item>
-				<CreateButton
-					label='create period'
-					disabled={selectedPeriod !== false}
-				/>
-			</Item>
-			<Item>
-				<EditButton label='edit period' disabled={selectedPeriod === false} />
-			</Item>
-			<Item>
-				<DeleteButton
-					label='delete period'
-					disabled={selectedPeriod === false}
-				/>
-			</Item>
-		</Box>
-	);
+  };
+
+  return (
+    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2}}>
+      <Item>
+        <ActionButton
+          label='run period increment'
+          onClick={handlePeriodIncrement}
+        />
+      </Item>
+      <Item>
+        <CreateButton
+          label='create period'
+          disabled={selectedPeriod !== false}
+        />
+      </Item>
+      <Item>
+        <EditButton label='edit period' disabled={selectedPeriod === false}/>
+      </Item>
+      <Item>
+        <DeleteButton
+          label='delete period'
+          disabled={selectedPeriod === false}
+        />
+      </Item>
+    </Box>
+  );
 };
 
 const Periods = () => {
-	const [currentPeriod, setCurrentPeriod] = React.useState();
-	const { data, loading, refetch } = useQuery(GET_ALL_PERIODS, {
-		fetchPolicy: 'cache-and-network',
-		onCompleted: (data) =>
-			setCurrentPeriod(
-				data.periodWithValues.nodes.filter((obj) => obj.current)
-			),
-	});
+  const [currentPeriod, setCurrentPeriod] = React.useState();
+  const {data, loading, refetch} = useQuery(GET_ALL_PERIODS, {
+    fetchPolicy: 'cache-and-network',
+    onCompleted: (data) =>
+      setCurrentPeriod(
+        data.periodWithValues.nodes.filter((obj) => obj.current)
+      ),
+  });
 
-	const gridData =
-		data &&
-		data.periodWithValues.nodes.map((item) => ({
-			...item,
-			worksValue: item.closed ? item.worksValueClosed : item.worksValueCurrent,
-		}));
+  const gridData =
+    data &&
+    data.periodWithValues.nodes.map((item) => ({
+      ...item,
+      worksValue: item.closed ? item.worksValueClosed : item.worksValueCurrent,
+    }));
 
-	if (loading) return <CircularProgress />;
+  if (loading) return <CircularProgress/>;
 
-	return (
-		<div>
-			<PeriodAdminButtons currentPeriod={currentPeriod} refetch={refetch} />
-			<PeriodsGrid data={gridData} />
-		</div>
-	);
+  return (
+    <div>
+      <PeriodAdminButtons currentPeriod={currentPeriod} refetch={refetch}/>
+      <PeriodsGrid data={gridData}/>
+    </div>
+  );
 };
 
 export default Periods;
