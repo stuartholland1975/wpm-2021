@@ -1,9 +1,9 @@
 /** @format */
 
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
+import {gql, useQuery} from '@apollo/client';
+import {useHistory} from 'react-router-dom';
+import {CircularProgress} from '@mui/material';
 import OrderLocationsGrid from '../grids/OrderLocationsGrid';
 import OrderLocationButtons from '../button-bars/OrderLocationButtons';
 
@@ -29,23 +29,23 @@ const GET_ORDER_LOCATIONS = gql`
 `;
 
 const OrderLocations = () => {
-	const history = useHistory();
+  const history = useHistory();
 
-	const { data, loading } = useQuery(GET_ORDER_LOCATIONS, {
-		variables: { id: Number(history.location.state) },
-		//	fetchPolicy: 'cache-and-network',
-	});
+  const {data, loading} = useQuery(GET_ORDER_LOCATIONS, {
+    variables: {id: Number(history.location.state)},
+    fetchPolicy: 'cache-and-network',
+  });
 
-	if (loading) {
-		return <CircularProgress />;
-	}
+  if (loading) {
+    return <CircularProgress/>;
+  }
 
-	return (
-		<>
-			<OrderLocationButtons />
-			<OrderLocationsGrid data={data && data.sitelocationWithValues.nodes} />
-		</>
-	);
+  return (
+    <>
+      <OrderLocationButtons/>
+      <OrderLocationsGrid data={data && data.sitelocationWithValues.nodes}/>
+    </>
+  );
 };
 
 export default OrderLocations;

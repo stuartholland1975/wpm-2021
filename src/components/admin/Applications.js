@@ -76,16 +76,16 @@ function Item(props) {
   );
 }
 
-const ApplicationAdminButtons = ({currentApplication, refetch}) => {
+const ApplicationAdminButtons = ({currentApplication}) => {
   const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION, {
-    //  onCompleted: (data) => refetch(),
+    //   onCompleted: (data) => refetch(),
   });
 
   const handleCloseApplication = () => {
-    console.log(currentApplication);
+    
     confirmAlert({
       title: 'Confirm Submission',
-      message: 'Are You Sure?',
+      message: `Are You Sure You Want To Close ${currentApplication[0].applicationReference} ?`,
       buttons: [
         {
           label: 'SUBMIT',
@@ -138,7 +138,7 @@ const ApplicationAdminButtons = ({currentApplication, refetch}) => {
 
 const Applications = () => {
   const [gridData, setGridData] = React.useState([]);
-  const {loading} = useQuery(GET_ALL_APPLICATIONS, {
+  const {loading, refetch} = useQuery(GET_ALL_APPLICATIONS, {
     fetchPolicy: 'cache-and-network',
     onCompleted: (data) => setGridData(data.applicationWithValues.nodes),
   });
@@ -149,7 +149,7 @@ const Applications = () => {
   if (loading) return <CircularProgress/>;
   return (
     <div>
-      <ApplicationAdminButtons currentApplication={currentApplication}/>
+      <ApplicationAdminButtons currentApplication={currentApplication} refetch={refetch}/>
       <ApplicationsGrid data={gridData}/>
     </div>
   );

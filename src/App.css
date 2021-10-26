@@ -31,3 +31,45 @@
     font-weight: bold;
 }
 
+.restrict-card {
+    height: 175px;
+
+    background-color: blue;
+}
+
+.react-excel .active-sheet {
+    background-color: #a1d6e2;
+    color: rgb(65, 65, 66);
+}
+
+.react-excel div {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+
+.react-excel div button {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    color: rgb(86, 86, 231);
+    cursor: pointer;
+    font-size: larger;
+}
+
+.react-excel table {
+    margin: 2rem auto;
+    border-collapse: collapse;
+}
+
+.react-excel th,
+.react-excel td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.react-excel table tr:nth-child(even) {
+    background-color: #b4b4f8;
+}
+
+

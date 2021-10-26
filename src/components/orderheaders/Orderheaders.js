@@ -6,8 +6,8 @@ import allOrderheaders from '../../api-calls/queries/AllOrderheaders'
 
 const Orderheaders = () => {
 
-  const [data, loading] = allOrderheaders()
-  console.log(data, loading)
+  const [data] = allOrderheaders()
+
   return (
     <>
       <OrderheaderButtons/>

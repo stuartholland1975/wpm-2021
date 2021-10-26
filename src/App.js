@@ -8,6 +8,7 @@ const Orderheaders = lazy(() => import('./components/orderheaders/Orderheaders')
 const OrderAdmin = lazy(() => import('./components/order-admin/OrderAdmin'));
 const AdminHome = lazy(() => import("./components/admin/AdminHome"))
 const TestComponent = lazy(() => import("./components/test-components/TestComponent"))
+const ImportOrderDetail = lazy(() => import("./components/forms/ImportOrderDetailExcel"))
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route path='/orders' exact>
             <Orderheaders/>
+          </Route>
+          <Route path='/orders/import/:orderId' exact>
+            <ImportOrderDetail/>
           </Route>
           <Route path='/orders/admin/:orderId'>
             <OrderAdmin/>

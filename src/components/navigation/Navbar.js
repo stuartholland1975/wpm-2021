@@ -53,6 +53,9 @@ export default function NavBar() {
   else if (routeMatch.pathname.startsWith('/admin/global/applications')) {
     text = 'CONTRACT APPLICATIONS ADMINISTRATION';
   }
+  else if (routeMatch.pathname.startsWith('/orders/import')) {
+    text = 'IMPORT ORDER DETAILS';
+  }
   else {
     text = 'WORK PACKAGE MANAGER';
   }

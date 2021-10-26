@@ -134,6 +134,7 @@ const ApplicationsGrid = ({data}) => {
           rowData={data}
           onGridReady={(params) => params.api.sizeColumnsToFit()}
           onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
+          reactUi={true}
         />
       </div>
     </>
