@@ -34,10 +34,8 @@ const OrderheaderButtons = () => {
 
   function handleImportClick(event) {
     history.push({pathname: `orders/import/${selectedOrder}`})
-    console.log(event.target);
   }
-
-
+  
   return (
     <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2}}>
       <Item>

@@ -44,8 +44,6 @@ export default function SingleOrderheader() {
     variables: {id: selectedOrder},
     onCompleted: data => setData(data.orderheaderWithValue)
   })
-
-
   return data
 }
 

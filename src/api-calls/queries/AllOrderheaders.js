@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import {useState} from 'react';
+import {gql, useQuery} from '@apollo/client';
 
 const GET_ALL_ORDER_HEADERS = gql`
 	query GetOrderheadersWithValues {
@@ -30,12 +30,14 @@ const GET_ALL_ORDER_HEADERS = gql`
 `;
 
 export default function AllOrderheaders() {
-	/** @namespace data.orderheaderWithValues **/
-	const [data, setData] = useState([]);
-	const { loading } = useQuery(GET_ALL_ORDER_HEADERS, {
-		fetchPolicy: 'cache-and-network',
-		onCompleted: (data) => setData(data.orderheaderWithValues.nodes),
-	});
+  /** @namespace data.orderheaderWithValues **/
+  const [data, setData] = useState([]);
+  const {loading, networkStatus} = useQuery(GET_ALL_ORDER_HEADERS, {
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => setData(data.orderheaderWithValues.nodes),
+  });
 
-	return [data, loading];
+
+  return [data, loading, networkStatus];
 }

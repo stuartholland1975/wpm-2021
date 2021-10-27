@@ -2,11 +2,14 @@ import React from 'react';
 import OrderheaderGrid from '../grids/OrderheaderGrid';
 import OrderheaderButtons from '../button-bars/OrderheaderButtons';
 import allOrderheaders from '../../api-calls/queries/AllOrderheaders'
+import {CircularProgress} from "@mui/material";
 
 
 const Orderheaders = () => {
 
-  const [data] = allOrderheaders()
+  const [data, loading, networkStatus] = allOrderheaders()
+  console.log(networkStatus, "LOADING")
+  if (loading || networkStatus !== 7) return <CircularProgress size={300} sx={{p: 25}} color={'warning'}/>
 
   return (
     <>
