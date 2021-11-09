@@ -4,8 +4,9 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import {gridSelectionsVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
+import { gridSelectionsVar } from '../../cache';
+import { useReactiveVar } from '@apollo/client';
+import CreateItemForm from '../forms/CreateItemForm';
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -30,7 +31,7 @@ const OrderItemButtons = (props) => {
   return (
     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
-        <CreateButton label='create item' disabled={selectedItem !== false} />
+        <CreateItemForm />
       </Item>
       <Item>
         <EditButton
@@ -57,12 +58,12 @@ const OrderItemButtons = (props) => {
           disabled={
             selectedItem === false || (selectedItem && selectedItem.complete)
           }
-          //	onClick={() =>
-          //		history.push({
-          //			pathname: `/orders/admin/${selectedOrder}`,
-          //			state: selectedOrder,
-          //		})
-          //	}
+        //	onClick={() =>
+        //		history.push({
+        //			pathname: `/orders/admin/${selectedOrder}`,
+        //			state: selectedOrder,
+        //		})
+        //	}
         />
       </Item>
     </Box>

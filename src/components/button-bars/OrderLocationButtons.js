@@ -4,13 +4,14 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import {gridSelectionsVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
+import { gridSelectionsVar } from '../../cache';
+import { useReactiveVar } from '@apollo/client';
 import OrderImageAdmin from '../order-admin/OrderImageAdmin';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import CreateLocationForm from '../forms/CreateLocationForm';
 
 function Item(props) {
-  const {sx, ...other} = props;
+  const { sx, ...other } = props;
   return (
     <Box
       sx={{
@@ -32,12 +33,9 @@ const OrderLocationButtons = (props) => {
   const history = useHistory();
 
   return (
-    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2}}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
-        <CreateButton
-          label='create location'
-          disabled={selectedLocation !== false}
-        />
+        <CreateLocationForm />
       </Item>
       <Item>
         <EditButton
@@ -58,7 +56,7 @@ const OrderLocationButtons = (props) => {
         />
       </Item>
       <Item item>
-        <OrderImageAdmin/>
+        <OrderImageAdmin />
       </Item>
       <Item>
         <NavigationButton

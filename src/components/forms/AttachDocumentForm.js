@@ -75,11 +75,11 @@ const AttachDocumentForm = (props) => {
 		refetchQueries: [
 			{
 				query: GET_SINGLE_ORDERHEADER,
-				variables: { id: Number(selectedOrder) },
+				variables: { id: selectedOrder },
 			},
 			{
 				query: GET_ORDER_DOCUMENTS,
-				variables: { orderId: Number(selectedOrder) },
+				variables: { orderId: selectedOrder },
 			},
 		],
 		awaitRefetchQueries: true,
@@ -100,7 +100,7 @@ const AttachDocumentForm = (props) => {
 			}).then(props.hideModal());
 		} else if (additions.length > 0 && deletions.length === 0) {
 			const additionsApiObject = additions.map((item) => ({
-				orderheaderId: Number(selectedOrder),
+				orderheaderId: selectedOrder,
 				documentId: Number(item),
 			}));
 			attachDocument({

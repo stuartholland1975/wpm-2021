@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import OrderItemsGrid from '../grids/OrderItemsGrid';
 import OrderItemButtons from '../button-bars/OrderItemButtons';
+import { gridSelectionsVar } from "../../cache";
 
 export const GET_ORDER_DETAILS = gql`
 	query GetOrderdetails($id: Int!) {
@@ -36,8 +37,8 @@ const OrderItems = () => {
 	const history = useHistory();
 
 	const { data, loading } = useQuery(GET_ORDER_DETAILS, {
-		variables: { id: Number(history.location.state) },
-		// fetchPolicy: 'cache-and-network',
+		variables: { id: gridSelectionsVar().selectedOrder },
+		fetchPolicy: 'cache-and-network',
 	});
 
 	if (loading) {

@@ -1,8 +1,8 @@
 import React from 'react';
-import {gql, useQuery, useReactiveVar} from '@apollo/client';
-import {gridSelectionsVar} from '../../cache';
-import {Box, CircularProgress, Typography} from '@mui/material';
-import {formatNumberNoDecimals} from '../../functions/commonFunctions';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
+import { gridSelectionsVar } from '../../cache';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { formatNumberNoDecimals } from '../../functions/commonFunctions';
 
 export const GET_SINGLE_ORDERHEADER = gql`
 	query GetSingleOrderheader($id: Int!) {
@@ -39,7 +39,7 @@ export const GET_SINGLE_ORDERHEADER = gql`
 `;
 
 function Item(props) {
-  const {sx, ...other} = props;
+  const { sx, ...other } = props;
   return (
     <Box
       sx={{
@@ -60,16 +60,16 @@ function Item(props) {
 const OrderStats = () => {
   const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
-  const {data, loading} = useQuery(GET_SINGLE_ORDERHEADER, {
-    variables: {id: selectedOrder},
+  const { data, loading } = useQuery(GET_SINGLE_ORDERHEADER, {
+    variables: { id: selectedOrder },
   });
 
   if (loading) {
-    return <CircularProgress/>;
+    return <CircularProgress />;
   }
 
   return (
-    <Box sx={{display: 'flex'}}>
+    <Box sx={{ display: 'flex', ml: 0.5, mr: 0.5 }}>
       <Item>
         <Typography>PROJECT</Typography>
         <Typography>

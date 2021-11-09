@@ -1,10 +1,10 @@
-import {generateObjects, ReactExcel, readFile} from '@ramonak/react-excel';
-import React, {useState} from 'react';
+import { generateObjects, ReactExcel, readFile } from '@ramonak/react-excel';
+import React, { useState } from 'react';
 import UploadButton from '../ui-components/buttons/UploadButton';
-import {useQuery, gql, useLazyQuery, useMutation} from '@apollo/client';
-import {gridSelectionsVar} from '../../cache';
-import {Box, CircularProgress} from '@mui/material';
-import {useHistory} from "react-router-dom";
+import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
+import { gridSelectionsVar } from '../../cache';
+import { Box, CircularProgress } from '@mui/material';
+import { useHistory } from "react-router-dom";
 
 
 const GET_PROJECT_TITLE = gql`
@@ -81,7 +81,7 @@ const CHECK_ACTIVITY_CODE_EXISTS = gql`
 
 
 function Item(props) {
-  const {sx, ...other} = props;
+  const { sx, ...other } = props;
   return (
     <Box
       sx={{
@@ -103,8 +103,8 @@ const ImportData = () => {
   const [counter, setCounter] = useState(1)
 
   const history = useHistory()
-  const {data: header} = useQuery(GET_PROJECT_TITLE, {
-    variables: {id: gridSelectionsVar().selectedOrder},
+  const { data: header } = useQuery(GET_PROJECT_TITLE, {
+    variables: { id: gridSelectionsVar().selectedOrder },
   });
 
   const [getActivityInfo] = useLazyQuery(GET_ACTIVITY_INFO, {
@@ -118,11 +118,11 @@ const ImportData = () => {
     loading: submittingData, networkStatus,
 
   }] = useMutation(CREATE_LOCATION_WITH_ORDERDETAIL, {
-    notifyOnNetworkStatusChange: true,
+    notifyOnNetworkStatusChange: false,
     onCompleted: () => {
 
       setCounter(previousState => previousState + 1)
-      console.log(counter, mutationData.length)
+
       if (mutationData.length === counter) {
         history.push('/orders')
       }
@@ -133,7 +133,7 @@ const ImportData = () => {
     onCompleted: data => {
       setActivityCheck(data.activitycodes.totalCount === activityCodes.length);
       getActivityInfo({
-        variables: {codes: activityCodes}
+        variables: { codes: activityCodes }
       })
     }
   })
@@ -167,16 +167,16 @@ const ImportData = () => {
     const activityList = Array.from(activityListSet)
     setActivityCodes(activityList)
     checkActivityCodeExists({
-      variables: {codes: activityList}
+      variables: { codes: activityList }
     })
   }
 
   async function handleSubmitData() {
     mutationData.forEach((item) => {
-        createSitelocationWithDetail({
-          variables: {input: item}
-        })
-      }
+      createSitelocationWithDetail({
+        variables: { input: item }
+      })
+    }
     )
 
   }
@@ -208,15 +208,15 @@ const ImportData = () => {
   if (submittingData || networkStatus === 1) return <CircularProgress
     color='secondary'
     size={300}
-    sx={{p: 25}}/>
+    sx={{ p: 25 }} />
 
   return (
     <>
-      <div style={{margin: 10, fontWeight: 'bold', fontSize: 20}}>
+      <div style={{ margin: 10, fontWeight: 'bold', fontSize: 20 }}>
         {header && header.orderheader.projectTitle}
       </div>
       <Box
-        sx={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2}}
+        sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}
       >
         <Item>
           <input
@@ -224,7 +224,7 @@ const ImportData = () => {
             accept='.xlsx'
             onChange={handleUpload}
             id='upload'
-            style={{display: 'none'}}
+            style={{ display: 'none' }}
           />
           <label htmlFor='upload'>
             <UploadButton

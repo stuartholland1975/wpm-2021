@@ -6,12 +6,13 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import {gridSelectionsVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
-import {useHistory} from 'react-router-dom';
+import { gridSelectionsVar } from '../../cache';
+import { useReactiveVar } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
+import AddOrderheaderForm from '../forms/AddOrderheaderForm';
 
 function Item(props) {
-  const {sx, ...other} = props;
+  const { sx, ...other } = props;
   return (
     <Box
       sx={{
@@ -33,16 +34,13 @@ const OrderheaderButtons = () => {
   const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
   function handleImportClick(event) {
-    history.push({pathname: `orders/import/${selectedOrder}`})
+    history.push({ pathname: `orders/import/${selectedOrder}` })
   }
-  
+
   return (
-    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2}}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
-        <CreateButton
-          label='create work order'
-          disabled={selectedOrder !== false}
-        />
+        <AddOrderheaderForm />
       </Item>
       <Item>
         <EditButton
