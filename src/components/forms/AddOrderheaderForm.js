@@ -116,19 +116,19 @@ const OrderheaderForm = ({ hideModal }) => {
         if (worktypesOpen && worktypeOptions.length === 0) {
             getWorktypes()
         }
-    }, [worktypesOpen]);
+    }, [getWorktypes, worktypeOptions.length, worktypesOpen]);
 
     React.useEffect(() => {
         if (areasOpen && areaOptions.length === 0) {
             getAreas()
         }
-    }, [areasOpen]);
+    }, [areaOptions.length, areasOpen, getAreas]);
 
     React.useEffect(() => {
         if (orderStatusOpen && orderStatusOptions.length === 0) {
             getOrderheaderStatuses()
         }
-    }, [orderStatusOpen]);
+    }, [getOrderheaderStatuses, orderStatusOpen, orderStatusOptions.length]);
 
     function handleSubmit(event) {
         event.preventDefault()

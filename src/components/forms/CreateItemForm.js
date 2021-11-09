@@ -126,19 +126,19 @@ const ItemForm = ({ hideModal }) => {
         if (locationsOpen && locationOptions.length === 0) {
             getLocations({ variables: { id: selectedOrder } })
         }
-    }, [locationsOpen]);
+    }, [getLocations, locationOptions.length, locationsOpen, selectedOrder]);
 
     React.useEffect(() => {
         if (itemTypesOpen && itemTypeOptions.length === 0) {
             getItemTypes()
         }
-    }, [itemTypesOpen]);
+    }, [getItemTypes, itemTypeOptions.length, itemTypesOpen]);
 
     React.useEffect(() => {
         if (ratesetsOpen && ratesetOptions.length === 0) {
             getRatesets()
         }
-    }, [ratesetsOpen]);
+    }, [getRatesets, ratesetOptions.length, ratesetsOpen]);
 
     React.useEffect(() => {
         console.log(selectedRateset)
@@ -147,7 +147,7 @@ const ItemForm = ({ hideModal }) => {
                 variables: { id: selectedRateset.id }
             })
         }
-    }, [selectedRateset])
+    }, [getRatesetPrices, selectedRateset])
 
     const handleSubmit = (event) => {
         event.preventDefault()

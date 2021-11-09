@@ -2,7 +2,7 @@ import React from 'react';
 import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
 import { AgGridReact } from 'ag-grid-react';
 import { gridSelectionsVar } from '../../cache';
-import { useReactiveVar } from '@apollo/client';
+//import { useReactiveVar } from '@apollo/client';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,

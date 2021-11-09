@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import OrderItemsGrid from '../grids/OrderItemsGrid';
 import OrderItemButtons from '../button-bars/OrderItemButtons';
@@ -34,7 +34,7 @@ export const GET_ORDER_DETAILS = gql`
 `;
 
 const OrderItems = () => {
-	const history = useHistory();
+	//const history = useHistory();
 
 	const { data, loading } = useQuery(GET_ORDER_DETAILS, {
 		variables: { id: gridSelectionsVar().selectedOrder },

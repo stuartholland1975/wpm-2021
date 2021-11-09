@@ -7,7 +7,7 @@ import { CircularProgress } from "@mui/material";
 
 const Orderheaders = () => {
 
-  const [data, loading, networkStatus] = allOrderheaders()
+  const [data, loading] = allOrderheaders()
 
   if (loading) return <CircularProgress size={300} sx={{ p: 25 }} color={'info'} />
 
