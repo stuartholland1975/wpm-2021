@@ -1,7 +1,9 @@
 import React from 'react';
 import NavigationButton from '../ui-components/buttons/NavigationButton';
 import { Box } from '@mui/material';
-//import { useHistory, useLocation } from 'react-router-dom';
+import { useReactiveVar } from '@apollo/client'
+import { gridSelectionsVar } from '../../cache';
+import ActionButton from '../ui-components/buttons/ActionButton';
 
 function Item(props) {
     const { sx, ...other } = props;
@@ -15,64 +17,28 @@ function Item(props) {
         />
     );
 }
-const ApplicationProcessingButtons = () => {
-
+const ApplicationProcessingButtons = ({ submit }) => {
+    const selectedItem = useReactiveVar(gridSelectionsVar).selectedItem
     //   const history = useHistory();
     //  let routeMatch = useLocation();
 
     return (
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', mb: 2 }}>
             <Item>
-                <NavigationButton
-                    label='RETRIEVE AVAILABLE DATA'
-                //  disabled={routeMatch.pathname.startsWith('/orders/admin/locations')}
-                //   onClick={() =>
-                //      history.push({
-                //          pathname: `/orders/admin/locations/${history.location.state}`,
-                //          state: history.location.state,
-                //       })
-                //    }
+                <ActionButton
+                    label='ADD ITEMS TO APPLICATION'
+                    disabled={selectedItem === false}
+                    onClick={submit}
                 />
             </Item>
             <Item>
-                <NavigationButton
-                    label='spare'
-                //   disabled={routeMatch.pathname.startsWith('/orders/admin/items')}
-                /*   onClick={() =>
-                      history.push({
-                          pathname: `/orders/admin/items/${history.location.state}`,
-                          state: history.location.state,
-                      })
-                  } */
+                <ActionButton
+                    label='SPARE'
+                    //   disabled={selectedItem === false}
+                    onClick={submit}
                 />
             </Item>
-            <Item item>
-                <NavigationButton label='spare' />
-            </Item>
-            <Item>
-                <NavigationButton
-                    label='spare'
-                /* disabled={routeMatch.pathname.startsWith('/orders/admin/documents')}
-                onClick={() =>
-                    history.push({
-                        pathname: `/orders/admin/documents/${history.location.state}`,
-                        state: history.location.state,
-                    })
-                } */
-                />
-            </Item>
-            <Item>
-                <NavigationButton
-                    label='spare'
-                /* disabled={routeMatch.pathname.startsWith('/orders/admin/images')}
-                onClick={() =>
-                    history.push({
-                        pathname: `/orders/admin/images/${history.location.state}`,
-                        state: history.location.state,
-                    })
-                } */
-                />
-            </Item>
+
         </Box>
     );
 };

@@ -9,6 +9,7 @@ import { useReactiveVar } from '@apollo/client';
 import OrderImageAdmin from '../order-admin/OrderImageAdmin';
 import { useHistory } from 'react-router-dom';
 import CreateLocationForm from '../forms/CreateLocationForm';
+import EditLocationForm from '../forms/EditLocationForm';
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -38,13 +39,7 @@ const OrderLocationButtons = (props) => {
         <CreateLocationForm />
       </Item>
       <Item>
-        <EditButton
-          label='edit location'
-          disabled={
-            selectedLocation === false ||
-            (selectedLocation && selectedLocation.complete)
-          }
-        />
+        <EditLocationForm />
       </Item>
       <Item item>
         <DeleteButton

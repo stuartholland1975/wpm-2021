@@ -25,7 +25,7 @@ const AdminHome = () => {
   return (
     <>
       <Box
-        sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}
+        sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2, mt: 2 }}
       >
         <Item item>
           <NavigateButton
@@ -51,7 +51,7 @@ const AdminHome = () => {
           <NavigateButton label={'ACTIVITIES'} fullWidth />
         </Item>
       </Box>
-      <br />
+
       <Switch>
         <Route path={'/admin/global/documents'} exact>
           <GlobalDocuments />

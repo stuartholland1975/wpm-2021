@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
-import {AgGridReact} from 'ag-grid-react';
-import {formatDateGrid, formatNumberGridNoDecimals,} from '../../functions/commonFunctions';
-import {gridSelectionsVar} from '../../cache';
+import React, { useMemo } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { formatDateGrid, formatNumberGridNoDecimals, } from '../../functions/commonFunctions';
+import { gridSelectionsVar } from '../../cache';
 
 const OrderheaderGrid = ({ data }) => {
   const columnDefs = useMemo(
@@ -98,6 +98,7 @@ const OrderheaderGrid = ({ data }) => {
         valueFormatter: formatNumberGridNoDecimals,
         field: 'imageCount',
         filter: 'agNumberColumnFilter',
+        maxWidth: 150,
       },
       {
         headerName: 'Doc Count',
@@ -105,6 +106,7 @@ const OrderheaderGrid = ({ data }) => {
         type: 'numericColumn',
         valueFormatter: formatNumberGridNoDecimals,
         filter: 'agNumberColumnFilter',
+        maxWidth: 150,
       },
 
       {

@@ -21,7 +21,7 @@ createSitelocation(input: {sitelocation: {reference: $reference, orderheaderId: 
 const LocationForm = ({ hideModal }) => {
     const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
-    const [createLoction] = useMutation(CREATE_SITE_LOCATION, {
+    const [createLocation] = useMutation(CREATE_SITE_LOCATION, {
         refetchQueries: [
             {
                 query: GET_ORDER_LOCATIONS,
@@ -38,7 +38,7 @@ const LocationForm = ({ hideModal }) => {
         let fd = new FormData(event.target);
 
 
-        createLoction({
+        createLocation({
             variables: { id: selectedOrder, reference: fd.get('reference') }
         })
     }

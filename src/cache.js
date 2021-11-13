@@ -11,6 +11,11 @@ export const cache = new InMemoryCache({
 						return gridSelectionsVar();
 					},
 				},
+				selectedWorksheets: {
+					read() {
+						return selectedWorksheetsVar()
+					}
+				},
 				toggleComplete: {
 					read() {
 						return toggleCompleteVar();
@@ -33,6 +38,7 @@ const GridSelectionsInitialValue = {
 	selectedApplication: false,
 	selectedDocument: false,
 	selectedPeriod: false,
+	worksheetsValue: 0.00
 };
 
 const mutationApiInitialValue = {
@@ -44,3 +50,5 @@ export const gridSelectionsVar = makeVar(GridSelectionsInitialValue);
 export const toggleCompleteVar = makeVar('all');
 
 export const mutationApiVar = makeVar(mutationApiInitialValue);
+
+export const selectedWorksheetsVar = makeVar()
