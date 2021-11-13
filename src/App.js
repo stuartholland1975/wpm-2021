@@ -3,6 +3,7 @@ import NavBar from './components/navigation/Navbar';
 import { Switch, Route } from 'react-router-dom';
 import { CircularProgress } from "@mui/material";
 import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
+import ContractDashboard from './components/dashboard/ContractDashboard';
 
 const Home = lazy(() => import('./components/home/Home'));
 const Orderheaders = lazy(() => import('./components/orderheaders/Orderheaders'));
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route path='/applications'>
             <ApplicationAdmin />
+          </Route>
+          <Route path='/dashboard'>
+            <ContractDashboard />
           </Route>
         </Switch>
       </Suspense>
