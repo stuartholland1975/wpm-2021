@@ -2,6 +2,7 @@ import React from 'react';
 import DashboardStats from './DashboardStats'
 import {Box, Grid} from '@mui/material'
 import WeeklyValueChart from './WeeklyValueChart';
+import OrderValueChart from "./OrderValueChart";
 
 const ContractDashboard = () => {
 
@@ -15,7 +16,7 @@ const ContractDashboard = () => {
             <WeeklyValueChart/>
           </Grid>
           <Grid item xs={4}>
-            <WeeklyValueChart/>
+            <OrderValueChart/>
           </Grid>
           <Grid item xs={4}>
             <WeeklyValueChart/>
