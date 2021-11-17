@@ -1,83 +1,12 @@
 import React from 'react';
-import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
-import { AgGridReact } from 'ag-grid-react';
-import { gridSelectionsVar } from '../../cache';
+import {formatNumberGridTwoDecimals} from '../../functions/commonFunctions';
+import {AgGridReact} from 'ag-grid-react';
+import {gridSelectionsVar} from '../../cache';
 //import { useReactiveVar } from '@apollo/client';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,
 };
-
-const columnDefs = [
-  { headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120, cellStyle: { 'text-align': 'left' } },
-  {
-    headerName: 'Item Type',
-    field: 'typeShort',
-    maxWidth: 120,
-    cellStyle: { 'text-align': 'left' }
-  },
-  { headerName: 'Worksheet', field: 'worksheetReference', cellStyle: { 'text-align': 'left' } },
-  {
-    headerName: 'Activity Code',
-    field: 'activityCode',
-    cellStyle: { 'text-align': 'left' }
-  },
-  {
-    headerName: 'Activity Description',
-    field: 'activityDescription',
-    cellStyle: { 'text-align': 'left' }
-  },
-  {
-    headerName: 'Qty Ordered',
-    field: 'qtyOrdered',
-    type: 'numericColumn',
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Unit Value',
-    field: 'unitPayableTotal',
-    valueFormatter: formatNumberGridTwoDecimals,
-    type: 'numericColumn',
-  },
-  {
-    headerName: 'Order Value',
-    field: 'valuePayableTotal',
-    valueFormatter: formatNumberGridTwoDecimals,
-    type: 'numericColumn',
-  },
-  {
-    headerName: 'Qty Done',
-    field: 'qtyComplete',
-    type: 'numericColumn',
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Done Value',
-    field: 'valueComplete',
-    valueFormatter: formatNumberGridTwoDecimals,
-    type: 'numericColumn',
-  },
-  {
-    headerName: 'Qty Applied',
-    field: 'qtyApplied',
-    type: 'numericColumn',
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Applied Value',
-    field: 'valueApplied',
-    type: 'rightAligned',
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Complete',
-    field: 'complete',
-    type: 'rightAligned',
-    valueFormatter: function (params) {
-      return params.value ? 'Yes' : 'No';
-    },
-  },
-];
 
 const defaultColDef = {
   filter: true,
@@ -92,9 +21,80 @@ const columnTypes = {
   },
 };
 
-const OrderItemsGrid = ({ data }) => {
-  // const toggleComplete = useReactiveVar(toggleCompleteVar);
-  //const selectedItem = useReactiveVar(gridSelectionsVar).selectedItem;
+const OrderItemsGrid = ({data}) => {
+
+  const columnDefs = React.useMemo(() =>
+    [
+      {headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120, cellStyle: {'text-align': 'left'}},
+      {
+        headerName: 'Item Type',
+        field: 'typeShort',
+        maxWidth: 120,
+        cellStyle: {'text-align': 'left'}
+      },
+      {headerName: 'Worksheet', field: 'worksheetReference', cellStyle: {'text-align': 'left'}},
+      {
+        headerName: 'Activity Code',
+        field: 'activityCode',
+        cellStyle: {'text-align': 'left'}
+      },
+      {
+        headerName: 'Activity Description',
+        field: 'activityDescription',
+        cellStyle: {'text-align': 'left'}
+      },
+      {
+        headerName: 'Qty Ordered',
+        field: 'qtyOrdered',
+        type: 'numericColumn',
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Unit Value',
+        field: 'unitPayableTotal',
+        valueFormatter: formatNumberGridTwoDecimals,
+        type: 'numericColumn',
+      },
+      {
+        headerName: 'Order Value',
+        field: 'valuePayableTotal',
+        valueFormatter: formatNumberGridTwoDecimals,
+        type: 'numericColumn',
+      },
+      {
+        headerName: 'Qty Done',
+        field: 'qtyComplete',
+        type: 'numericColumn',
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Done Value',
+        field: 'valueComplete',
+        valueFormatter: formatNumberGridTwoDecimals,
+        type: 'numericColumn',
+      },
+      {
+        headerName: 'Qty Applied',
+        field: 'qtyApplied',
+        type: 'numericColumn',
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Applied Value',
+        field: 'valueApplied',
+        type: 'rightAligned',
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Complete',
+        field: 'complete',
+        type: 'rightAligned',
+        valueFormatter: function (params) {
+          return params.value ? 'Yes' : 'No';
+        },
+      },
+    ], []
+  )
 
   const selectedItem = gridSelectionsVar().selectedItem
 
@@ -112,6 +112,7 @@ const OrderItemsGrid = ({ data }) => {
     },
     rowClassRules: rowClassRules,
     animateRows: true,
+    animateShowChangeCellRenderer: true,
     rowData: data,
     onGridReady: (params) => params.api.sizeColumnsToFit(),
     onGridSizeChanged: (params) => params.api.sizeColumnsToFit(),
@@ -126,16 +127,17 @@ const OrderItemsGrid = ({ data }) => {
       });
     }
     else {
-      gridSelectionsVar({ ...gridSelectionsVar(), selectedItem: false });
+      gridSelectionsVar({...gridSelectionsVar(), selectedItem: false});
     }
   }
+
   React.useEffect(() => {
-    gridSelectionsVar({ ...gridSelectionsVar(), selectedItem: false });
+    gridSelectionsVar({...gridSelectionsVar(), selectedItem: false});
   }, [selectedItem]);
 
   return (
-    <div style={{ marginLeft: 5, marginRight: 5 }}>
-      <AgGridReact gridOptions={gridOptions} reactUi={false} className='ag-theme-custom-react' />
+    <div style={{marginLeft: 5, marginRight: 5}}>
+      <AgGridReact gridOptions={gridOptions} reactUi={false} className='ag-theme-custom-react'/>
     </div>
   );
 };

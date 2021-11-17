@@ -8,100 +8,6 @@ const rowClassRules = {
   'complete-row': (params) => params.data.complete,
 };
 
-const columnDefs = [
-  {field: 'id', hide: true, sort: 'asc'},
-  {
-    headerName: 'Worksheet Ref',
-    field: 'worksheetReference',
-    cellStyle: {'text-align': 'left'}
-  },
-  {
-    headerName: 'Location',
-    field: 'reference',
-    cellStyle: {'text-align': 'left'}
-  },
-  {
-    headerName: 'Item Count',
-    field: 'itemCount',
-    type: 'numericColumn',
-    //maxWidth: 120,
-  },
-  {
-    headerName: 'Items Complete',
-    field: 'itemsComplete',
-    type: 'numericColumn',
-    //	maxWidth: 150,
-  },
-  {
-    headerName: 'Items O/S',
-    type: 'numericColumn',
-    //	maxWidth: 150,
-
-    valueGetter: function (params) {
-      return params.data.itemCount - params.data['itemsComplete'];
-    },
-  },
-  {
-    headerName: 'Image Count',
-    field: 'imageCount',
-    type: 'numericColumn',
-    //	maxWidth: 150,
-  },
-
-  {
-    headerName: 'Order Value',
-    field: 'orderValue',
-    type: 'numericColumn',
-    valueGetter: (params) => Number(params.data.orderValue),
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Done Value',
-    field: 'valueComplete',
-    type: 'numericColumn',
-    valueGetter: (params) => Number(params.data.valueComplete),
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'To Do Value',
-    type: 'numericColumn',
-    valueGetter: function (params) {
-      return params.data['orderValue'] - params.data['valueComplete'];
-    },
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Applied Value',
-    field: 'valueApplied',
-    type: 'numericColumn',
-    valueGetter: (params) => Number(params.data.valueApplied),
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'To Apply Value',
-    type: 'numericColumn',
-    valueGetter: function (params) {
-      return params.data['valueComplete'] - params.data['valueApplied'];
-    },
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Ave Item Value',
-    type: 'numericColumn',
-    valueGetter: function (params) {
-      return params.data['orderValue'] / params.data['itemCount'];
-    },
-    valueFormatter: formatNumberGridTwoDecimals,
-  },
-  {
-    headerName: 'Complete',
-    field: 'complete',
-    type: 'rightAligned',
-    valueFormatter: function (params) {
-      return params.value ? 'Yes' : 'No';
-    },
-  },
-];
 
 const defaultColDef = {
   filter: true,
@@ -118,6 +24,105 @@ const columnTypes = {
 };
 
 const OrderLocationsGrid = ({data}) => {
+
+  const columnDefs = React.useMemo(() =>
+    [
+      {field: 'id', hide: true, sort: 'asc'},
+      {
+        headerName: 'Worksheet Ref',
+        field: 'worksheetReference',
+        cellStyle: {'text-align': 'left'}
+      },
+      {
+        headerName: 'Location',
+        field: 'reference',
+        cellStyle: {'text-align': 'left'}
+      },
+      {
+        headerName: 'Item Count',
+        field: 'itemCount',
+        type: 'numericColumn',
+        //maxWidth: 120,
+      },
+      {
+        headerName: 'Items Complete',
+        field: 'itemsComplete',
+        type: 'numericColumn',
+        //	maxWidth: 150,
+      },
+      {
+        headerName: 'Items O/S',
+        type: 'numericColumn',
+        //	maxWidth: 150,
+
+        valueGetter: function (params) {
+          return params.data.itemCount - params.data['itemsComplete'];
+        },
+      },
+      {
+        headerName: 'Image Count',
+        field: 'imageCount',
+        type: 'numericColumn',
+        //	maxWidth: 150,
+      },
+
+      {
+        headerName: 'Order Value',
+        field: 'orderValue',
+        type: 'numericColumn',
+        valueGetter: (params) => Number(params.data.orderValue),
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Done Value',
+        field: 'valueComplete',
+        type: 'numericColumn',
+        valueGetter: (params) => Number(params.data.valueComplete),
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'To Do Value',
+        type: 'numericColumn',
+        valueGetter: function (params) {
+          return params.data['orderValue'] - params.data['valueComplete'];
+        },
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Applied Value',
+        field: 'valueApplied',
+        type: 'numericColumn',
+        valueGetter: (params) => Number(params.data.valueApplied),
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'To Apply Value',
+        type: 'numericColumn',
+        valueGetter: function (params) {
+          return params.data['valueComplete'] - params.data['valueApplied'];
+        },
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Ave Item Value',
+        type: 'numericColumn',
+        valueGetter: function (params) {
+          return params.data['orderValue'] / params.data['itemCount'];
+        },
+        valueFormatter: formatNumberGridTwoDecimals,
+      },
+      {
+        headerName: 'Complete',
+        field: 'complete',
+        type: 'rightAligned',
+        valueFormatter: function (params) {
+          return params.value ? 'Yes' : 'No';
+        },
+      },
+    ], []
+  )
+
+
   const toggleComplete = useReactiveVar(toggleCompleteVar);
 
   /* useEffect(() => {
@@ -144,8 +149,8 @@ const OrderLocationsGrid = ({data}) => {
     onRowSelected: selectedRow,
     animateRows: true,
     rowClassRules: rowClassRules,
+    animateShowChangeCellRenderer: true,
     onGridReady: (params) => params.api.sizeColumnsToFit(),
-    onGridSizeChanged: (params) => params.api.sizeColumnsToFit(),
     rowData: data,
   };
 

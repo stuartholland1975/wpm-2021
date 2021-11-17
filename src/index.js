@@ -1,21 +1,21 @@
 /** @format */
-
+import './wdyr'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {ApolloClient, ApolloLink, ApolloProvider} from '@apollo/client';
-import {onError} from 'apollo-link-error';
-import {createUploadLink} from 'apollo-upload-client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ApolloClient, ApolloLink, ApolloProvider } from '@apollo/client';
+import { onError } from 'apollo-link-error';
+import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {cache} from './cache';
-import {ModalProvider} from 'react-modal-hook';
-import {persistCache, LocalStorageWrapper} from 'apollo3-cache-persist';
+import { cache } from './cache';
+import { ModalProvider } from 'react-modal-hook';
+import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 
 persistCache({
   cache,
@@ -24,9 +24,9 @@ persistCache({
 
 export const client = new ApolloClient({
   link: ApolloLink.from([
-    onError(({graphQLErrors, networkError}) => {
+    onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
-        graphQLErrors.map(({message, locations, path}) =>
+        graphQLErrors.map(({ message, locations, path }) =>
           console.log(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
@@ -48,7 +48,7 @@ function initialise() {
       <Router>
         <ApolloProvider client={client}>
           <ModalProvider>
-            <App/>
+            <App />
           </ModalProvider>
         </ApolloProvider>
       </Router>,
@@ -64,7 +64,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ApolloProvider client={client}>
-        <App/>
+        <App />
       </ApolloProvider>
     </Router>
   </React.StrictMode>,

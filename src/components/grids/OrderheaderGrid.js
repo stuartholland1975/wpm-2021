@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import { formatDateGrid, formatNumberGridNoDecimals, } from '../../functions/commonFunctions';
-import { gridSelectionsVar } from '../../cache';
+import React, {useMemo} from 'react';
+import {AgGridReact} from 'ag-grid-react';
+import {formatDateGrid, formatNumberGridNoDecimals,} from '../../functions/commonFunctions';
+import {gridSelectionsVar} from '../../cache';
 
-const OrderheaderGrid = ({ data }) => {
+const OrderheaderGrid = ({data}) => {
   const columnDefs = useMemo(
     () => [
       {
         headerName: 'Work Instruction',
         field: 'orderNumber',
-        cellStyle: { fontWeight: 'bold' },
+        cellStyle: {fontWeight: 'bold'},
         maxWidth: 160,
       },
       {
@@ -40,7 +40,7 @@ const OrderheaderGrid = ({ data }) => {
         field: 'orderValueTotal',
         valueFormatter: formatNumberGridNoDecimals,
         type: 'numericColumn',
-        cellStyle: { fontWeight: 'bold' },
+        cellStyle: {fontWeight: 'bold'},
         filter: 'agNumberColumnFilter',
         maxWidth: 150,
       },
@@ -50,7 +50,7 @@ const OrderheaderGrid = ({ data }) => {
         valueFormatter: formatNumberGridNoDecimals,
         type: 'numericColumn',
         filter: 'agNumberColumnFilter',
-        cellStyle: { fontWeight: 'bold' },
+        cellStyle: {fontWeight: 'bold'},
         maxWidth: 150,
       },
       {
@@ -161,12 +161,13 @@ const OrderheaderGrid = ({ data }) => {
     paginationPageSize: 35,
     domLayout: 'autoHeight',
     animateRows: true,
+    animateShowChangeCellRenderer: true,
     rowSelection: 'single',
     onRowSelected: selectedRow,
   };
 
   React.useEffect(
-    () => gridSelectionsVar({ ...gridSelectionsVar, selectedOrder: false }),
+    () => gridSelectionsVar({...gridSelectionsVar, selectedOrder: false}),
     []
   );
 
@@ -177,8 +178,9 @@ const OrderheaderGrid = ({ data }) => {
         ...gridSelectionsVar(),
         selectedOrder: selected[0].data.id,
       });
-    } else {
-      gridSelectionsVar({ ...gridSelectionsVar(), selectedOrder: false });
+    }
+    else {
+      gridSelectionsVar({...gridSelectionsVar(), selectedOrder: false});
     }
   }
 
@@ -187,7 +189,7 @@ const OrderheaderGrid = ({ data }) => {
   };
 
   return (
-    <div className='ag-theme-custom-react' style={{ margin: 5 }}>
+    <div className='ag-theme-custom-react' style={{margin: 5}}>
       <AgGridReact
         gridOptions={gridOptions}
         rowData={data}
