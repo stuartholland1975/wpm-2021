@@ -41,7 +41,8 @@ const OrderItemsGrid = ({data}) => {
       {
         headerName: 'Activity Description',
         field: 'activityDescription',
-        cellStyle: {'text-align': 'left'}
+        cellStyle: {'text-align': 'left'},
+        // editable: true,
       },
       {
         headerName: 'Qty Ordered',

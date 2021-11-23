@@ -56,6 +56,9 @@ export default function NavBar() {
   else if (routeMatch.pathname.startsWith('/orders/import')) {
     text = 'IMPORT ORDER DETAILS';
   }
+  else if (routeMatch.pathname.startsWith('/analysis')) {
+    text = 'PERIOD ANALYSIS';
+  }
   else {
     text = 'WORK PACKAGE MANAGER';
   }
@@ -87,6 +90,16 @@ export default function NavBar() {
               activeStyle={{ color: 'blue' }}
             >
               ADMINISTRATION
+            </IconButton>
+            <IconButton
+              color='inherit'
+              sx={{ fontSize: 18 }}
+              component={NavLink}
+              to='/analysis'
+              exact
+              activeStyle={{ color: 'blue' }}
+            >
+              ANALYSIS
             </IconButton>
             <IconButton
               color='inherit'

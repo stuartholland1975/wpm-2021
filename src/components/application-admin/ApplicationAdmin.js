@@ -146,26 +146,28 @@ const ApplicationAdmin = () => {
 
   const processData = () => {
     if (worksheets.length > 0) {
+
       confirmAlert({
-        title: 'Confirm Submission',
-        message: 'SUBMISSION VALUE IS ' + formatNumberTwoDecimals(gridSelectionsVar().worksheetsValue),
-        buttons: [
-          {
-            label: 'SUBMIT',
-            onClick: () =>
-              processWorksheets({
+        customUI: ({ onClose }) => {
+          return (
+            <div className="custom-ui">
+              <h1>Confirm Submission</h1>
+              <p>{`Submission Value Is: ${formatNumberTwoDecimals(gridSelectionsVar().worksheetsValue)}`}</p>
+              <button onClick={() => processWorksheets({
                 variables: {
                   id: worksheets
                 },
-              }),
-          },
-          {
-            label: 'CANCEL',
-          },
-        ],
+              }).then(() => onClose())}
+              >SUBMIT</button>
+              <button onClick={() => {
+                onClose()
+              }}
+              >CANCEL</button>
+            </div>
+          );
+        }
       });
     }
-    console.log(worksheets)
   }
 
   if (loading) return <CircularProgress />

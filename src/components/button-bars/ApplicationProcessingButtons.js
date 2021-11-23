@@ -1,5 +1,3 @@
-import React from 'react';
-import NavigationButton from '../ui-components/buttons/NavigationButton';
 import { Box } from '@mui/material';
 import { useReactiveVar } from '@apollo/client'
 import { gridSelectionsVar } from '../../cache';

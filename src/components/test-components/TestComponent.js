@@ -1,23 +1,24 @@
-import React from 'react'
-import NavigationButton from '../ui-components/buttons/NavigationButton'
-import CreateButton from '../ui-components/buttons/CreateButton'
-import EditButton from '../ui-components/buttons/EditButton'
-import DeleteButton from '../ui-components/buttons/DeleteButton'
-import ToggleButton from '../ui-components/buttons/ToggleButton'
+/** @format */
+
+import React from 'react';
+import NavigationButton from '../ui-components/buttons/NavigationButton';
+import CreateButton from '../ui-components/buttons/CreateButton';
+import EditButton from '../ui-components/buttons/EditButton';
+import DeleteButton from '../ui-components/buttons/DeleteButton';
+import ToggleButton from '../ui-components/buttons/ToggleButton';
+import MuiConfirmAlert from '../ui-components/modals/MuiConfirmAlert';
+import { useRendersCount } from 'react-use';
 
 const TestComponent = () => {
-  
-  return (
-    <div>
-      <NavigationButton label="navigation button"/>
-      <CreateButton label="create Button"/>
-      <EditButton label="edit button"/>
-      <DeleteButton label="delete button"/>
-      <ToggleButton label="toggle button"/>
-      <hr/>
+	const rendersCount = useRendersCount();
+	console.log(rendersCount);
+	return (
+		<div>
+			<MuiConfirmAlert />
+			<hr />
+			<span>Renders count: {rendersCount}</span>
+		</div>
+	);
+};
 
-    </div>
-  )
-}
-
-export default TestComponent
+export default TestComponent;

@@ -9,9 +9,10 @@ import {
   ResponsiveContainer,
   Label
 } from 'recharts';
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useLazyQuery } from '@apollo/client'
 import { CircularProgress } from '@mui/material';
 import { formatNumberNoDecimals } from '../../functions/commonFunctions';
+import ChartTableModal from '../ui-components/modals/ChartTableModal';
 
 const GET_PERIOD_VALUES = gql`
 query GetPeriodValues {
@@ -24,6 +25,20 @@ query GetPeriodValues {
 }
 `
 
+const GET_PERIOD_AREA_VALUES = gql`
+query GetPeriodAreaValues($period: Int!) {
+  commercialValuesByPeriodAndAreas(
+    filter: { periodNumber: { equalTo: $period } }
+  ) {
+    nodes {
+      area
+      periodNumber
+      periodValue
+    }
+  }
+}
+`
+
 const WeeklyValueChart = () => {
 
   const [chartData, setChartData] = React.useState([])
@@ -31,6 +46,17 @@ const WeeklyValueChart = () => {
   const { loading } = useQuery(GET_PERIOD_VALUES, {
     onCompleted: data => setChartData(data.periodWithValues.nodes)
   })
+
+  const [getAreaSplit] = useLazyQuery(GET_PERIOD_AREA_VALUES, {
+    onCompleted: data => ChartTableModal(data.commercialValuesByPeriodAndAreas.nodes)
+  })
+
+  function onBarClick(event) {
+    getAreaSplit({
+      variables: { period: event.periodNumber }
+    });
+    //ChartTableModal(event.periodNumber)
+  }
 
   if (loading) return <CircularProgress />
 
@@ -49,13 +75,11 @@ const WeeklyValueChart = () => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="periodNumber">
-
             <Label value="PERIOD NUMBER" offset={0} position="bottom" />
-
           </XAxis>
           <YAxis tickFormatter={data => formatNumberNoDecimals(data)} />
           <Tooltip formatter={(value, name) => [formatNumberNoDecimals(value), 'Period Value']} />
-          <Bar dataKey="worksValueClosed" fill="#4d004d" />
+          <Bar dataKey="worksValueClosed" fill="#4d004d" onClick={onBarClick} />
         </BarChart>
       </ResponsiveContainer>
     </div>

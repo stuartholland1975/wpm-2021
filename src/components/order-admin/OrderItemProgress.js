@@ -187,39 +187,45 @@ const OrderItemProgress = () => {
 			.includes(true);
 		if (errorCheck) {
 			confirmAlert({
-				title: 'Submission Contains Errors',
-
-				buttons: [
-					{
-						label: 'Close',
-					},
-				],
+				customUI: ({ onClose }) => {
+					return (
+						<div className="custom-ui">
+							<h1>Submission Contains Errors!</h1>
+							<p>Please Correct Them And Try Again</p>
+							<button
+								onClick={() => { onClose() }}
+							>Close</button>
+						</div>
+					);
+				}
 			});
+
 		} else {
 			const submissionValue = formatNumberTwoDecimals(
 				editedItems
 					.map((item) => (item.valueOs / item.qtyOs) * item.qtyDone)
-					.reduce((item, total) => item + total)
+					.reduce((item, total) => item + total, 0)
 			);
 			confirmAlert({
-				title: 'Confirm Submission',
-				message: 'SUBMISSION VALUE IS ' + submissionValue,
-				buttons: [
-					{
-						label: 'SUBMIT',
-						onClick: () =>
-							submitWorksheets({
+				customUI: ({ onClose }) => {
+					return (
+						<div className="custom-ui">
+							<h1>Confirm Submission</h1>
+							<p>{`Submission Value Is: ${submissionValue}`}</p>
+							<button onClick={() => submitWorksheets({
 								variables: {
 									input: { worksheets: apiObject },
 									orderId: selectedOrder,
 								},
-							}),
-					},
-					{
-						label: 'CANCEL',
-						//onClick: () => alert('Click No'),
-					},
-				],
+							}).then(() => onClose())}
+							>SUBMIT</button>
+							<button onClick={() => {
+								onClose()
+							}}
+							>CANCEL</button>
+						</div>
+					);
+				}
 			});
 		}
 	};
