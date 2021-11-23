@@ -4,9 +4,9 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import {gridSelectionsVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
-import {useHistory} from 'react-router-dom';
+import { gridSelectionsVar } from '../../cache';
+import { useReactiveVar } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 function Item(props) {
 	const { sx, ...other } = props;
@@ -56,8 +56,8 @@ const OrderImageButtons = () => {
 					disabled={selectedOrder === false}
 					onClick={() =>
 						history.push({
-							pathname: `/orders/admin/${selectedOrder}`,
-							state: selectedOrder,
+							pathname: `/orders/admin/${selectedOrder.id}`,
+							state: selectedOrder.id,
 						})
 					}
 				/>

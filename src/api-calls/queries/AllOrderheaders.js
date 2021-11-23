@@ -24,6 +24,8 @@ const GET_ALL_ORDER_HEADERS = gql`
 				orderValueTotalApplied
 				imageCount
 				statusDescription
+				startDate
+				endDate
 			}
 		}
 	}

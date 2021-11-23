@@ -25,7 +25,7 @@ const LocationForm = ({ hideModal }) => {
         refetchQueries: [
             {
                 query: GET_ORDER_LOCATIONS,
-                variables: { id: selectedOrder }
+                variables: { id: selectedOrder.id }
             }
         ],
         awaitRefetchQueries: true,
@@ -39,7 +39,7 @@ const LocationForm = ({ hideModal }) => {
 
 
         createLocation({
-            variables: { id: selectedOrder, reference: fd.get('reference') }
+            variables: { id: selectedOrder.id, reference: fd.get('reference') }
         })
     }
 

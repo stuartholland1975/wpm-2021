@@ -1,12 +1,12 @@
-import {gql, useMutation, useQuery} from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import CreateButton from "../ui-components/buttons/CreateButton";
 import CancelButton from "../ui-components/buttons/CancelButton";
-import {Grid, MenuItem, TextField} from "@mui/material";
+import { Grid, MenuItem, TextField } from "@mui/material";
 import React from "react";
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 import exifr from 'exifr'
-import {gridSelectionsVar} from "../../cache";
-import {GET_SINGLE_ORDERHEADER} from '../order-admin/OrderStats';
+import { gridSelectionsVar } from "../../cache";
+import { GET_SINGLE_ORDERHEADER } from '../order-admin/OrderStats';
 
 const dt = DateTime.now().toISO();
 const defaultDate = DateTime.now().toISODate();
@@ -83,18 +83,18 @@ query GetSingleLocation($id: Int!) {
 
 `
 
-const ImageForm = ({hideModal}) => {
+const ImageForm = ({ hideModal }) => {
 
   const [uploadImage] = useMutation(UPLOAD_IMAGE, {
     refetchQueries: [
       {
         query: GET_SINGLE_LOCATION,
-        variables: {id: Number(gridSelectionsVar().selectedLocation.id)},
+        variables: { id: Number(gridSelectionsVar().selectedLocation.id) },
         fetchPolicy: 'network-only'
       },
       {
         query: GET_SINGLE_ORDERHEADER,
-        variables: {id: Number(gridSelectionsVar().selectedOrder)},
+        variables: { id: Number(gridSelectionsVar().selectedOrder.id) },
       },
     ],
     awaitRefetchQueries: true,
@@ -108,7 +108,7 @@ const ImageForm = ({hideModal}) => {
     setItemType(event.target.value);
   };
 
-  const {data} = useQuery(GET_IMAGE_TYPES);
+  const { data } = useQuery(GET_IMAGE_TYPES);
 
 
   const onSubmit = async (event) => {
@@ -147,7 +147,7 @@ const ImageForm = ({hideModal}) => {
             required
             variant="filled"
             fullWidth
-            InputLabelProps={{shrink: true}}
+            InputLabelProps={{ shrink: true }}
             defaultValue={defaultDate}
           />
         </Grid>
@@ -157,7 +157,7 @@ const ImageForm = ({hideModal}) => {
             type="file"
             fullWidth
             variant="filled"
-            InputLabelProps={{shrink: true}}
+            InputLabelProps={{ shrink: true }}
             name="headerImageFile"
             required
             onChange={(event) => (
@@ -170,25 +170,25 @@ const ImageForm = ({hideModal}) => {
           <TextField
             label={"Item Type"}
             select
-            InputLabelProps={{shrink: true}}
+            InputLabelProps={{ shrink: true }}
             variant={"filled"}
             fullWidth
             value={itemType}
             onChange={handleChange}
           >
             {data &&
-            data.imageTypes.nodes.map((item) => (
-              <MenuItem key={item.id} value={item}>
-                {item.longName}
-              </MenuItem>
-            ))}
+              data.imageTypes.nodes.map((item) => (
+                <MenuItem key={item.id} value={item}>
+                  {item.longName}
+                </MenuItem>
+              ))}
           </TextField>
         </Grid>
         <Grid item xs={6}>
-          <CreateButton type={"submit"} label={"upload image"}/>
+          <CreateButton type={"submit"} label={"upload image"} />
         </Grid>
         <Grid item xs={6}>
-          <CancelButton label={"CLOSE"} type={"button"} onClick={hideModal} fullWidth/>
+          <CancelButton label={"CLOSE"} type={"button"} onClick={hideModal} fullWidth />
         </Grid>
       </Grid>
     </form>

@@ -28,7 +28,7 @@ const LocationForm = ({ hideModal }) => {
         refetchQueries: [
             {
                 query: GET_ORDER_LOCATIONS,
-                variables: { id: selectedOrder }
+                variables: { id: selectedOrder.id }
             }
         ],
         awaitRefetchQueries: true,

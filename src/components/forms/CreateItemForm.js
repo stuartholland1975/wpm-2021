@@ -100,7 +100,7 @@ const ItemForm = ({ hideModal }) => {
     })
 
     const { data: maxItemNumber, loading: maxItemNumberLoading } = useQuery(GET_MAX_ITEM_NUMBER, {
-        variables: { id: selectedOrder },
+        variables: { id: selectedOrder.id },
         fetchPolicy: 'network-only'
     })
 
@@ -108,11 +108,11 @@ const ItemForm = ({ hideModal }) => {
         refetchQueries: [
             {
                 query: GET_ORDER_DETAILS,
-                variables: { id: selectedOrder }
+                variables: { id: selectedOrder.id }
             },
             {
                 query: GET_SINGLE_ORDERHEADER,
-                variables: { id: selectedOrder }
+                variables: { id: selectedOrder.id }
             }
         ],
         awaitRefetchQueries: true,
@@ -124,7 +124,7 @@ const ItemForm = ({ hideModal }) => {
 
     React.useEffect(() => {
         if (locationsOpen && locationOptions.length === 0) {
-            getLocations({ variables: { id: selectedOrder } })
+            getLocations({ variables: { id: selectedOrder.id } })
         }
     }, [getLocations, locationOptions.length, locationsOpen, selectedOrder]);
 
@@ -169,7 +169,7 @@ const ItemForm = ({ hideModal }) => {
             sitelocationId,
             itemTypeId,
             ratesetPriceId,
-            orderheaderId: selectedOrder
+            orderheaderId: selectedOrder.id
         }
 
         createOrderdetail({

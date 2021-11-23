@@ -37,7 +37,7 @@ const OrderItems = () => {
 	//const history = useHistory();
 
 	const { data, loading } = useQuery(GET_ORDER_DETAILS, {
-		variables: { id: gridSelectionsVar().selectedOrder },
+		variables: { id: gridSelectionsVar().selectedOrder.id },
 		fetchPolicy: 'cache-and-network',
 	});
 

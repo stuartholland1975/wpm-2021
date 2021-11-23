@@ -10,6 +10,7 @@ import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import AddOrderheaderForm from '../forms/AddOrderheaderForm';
+import EditOrderheaderForm from '../forms/EditOrderheaderForm';
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -34,7 +35,7 @@ const OrderheaderButtons = () => {
   const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
   function handleImportClick(event) {
-    history.push({ pathname: `orders/import/${selectedOrder}` })
+    history.push({ pathname: `orders/import/${selectedOrder.id}` })
   }
 
   return (
@@ -43,10 +44,7 @@ const OrderheaderButtons = () => {
         <AddOrderheaderForm />
       </Item>
       <Item>
-        <EditButton
-          label='edit work order'
-          disabled={selectedOrder === false}
-        />
+        <EditOrderheaderForm />
       </Item>
       <Item item>
         <DeleteButton
@@ -67,8 +65,8 @@ const OrderheaderButtons = () => {
           disabled={selectedOrder === false}
           onClick={() =>
             history.push({
-              pathname: `/orders/admin/${selectedOrder}`,
-              state: selectedOrder,
+              pathname: `/orders/admin/${selectedOrder.id}`,
+              state: selectedOrder.id,
             })
           }
         />

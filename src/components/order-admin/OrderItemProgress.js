@@ -161,8 +161,8 @@ const OrderItemProgress = () => {
 		awaitRefetchQueries: true,
 		onCompleted: () => {
 			history.push({
-				pathname: `/orders/admin/locations/${selectedOrder}`,
-				state: selectedOrder,
+				pathname: `/orders/admin/locations/${selectedOrder.id}`,
+				state: selectedOrder.id,
 			});
 		},
 	});
@@ -215,7 +215,7 @@ const OrderItemProgress = () => {
 							<button onClick={() => submitWorksheets({
 								variables: {
 									input: { worksheets: apiObject },
-									orderId: selectedOrder,
+									orderId: selectedOrder.id,
 								},
 							}).then(() => onClose())}
 							>SUBMIT</button>

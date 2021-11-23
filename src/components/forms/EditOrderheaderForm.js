@@ -1,5 +1,5 @@
 import React from 'react';
-import { useReactiveVar, useLazyQuery, gql, useMutation } from '@apollo/client';
+import { useReactiveVar, useLazyQuery, gql, useMutation, useQuery } from '@apollo/client';
 import { gridSelectionsVar } from '../../cache';
 import CreateButton from '../ui-components/buttons/CreateButton';
 import CancelButton from '../ui-components/buttons/CancelButton';
@@ -7,6 +7,7 @@ import { TextField, Grid, Autocomplete, CircularProgress } from '@mui/material';
 import { useModal } from 'react-modal-hook';
 import ReactModal from 'react-modal';
 import { DateTime } from 'luxon'
+import EditButton from '../ui-components/buttons/EditButton';
 
 const GET_ALL_AREAS = gql`
 query getAreas {
@@ -38,13 +39,17 @@ query getOrderheaderStatus {
   }
 }
 `
-const CREATE_ORDERHEADER = gql`
-mutation CreateOrderheader($input: OrderheaderInput!) {
-  createOrderheader(
-    input: {orderheader: $input}
+const EDIT_ORDERHEADER = gql`
+mutation EditOrderheader($patch: UpdateOrderheaderInput!, $id: Int!) {
+  updateOrderheader(
+    input: {
+      patch: $patch
+      },
+      id: $id
   ) {
     orderheader {
       id
+      orderNumber
     }
   }
 }
@@ -76,19 +81,20 @@ const GET_ALL_ORDER_HEADERS = gql`
 		}
 	}
 `;
-
 const defaultDate = DateTime.now().toISODate();
 
 const OrderheaderForm = ({ hideModal }) => {
 
+    const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder
     const [areasOpen, setAreasOpen] = React.useState(false);
     const [areaOptions, setAreaOptions] = React.useState([])
+    const [areaSelected, setAreaSelected] = React.useState([{ id: selectedOrder.id, description: selectedOrder.area }])
     const [worktypesOpen, setWorktypesOpen] = React.useState(false);
     const [worktypeOptions, setworktypeOptions] = React.useState([])
     const [orderStatusOpen, setOrderStatusOpen] = React.useState(false);
     const [orderStatusOptions, setOrderStatusOptions] = React.useState([])
 
-    const [getAreas, { loading: areasLoading }] = useLazyQuery(GET_ALL_AREAS, {
+    const { loading: areasLoading } = useQuery(GET_ALL_AREAS, {
         onCompleted: data => setAreaOptions(data.areas.nodes),
         fetchPolicy: 'cache-and-network'
     })
@@ -103,7 +109,7 @@ const OrderheaderForm = ({ hideModal }) => {
         fetchPolicy: 'cache-and-network'
     })
 
-    const [submitOrderheader] = useMutation(CREATE_ORDERHEADER, {
+    const [submitOrderheader] = useMutation(EDIT_ORDERHEADER, {
         refetchQueries: [
             {
                 query: GET_ALL_ORDER_HEADERS
@@ -118,11 +124,7 @@ const OrderheaderForm = ({ hideModal }) => {
         }
     }, [getWorktypes, worktypeOptions.length, worktypesOpen]);
 
-    React.useEffect(() => {
-        if (areasOpen && areaOptions.length === 0) {
-            getAreas()
-        }
-    }, [areaOptions.length, areasOpen, getAreas]);
+
 
     React.useEffect(() => {
         if (orderStatusOpen && orderStatusOptions.length === 0) {
@@ -149,11 +151,9 @@ const OrderheaderForm = ({ hideModal }) => {
             issuedDate: fd.get('issuedDate'),
         }
         submitOrderheader({
-            variables: { input: apiObject }
+            variables: { patch: apiObject }
         }).then(() => hideModal())
     }
-
-
 
     return (
         <form onSubmit={handleSubmit}>
@@ -165,6 +165,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         required
                         variant='filled'
                         fullWidth
+                        defaultValue={selectedOrder.orderNumber}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -174,11 +175,11 @@ const OrderheaderForm = ({ hideModal }) => {
                         required
                         variant='filled'
                         fullWidth
+                        defaultValue={selectedOrder.projectTitle}
                     />
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-
                         open={areasOpen}
                         onOpen={() => {
                             setAreasOpen(true);
@@ -190,6 +191,9 @@ const OrderheaderForm = ({ hideModal }) => {
                         getOptionLabel={(option) => option.description}
                         options={areaOptions}
                         loading={areasLoading}
+                        // value={areaSelected.description}
+                        // onChange={(event, value) => setAreaSelected(value)}
+                        inputValue={areaSelected.description}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -197,6 +201,7 @@ const OrderheaderForm = ({ hideModal }) => {
                                 label="Area"
                                 required
                                 name="areaId"
+                                // defaultValue={selectedOrder.area}
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
@@ -245,7 +250,6 @@ const OrderheaderForm = ({ hideModal }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-
                         open={orderStatusOpen}
                         onOpen={() => {
                             setOrderStatusOpen(true);
@@ -286,7 +290,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         variant="filled"
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        defaultValue={defaultDate}
+                        defaultValue={selectedOrder.startDate}
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -298,7 +302,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         variant="filled"
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        defaultValue={defaultDate}
+                        defaultValue={selectedOrder.endDate}
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -310,7 +314,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         variant="filled"
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        defaultValue={defaultDate}
+                        defaultValue={selectedOrder.issuedDate}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -320,7 +324,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         name="notes"
                         variant="filled"
                         fullWidth
-                        defaultValue={"No Notes"}
+                        defaultValue={selectedOrder.notes}
                         rows={5}
                     />
                 </Grid>
@@ -335,13 +339,13 @@ const OrderheaderForm = ({ hideModal }) => {
     )
 }
 
-const AddOrderheaderForm = () => {
+const EditOrderheaderForm = () => {
 
     const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
     const [showModal, hideModal] = useModal(() => (
         <ReactModal isOpen appElement={document.getElementById('root')}>
-            <h3>CREATE WORK ORDER</h3>
+            <h3>EDIT WORK ORDER</h3>
             <hr />
             <OrderheaderForm hideModal={hideModal} />
         </ReactModal>
@@ -349,13 +353,13 @@ const AddOrderheaderForm = () => {
 
     return (
         <div>
-            <CreateButton
-                label='CREATE WORK ORDER'
+            <EditButton
+                label='EDIT WORK ORDER'
                 onClick={showModal}
-                disabled={selectedOrder !== false}
+                disabled={selectedOrder === false}
             />
         </div>
     );
 };
 
-export default AddOrderheaderForm;
+export default EditOrderheaderForm;

@@ -104,7 +104,7 @@ const ImportData = () => {
 
   const history = useHistory()
   const { data: header } = useQuery(GET_PROJECT_TITLE, {
-    variables: { id: gridSelectionsVar().selectedOrder },
+    variables: { id: gridSelectionsVar().selectedOrder.id },
   });
 
   const [getActivityInfo] = useLazyQuery(GET_ACTIVITY_INFO, {
@@ -186,12 +186,12 @@ const ImportData = () => {
     const apiObject = uniqueLocations.map((item) => ({
       sitelocation: {
         reference: item,
-        orderheaderId: gridSelectionsVar().selectedOrder,
+        orderheaderId: gridSelectionsVar().selectedOrder.id,
         orderdetails: {
           create: apiData
             .filter((obj) => obj.reference === item)
             .map((item) => ({
-              orderheaderId: gridSelectionsVar().selectedOrder,
+              orderheaderId: gridSelectionsVar().selectedOrder.id,
               itemNumber: item.itemNumber,
               ratesetPriceId: item.ratesetPriceId,
               itemTypeId: item.itemTypeId,

@@ -61,7 +61,7 @@ const OrderStats = () => {
   const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
   const { data, loading } = useQuery(GET_SINGLE_ORDERHEADER, {
-    variables: { id: selectedOrder },
+    variables: { id: selectedOrder.id },
   });
 
   if (loading) {

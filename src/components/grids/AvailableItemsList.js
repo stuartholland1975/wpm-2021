@@ -62,7 +62,7 @@ const AvailableItemsList = ({ data }) => {
 
     const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder
 
-    const gridData = data.filter(obj => obj.sitelocationId === selectedLocation && obj.orderheaderId === selectedOrder)
+    const gridData = data.filter(obj => obj.sitelocationId === selectedLocation && obj.orderheaderId === selectedOrder.id)
 
     const gridOptions = {
         columnDefs,

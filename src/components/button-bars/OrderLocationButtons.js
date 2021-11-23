@@ -60,7 +60,7 @@ const OrderLocationButtons = (props) => {
           onClick={() =>
             history.push({
               pathname: `/orders/admin/progress/${selectedLocation.id}`,
-              state: selectedOrder,
+              state: selectedOrder.id,
             })
           }
         />

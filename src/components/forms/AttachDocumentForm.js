@@ -62,11 +62,11 @@ const AttachDocumentForm = (props) => {
 		refetchQueries: [
 			{
 				query: GET_SINGLE_ORDERHEADER,
-				variables: { id: Number(selectedOrder) },
+				variables: { id: Number(selectedOrder.id) },
 			},
 			{
 				query: GET_ORDER_DOCUMENTS,
-				variables: { orderId: Number(selectedOrder) },
+				variables: { orderId: Number(selectedOrder.id) },
 			},
 		],
 		awaitRefetchQueries: true,
@@ -75,11 +75,11 @@ const AttachDocumentForm = (props) => {
 		refetchQueries: [
 			{
 				query: GET_SINGLE_ORDERHEADER,
-				variables: { id: selectedOrder },
+				variables: { id: selectedOrder.id },
 			},
 			{
 				query: GET_ORDER_DOCUMENTS,
-				variables: { orderId: selectedOrder },
+				variables: { orderId: selectedOrder.id },
 			},
 		],
 		awaitRefetchQueries: true,
@@ -92,7 +92,7 @@ const AttachDocumentForm = (props) => {
 		const deletions = removedFromInitial(existing, selected);
 		if (deletions.length > 0 && additions.length === 0) {
 			const deletionsApiObject = deletions.map((item) => ({
-				orderheaderId: Number(selectedOrder),
+				orderheaderId: Number(selectedOrder.id),
 				documentId: Number(item),
 			}));
 			removeDocument({
@@ -100,7 +100,7 @@ const AttachDocumentForm = (props) => {
 			}).then(props.hideModal());
 		} else if (additions.length > 0 && deletions.length === 0) {
 			const additionsApiObject = additions.map((item) => ({
-				orderheaderId: selectedOrder,
+				orderheaderId: selectedOrder.id,
 				documentId: Number(item),
 			}));
 			attachDocument({
@@ -108,11 +108,11 @@ const AttachDocumentForm = (props) => {
 			}).then(props.hideModal());
 		} else if (additions.length > 0 && deletions.length > 0) {
 			const deletionsApiObject = deletions.map((item) => ({
-				orderheaderId: Number(selectedOrder),
+				orderheaderId: Number(selectedOrder.id),
 				documentId: Number(item),
 			}));
 			const additionsApiObject = additions.map((item) => ({
-				orderheaderId: Number(selectedOrder),
+				orderheaderId: Number(selectedOrder.id),
 				documentId: Number(item),
 			}));
 			const result = Promise.all([
