@@ -26,6 +26,9 @@ const GET_ALL_ORDER_HEADERS = gql`
 				statusDescription
 				startDate
 				endDate
+				areaId
+				worktypeId
+				orderStatusId
 			}
 		}
 	}
@@ -35,7 +38,7 @@ export default function AllOrderheaders() {
 	/** @namespace data.orderheaderWithValues **/
 	const [data, setData] = useState([]);
 	const { loading, networkStatus } = useQuery(GET_ALL_ORDER_HEADERS, {
-		// fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data) => setData(data.orderheaderWithValues.nodes),
 	});

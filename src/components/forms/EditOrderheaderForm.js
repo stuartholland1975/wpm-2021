@@ -6,7 +6,7 @@ import CancelButton from '../ui-components/buttons/CancelButton';
 import { TextField, Grid, Autocomplete, CircularProgress } from '@mui/material';
 import { useModal } from 'react-modal-hook';
 import ReactModal from 'react-modal';
-import { DateTime } from 'luxon'
+import { useHistory } from 'react-router-dom'
 import EditButton from '../ui-components/buttons/EditButton';
 
 const GET_ALL_AREAS = gql`
@@ -40,55 +40,58 @@ query getOrderheaderStatus {
 }
 `
 const EDIT_ORDERHEADER = gql`
-mutation EditOrderheader($patch: UpdateOrderheaderInput!, $id: Int!) {
+mutation EditOrderheader($patch: OrderheaderPatch!, $id: Int!) {
   updateOrderheader(
     input: {
-      patch: $patch
-      },
+      patch: 
+       $patch
+      
       id: $id
+    }
   ) {
     orderheader {
-      id
-      orderNumber
-    }
-  }
+      orderheaderWithValueById {
+        area
+        averageItemValue
+        averageLocationValue
+        id
+        documentCount
+        imageCount
+        issuedDate
+        itemCount
+        itemsComplete
+        itemCountVarn
+        itemCountBoq
+        itemsCompleteBoq
+        itemsCompleteVarn
+        locationCount
+        locationsComplete
+        orderNumber
+        orderStatusId
+        orderValueLabour
+        orderValueMaterials
+        orderValueOther
+        orderValueTotal
+        orderValueTotalApplied
+        orderValueTotalBoq
+        orderValueTotalComplete
+        orderValueTotalVarn
+        projectTitle
+        statusDescription
+        workType
+        worktypeId
+      }
+    }}
 }
+
 `
-const GET_ALL_ORDER_HEADERS = gql`
-	query GetOrderheadersWithValues {
-		orderheaderWithValues {
-			nodes {
-				area
-				averageItemValue
-				averageLocationValue
-				id
-				itemCount
-				itemsComplete
-				locationsComplete
-				itemCountVarn
-				locationCount
-				orderNumber
-				projectTitle
-				workType
-				issuedDate
-				documentCount
-				orderValueTotal
-				orderValueTotalComplete
-				orderValueTotalApplied
-				imageCount
-				statusDescription
-			}
-		}
-	}
-`;
-const defaultDate = DateTime.now().toISODate();
+
 
 const OrderheaderForm = ({ hideModal }) => {
-
+    const history = useHistory()
     const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder
     const [areasOpen, setAreasOpen] = React.useState(false);
     const [areaOptions, setAreaOptions] = React.useState([])
-    const [areaSelected, setAreaSelected] = React.useState([{ id: selectedOrder.id, description: selectedOrder.area }])
     const [worktypesOpen, setWorktypesOpen] = React.useState(false);
     const [worktypeOptions, setworktypeOptions] = React.useState([])
     const [orderStatusOpen, setOrderStatusOpen] = React.useState(false);
@@ -110,12 +113,14 @@ const OrderheaderForm = ({ hideModal }) => {
     })
 
     const [submitOrderheader] = useMutation(EDIT_ORDERHEADER, {
-        refetchQueries: [
-            {
-                query: GET_ALL_ORDER_HEADERS
-            }
-        ],
-        awaitRefetchQueries: true
+        /*  refetchQueries: [
+             {
+                 query: GET_ALL_ORDER_HEADERS
+             }
+         ],
+         awaitRefetchQueries: true,
+         fetchPolicy: 'network-only',
+         onCompleted: data => console.log(data) */
     })
 
     React.useEffect(() => {
@@ -150,9 +155,11 @@ const OrderheaderForm = ({ hideModal }) => {
             endDate: fd.get('endDate'),
             issuedDate: fd.get('issuedDate'),
         }
+
+        console.log(apiObject)
         submitOrderheader({
-            variables: { patch: apiObject }
-        }).then(() => hideModal())
+            variables: { patch: apiObject, id: selectedOrder.id }
+        }).then(() => { hideModal(); history.push('/orders') })
     }
 
     return (
@@ -191,9 +198,8 @@ const OrderheaderForm = ({ hideModal }) => {
                         getOptionLabel={(option) => option.description}
                         options={areaOptions}
                         loading={areasLoading}
-                        // value={areaSelected.description}
-                        // onChange={(event, value) => setAreaSelected(value)}
-                        inputValue={areaSelected.description}
+                        defaultValue={{ id: selectedOrder.areaId, description: selectedOrder.area }}
+
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -201,7 +207,7 @@ const OrderheaderForm = ({ hideModal }) => {
                                 label="Area"
                                 required
                                 name="areaId"
-                                // defaultValue={selectedOrder.area}
+
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
@@ -228,6 +234,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         getOptionLabel={(option) => option.description}
                         options={worktypeOptions}
                         loading={worktypesLoading}
+                        defaultValue={{ id: selectedOrder.worktypeId, description: selectedOrder.workType }}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
@@ -261,6 +268,7 @@ const OrderheaderForm = ({ hideModal }) => {
                         getOptionLabel={(option) => option.statusDescription}
                         options={orderStatusOptions}
                         loading={orderheaderStatusLoading}
+                        defaultValue={{ id: selectedOrder.orderStatusId, statusDescription: selectedOrder.statusDescription }}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
