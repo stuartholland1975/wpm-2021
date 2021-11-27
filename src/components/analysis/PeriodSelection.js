@@ -24,7 +24,8 @@ const PeriodSelection = ({ getData }) => {
 
 
   const { loading } = useQuery(GET_PERIODS, {
-    onCompleted: data => setPeriodOptions(data.periods.nodes)
+    onCompleted: data => setPeriodOptions(data.periods.nodes),
+    fetchPolicy: 'network-only'
   })
 
   function handleGetData(value) {

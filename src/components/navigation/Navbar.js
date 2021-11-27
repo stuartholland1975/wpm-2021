@@ -67,20 +67,12 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1, mb: 0 }}>
       <AppBar position='static' sx={{ background: '#737373' }}>
         <Toolbar variant='dense'>
-          <IconButton edge='start' color='inherit' sx={{ mr: 0 }}>
+          <IconButton edge='start' color='inherit' sx={{ mr: 0 }} component={NavLink}
+            to='/'>
             <NavLogo />
           </IconButton>
           <div style={{ marginLeft: 0 }}>
-            <IconButton
-              color='inherit'
-              sx={{ fontSize: 18, mr: 1 }}
-              component={NavLink}
-              to='/'
-              exact
-              activeStyle={{ color: 'blue' }}
-            >
-              HOME
-            </IconButton>
+
             <IconButton
               color='inherit'
               sx={{ fontSize: 18, mr: 1 }}
@@ -91,16 +83,7 @@ export default function NavBar() {
             >
               ADMINISTRATION
             </IconButton>
-            <IconButton
-              color='inherit'
-              sx={{ fontSize: 18 }}
-              component={NavLink}
-              to='/analysis'
-              exact
-              activeStyle={{ color: 'blue' }}
-            >
-              ANALYSIS
-            </IconButton>
+
             <IconButton
               color='inherit'
               sx={{ fontSize: 18 }}
@@ -148,6 +131,16 @@ export default function NavBar() {
               activeStyle={{ color: 'blue' }}
             >
               DASHBOARD
+            </IconButton>
+            <IconButton
+              color='inherit'
+              sx={{ fontSize: 18 }}
+              component={NavLink}
+              to='/analysis'
+              exact
+              activeStyle={{ color: 'blue' }}
+            >
+              ANALYSIS
             </IconButton>
           </div>
         </Toolbar>

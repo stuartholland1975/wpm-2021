@@ -148,7 +148,6 @@ const Analysis = () => {
           <Box ml={1.75} mr={1.75}>
             <PeriodSummaryData data={periodData} />
           </Box>
-
           <Box m={2}>
             <Grid container spacing={2} >
               <Grid item xs={3}><OrderChart data={orderData} /></Grid>
@@ -158,7 +157,6 @@ const Analysis = () => {
             </Grid>
             <br />
             <Grid container spacing={2}>
-
               <Grid item xs={4}><PeriodOrderStats data={periodOrderData} /></Grid>
               <Grid item xs={4}><PeriodSupervisorStats data={periodSupervisorData} /></Grid>
               <Grid item xs={4}><PeriodActivityStats data={activityData} /></Grid>

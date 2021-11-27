@@ -33,7 +33,7 @@ const AreaChart = ({ data }) => {
                     </XAxis>
                     <YAxis tickFormatter={data => formatNumberNoDecimals(data)} allowDataOverflow={true} />
                     <Tooltip formatter={(value, name) => [formatNumberNoDecimals(value), 'Value Complete']} />
-                    <Bar dataKey="valueComplete" fill="#003300" />
+                    <Bar dataKey="valueComplete" fill="#001900" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

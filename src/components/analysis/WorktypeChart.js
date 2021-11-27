@@ -33,7 +33,7 @@ const WorktypeChart = ({ data }) => {
                     </XAxis>
                     <YAxis tickFormatter={data => formatNumberNoDecimals(data)} allowDataOverflow={true} />
                     <Tooltip formatter={(value, name) => [formatNumberNoDecimals(value), 'Value Complete']} />
-                    <Bar dataKey="valueComplete" fill="#660000" />
+                    <Bar dataKey="valueComplete" fill="#330000" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

@@ -33,7 +33,7 @@ const OrderChart = ({ data }) => {
                     </XAxis>
                     <YAxis tickFormatter={data => formatNumberNoDecimals(data)} allowDataOverflow={true} />
                     <Tooltip formatter={(value, name) => [formatNumberNoDecimals(value), 'Value Complete']} />
-                    <Bar dataKey="valueComplete" fill="#00004d" />
+                    <Bar dataKey="valueComplete" fill="#00002e" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
