@@ -22,7 +22,7 @@ function Item(props) {
 }
 const PeriodSummaryData = ({ data }) => {
     return (
-        <Box sx={{ display: 'flex', ml: 1, mr: 1, mb: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
             <Item>
                 <Typography fontWeight='bold' fontSize="20px">Period Number</Typography>
                 <Typography fontWeight='bold' fontSize="20px">

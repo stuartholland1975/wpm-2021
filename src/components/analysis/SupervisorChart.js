@@ -9,7 +9,7 @@ import {
     ResponsiveContainer,
     Label
 } from 'recharts';
-import { formatNumberNoDecimals } from '../../functions/commonFunctions';
+import { formatNumberNoDecimals, getFirstLetters } from '../../functions/commonFunctions';
 
 
 const SupervisorChart = ({ data }) => {
@@ -28,7 +28,7 @@ const SupervisorChart = ({ data }) => {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="supervisorName" >
+                    <XAxis dataKey="supervisorName" tickFormatter={value => value && getFirstLetters(value)} >
                         <Label value="SUPERVISOR NAME" offset={0} position="bottom" />
                     </XAxis>
                     <YAxis tickFormatter={data => formatNumberNoDecimals(data)} allowDataOverflow={true} />

@@ -1,10 +1,10 @@
 import React from 'react';
-import {gql, useQuery} from '@apollo/client'
-import {TextField, Grid, Autocomplete, CircularProgress} from '@mui/material';
+import { gql, useQuery } from '@apollo/client'
+import { TextField, Grid, Autocomplete, CircularProgress } from '@mui/material';
 
 const GET_PERIODS = gql`
 query GetPeriods {
-   periods(filter: {worksValue: {greaterThan: "0"}}) {
+   periods(filter: {worksValue: {greaterThan: "0"}}orderBy: PERIOD_NUMBER_DESC) {
     nodes {
       id
       week
@@ -18,29 +18,27 @@ query GetPeriods {
 }
 `
 
-const PeriodSelection = ({getData}) => {
+const PeriodSelection = ({ getData }) => {
 
   const [periodOptions, setPeriodOptions] = React.useState([])
 
 
-  const {loading} = useQuery(GET_PERIODS, {
+  const { loading } = useQuery(GET_PERIODS, {
     onCompleted: data => setPeriodOptions(data.periods.nodes)
   })
 
   function handleGetData(value) {
     value && getData({
-      variables: {period: value.periodNumber}
+      variables: { period: value.periodNumber }
     })
   }
 
-  if (loading) return <CircularProgress/>
+  if (loading) return <CircularProgress />
   return (
     <div>
-      <Grid container ml={1} mr={1} mt={3}>
-        <Grid item xs={1.5}>
-
+      <Grid container >
+        <Grid item xs={2}>
           <Autocomplete
-            sx={{m: 1}}
             size="small"
             disableClearable
             getOptionLabel={(option) => `PERIOD NUMBER :  ${option.periodNumber}`}
@@ -50,17 +48,15 @@ const PeriodSelection = ({getData}) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                //  variant='filled'
+                variant='filled'
                 label="Period Number"
                 InputProps={{
                   ...params.InputProps,
 
                 }}
               />
-            )}/>
+            )} />
         </Grid>
-
-
       </Grid>
     </div>
   );

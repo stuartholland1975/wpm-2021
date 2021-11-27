@@ -15,7 +15,7 @@ import { formatNumberNoDecimals } from '../../functions/commonFunctions';
 const WorktypeChart = ({ data }) => {
     console.log(data)
     return (
-        <div style={{ borderStyle: 'solid', borderWidth: '1px', background: "#f2f2f2", marginRight: "10px" }}>
+        <div style={{ borderStyle: 'solid', borderWidth: '1px', background: "#f2f2f2" }}>
             <h3 style={{ textDecoration: 'underline' }}>VALUES BY WORK TYPE</h3>
             <ResponsiveContainer width="100%" height={400}>
                 <BarChart

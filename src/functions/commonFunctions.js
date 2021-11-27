@@ -1,4 +1,4 @@
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 import numeral from "numeral";
 
 
@@ -38,3 +38,25 @@ export const numberOnly = event => {
 
 export const setDelay = ms => new Promise(res => setTimeout(res, ms));
 
+export const textTruncate = (str, length, ending) => {
+  if (length == null) {
+    length = 100;
+  }
+  if (ending == null) {
+    ending = '...';
+  }
+  if (str.length > length) {
+    return str.substring(0, length - ending.length) + ending;
+  } else {
+    return str;
+  }
+};
+
+export const getFirstLetters = (str) => {
+  const firstLetters = str
+    .split(' ')
+    .map(word => word[0])
+    .join('');
+
+  return firstLetters;
+}
