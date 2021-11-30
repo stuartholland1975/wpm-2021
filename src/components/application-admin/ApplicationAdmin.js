@@ -1,14 +1,14 @@
 import React from 'react';
-import { useQuery, gql, useMutation, useReactiveVar } from '@apollo/client';
-import { CircularProgress, Grid } from '@mui/material';
-import CurrentApplication from './CurrentApplication';
+import {useQuery, gql, useMutation, useReactiveVar} from '@apollo/client';
+import {CircularProgress, Grid} from '@mui/material';
+import ApplicationStats from './ApplicationStats';
 import ApplicationProcessingButtons from '../button-bars/ApplicationProcessingButtons';
 import AvailableOrdersList from '../grids/AvailableOrdersList';
 import AvailableLocationsList from '../grids/AvailableLocationsList';
 import AvailableItemsList from '../grids/AvailableItemsList';
-import { selectedWorksheetsVar, gridSelectionsVar } from '../../cache';
-import { confirmAlert } from 'react-confirm-alert';
-import { formatNumberTwoDecimals } from '../../functions/commonFunctions'
+import {selectedWorksheetsVar, gridSelectionsVar} from '../../cache';
+import {confirmAlert} from 'react-confirm-alert';
+import {formatNumberTwoDecimals} from '../../functions/commonFunctions'
 
 
 const GET_CURRENT_APPLICATION = gql`
@@ -105,11 +105,11 @@ const ApplicationAdmin = () => {
   const [availableItems, setAvailableItems] = React.useState([])
   const worksheets = useReactiveVar(selectedWorksheetsVar)
 
-  const { data, loading } = useQuery(GET_CURRENT_APPLICATION, {
+  const {data, loading} = useQuery(GET_CURRENT_APPLICATION, {
     fetchPolicy: 'cache-and-network'
   })
 
-  const { refetch } = useQuery(GET_DATA_AVAILABLE_FOR_APPLICATION, {
+  const {refetch} = useQuery(GET_DATA_AVAILABLE_FOR_APPLICATION, {
     fetchPolicy: 'cache-and-network',
     onCompleted: data => {
       const orderData = data.wpmGraphqlGetOrdersAvailableForApplication.nodes
@@ -137,8 +137,8 @@ const ApplicationAdmin = () => {
 
   const [processWorksheets] = useMutation(ADD_WORKSHEETS_TO_APPLICATION, {
     refetchQueries: [
-      { query: GET_DATA_AVAILABLE_FOR_APPLICATION },
-      { query: GET_CURRENT_APPLICATION }
+      {query: GET_DATA_AVAILABLE_FOR_APPLICATION},
+      {query: GET_CURRENT_APPLICATION}
     ],
 
     awaitRefetchQueries: true,
@@ -149,7 +149,7 @@ const ApplicationAdmin = () => {
     if (worksheets.length > 0) {
 
       confirmAlert({
-        customUI: ({ onClose }) => {
+        customUI: ({onClose}) => {
           return (
             <div className="custom-ui">
               <h1>Confirm Submission</h1>
@@ -159,11 +159,13 @@ const ApplicationAdmin = () => {
                   id: worksheets
                 },
               }).then(() => onClose())}
-              >SUBMIT</button>
+              >SUBMIT
+              </button>
               <button onClick={() => {
                 onClose()
               }}
-              >CANCEL</button>
+              >CANCEL
+              </button>
             </div>
           );
         }
@@ -171,22 +173,22 @@ const ApplicationAdmin = () => {
     }
   }
 
-  if (loading) return <CircularProgress />
+  if (loading) return <CircularProgress/>
 
   return (
     <div>
-      <br />
-      <ApplicationProcessingButtons submit={processData} />
-      <CurrentApplication data={data} />
-      <hr />
-      <Grid container spacing={2} >
-        <Grid item xs={6} >
-          <AvailableOrdersList data={availableOrders} />
-          <AvailableLocationsList data={availableLocations} />
+      <br/>
+      <ApplicationProcessingButtons submit={processData}/>
+      <ApplicationStats data={data && data.applicationWithValues.nodes[0]}/>
+      <hr/>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <AvailableOrdersList data={availableOrders}/>
+          <AvailableLocationsList data={availableLocations}/>
         </Grid>
 
-        <Grid item xs={6} >
-          <AvailableItemsList data={availableItems} />
+        <Grid item xs={6}>
+          <AvailableItemsList data={availableItems}/>
         </Grid>
       </Grid>
     </div>

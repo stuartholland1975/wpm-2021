@@ -1,11 +1,12 @@
-import React, { Suspense, lazy } from 'react';
+import React, {Suspense, lazy} from 'react';
 import NavBar from './components/navigation/Navbar';
-import { Switch, Route } from 'react-router-dom';
-import { CircularProgress } from "@mui/material";
+import {Switch, Route} from 'react-router-dom';
+import {CircularProgress} from "@mui/material";
 import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
 import ContractDashboard from './components/dashboard/ContractDashboard';
 import ApplicationEnquiry from './components/enquiries/ApplicationEnquiry';
 import Enquiries from './components/enquiries/Enquiries';
+import ApplicationDetail from "./components/enquiries/ApplicationDetail";
 
 const Home = lazy(() => import('./components/home/Home'));
 const Orderheaders = lazy(() => import('./components/orderheaders/Orderheaders'));
@@ -19,41 +20,44 @@ const Analysis = lazy(() => import('./components/analysis/Analysis'))
 function App() {
   return (
     <div className='App'>
-      <NavBar />
-      <Suspense fallback={<CircularProgress />}>
+      <NavBar/>
+      <Suspense fallback={<CircularProgress/>}>
         <Switch>
           <Route path='/' exact>
-            <Home />
+            <Home/>
           </Route>
           <Route path='/test' exact>
-            <TestComponent />
+            <TestComponent/>
           </Route>
           <Route path='/orders' exact>
-            <Orderheaders />
+            <Orderheaders/>
           </Route>
           <Route path='/orders/import/:orderId' exact>
-            <ImportOrderDetail />
+            <ImportOrderDetail/>
           </Route>
           <Route path='/orders/admin/:orderId'>
-            <OrderAdmin />
+            <OrderAdmin/>
           </Route>
           <Route path='/admin'>
-            <AdminHome />
+            <AdminHome/>
           </Route>
           <Route path='/applications'>
-            <ApplicationAdmin />
+            <ApplicationAdmin/>
           </Route>
           <Route path='/dashboard'>
-            <ContractDashboard />
+            <ContractDashboard/>
           </Route>
           <Route path='/analysis'>
-            <Analysis />
+            <Analysis/>
           </Route>
-          <Route path='/enquiries' exact >
-            <Enquiries />
+          <Route path='/enquiries' exact>
+            <Enquiries/>
           </Route>
-          <Route path={'/enquiry/applications'} exact >
-            <ApplicationEnquiry />
+          <Route path={'/enquiry/applications'} exact>
+            <ApplicationEnquiry/>
+          </Route>
+          <Route path={'/enquiry/applications/:applicationId'} exact>
+            <ApplicationDetail/>
           </Route>
         </Switch>
       </Suspense>
