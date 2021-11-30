@@ -6,7 +6,6 @@ import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
 import ContractDashboard from './components/dashboard/ContractDashboard';
 import ApplicationEnquiry from './components/enquiries/ApplicationEnquiry';
 import Enquiries from './components/enquiries/Enquiries';
-import ApplicationDetail from "./components/enquiries/ApplicationDetail";
 
 const Home = lazy(() => import('./components/home/Home'));
 const Orderheaders = lazy(() => import('./components/orderheaders/Orderheaders'));
@@ -53,12 +52,10 @@ function App() {
           <Route path='/enquiries' exact>
             <Enquiries/>
           </Route>
-          <Route path={'/enquiry/applications'} exact>
+          <Route path={'/enquiry/applications'}>
             <ApplicationEnquiry/>
           </Route>
-          <Route path={'/enquiry/applications/:applicationId'} exact>
-            <ApplicationDetail/>
-          </Route>
+
         </Switch>
       </Suspense>
     </div>
