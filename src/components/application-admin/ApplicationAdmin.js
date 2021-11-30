@@ -29,6 +29,7 @@ query GetCurrentApplication {
       locationCount
       orderCount
       submissionReference
+      areaCount
     }
   }
 }

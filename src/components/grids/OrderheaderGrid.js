@@ -161,7 +161,7 @@ const OrderheaderGrid = ({ data }) => {
     paginationPageSize: 35,
     domLayout: 'autoHeight',
     animateRows: true,
-    animateShowChangeCellRenderer: true,
+
     rowSelection: 'single',
     onRowSelected: selectedRow,
   };

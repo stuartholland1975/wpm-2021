@@ -7,7 +7,6 @@ import WeeklyValueChart from './WeeklyValueChart';
 import OrderValueChart from './OrderValueChart';
 import ApplicationValueChart from './ApplicationValueChart';
 import { useRendersCount } from 'react-use';
-import WeeklyValueTable from './WeeklyValueTable';
 
 const ContractDashboard = () => {
 	const rendersCount = useRendersCount();
@@ -30,10 +29,6 @@ const ContractDashboard = () => {
 					<Grid item xs={3}>
 						<WeeklyValueChart />
 					</Grid>
-					<Grid item xs={4}>
-						<WeeklyValueTable />
-					</Grid>
-
 				</Grid>
 			</Box>
 		</>

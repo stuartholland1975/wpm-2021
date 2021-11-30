@@ -14,10 +14,22 @@ const useStyles = makeStyles({
     root: {
         background: "#f2f2f2 ",
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+
     }
 })
-
+/* const useStyles = makeStyles({
+    root: {
+        background: "#f2f2f2 ",
+        borderWidth: 1,
+        borderColor: 'black',
+        "& .styledrows": {
+            "&:nth-child(2n)": {
+                backgroundColor: "rgba(217, 217, 217)"
+            }
+        }
+    }
+}); */
 
 const PeriodActivityStats = ({ data }) => {
 
@@ -32,6 +44,7 @@ const PeriodActivityStats = ({ data }) => {
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5, 10, 15, 20]}
+                getRowClassName={(params) => `styledrows`}
             />
         </div>
     );

@@ -25,7 +25,7 @@ const AdminHome = () => {
   return (
     <>
       <Box
-        sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2, mt: 2 }}
+        sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2, mt: 1 }}
       >
         <Item item>
           <NavigateButton

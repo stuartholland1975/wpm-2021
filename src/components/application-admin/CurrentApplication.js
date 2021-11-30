@@ -70,6 +70,10 @@ const CurrentApplication = ({ data }) => {
                 <Typography>IMAGE COUNT</Typography>
                 <Typography fontWeight='bold'>{formatNumberNoDecimals(data.applicationWithValues.nodes[0].imageCount)}</Typography>
             </Item>
+            <Item>
+                <Typography>AREA COUNT</Typography>
+                <Typography fontWeight='bold'>{formatNumberNoDecimals(data.applicationWithValues.nodes[0].areaCount)}</Typography>
+            </Item>
         </Box>
     );
 };

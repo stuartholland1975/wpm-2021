@@ -118,7 +118,7 @@ const WorkProgressGrid = ({ data, supervisors, currentPeriod }) => {
       valueFormatter: formatNumberGridTwoDecimals,
       type: 'numericColumn',
     },
-  ], [])
+  ], [currentPeriod, data, supervisors])
 
   const defaultColDef = {
     filter: false,

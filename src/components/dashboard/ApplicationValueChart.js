@@ -53,7 +53,7 @@ const ApplicationValueChart = () => {
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="applicationReference">
+                    <XAxis dataKey="applicationNumber">
                         <Label value="APPLICATION NUMBER" offset={0} position="bottom" />
                     </XAxis>
                     <YAxis tickFormatter={data => formatNumberNoDecimals(data)} allowDataOverflow={true} />

@@ -72,7 +72,7 @@ const AvailableOrdersList = ({ data }) => {
         if (selected.length > 0) {
             gridSelectionsVar({
                 ...gridSelectionsVar(),
-                selectedOrder: selected[0].data.id,
+                selectedOrder: selected[0].data,
                 selectedItem: false,
                 selectedLocation: false
             });

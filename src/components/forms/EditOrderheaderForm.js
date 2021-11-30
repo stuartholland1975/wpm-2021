@@ -1,12 +1,11 @@
 import React from 'react';
-import { useReactiveVar, useLazyQuery, gql, useMutation, useQuery } from '@apollo/client';
+import { useReactiveVar, gql, useMutation, useQuery } from '@apollo/client';
 import { gridSelectionsVar } from '../../cache';
 import CreateButton from '../ui-components/buttons/CreateButton';
 import CancelButton from '../ui-components/buttons/CancelButton';
 import { TextField, Grid, Autocomplete, CircularProgress } from '@mui/material';
 import { useModal } from 'react-modal-hook';
 import ReactModal from 'react-modal';
-import { useHistory } from 'react-router-dom'
 import EditButton from '../ui-components/buttons/EditButton';
 
 const GET_ALL_AREAS = gql`
@@ -88,13 +87,9 @@ mutation EditOrderheader($patch: OrderheaderPatch!, $id: Int!) {
 
 
 const OrderheaderForm = ({ hideModal }) => {
-    const history = useHistory()
     const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder
-    const [areasOpen, setAreasOpen] = React.useState(false);
     const [areaOptions, setAreaOptions] = React.useState([])
-    const [worktypesOpen, setWorktypesOpen] = React.useState(false);
     const [worktypeOptions, setworktypeOptions] = React.useState([])
-    const [orderStatusOpen, setOrderStatusOpen] = React.useState(false);
     const [orderStatusOptions, setOrderStatusOptions] = React.useState([])
 
     const { loading: areasLoading } = useQuery(GET_ALL_AREAS, {
@@ -102,40 +97,25 @@ const OrderheaderForm = ({ hideModal }) => {
         fetchPolicy: 'cache-and-network'
     })
 
-    const [getWorktypes, { loading: worktypesLoading }] = useLazyQuery(GET_ALL_WORKTYPES, {
+    const { loading: worktypesLoading } = useQuery(GET_ALL_WORKTYPES, {
         onCompleted: data => setworktypeOptions(data.worktypes.nodes),
         fetchPolicy: 'cache-and-network'
     })
 
-    const [getOrderheaderStatuses, { loading: orderheaderStatusLoading }] = useLazyQuery(GET_ALL_ORDERHEADER_STATUSES, {
+    const { loading: orderheaderStatusLoading } = useQuery(GET_ALL_ORDERHEADER_STATUSES, {
         onCompleted: data => setOrderStatusOptions(data.orderheaderStatuses.nodes),
         fetchPolicy: 'cache-and-network'
     })
 
     const [submitOrderheader] = useMutation(EDIT_ORDERHEADER, {
-        /*  refetchQueries: [
-             {
-                 query: GET_ALL_ORDER_HEADERS
-             }
-         ],
-         awaitRefetchQueries: true,
-         fetchPolicy: 'network-only',
-         onCompleted: data => console.log(data) */
+        onCompleted: () => hideModal()
     })
 
-    React.useEffect(() => {
-        if (worktypesOpen && worktypeOptions.length === 0) {
-            getWorktypes()
-        }
-    }, [getWorktypes, worktypeOptions.length, worktypesOpen]);
 
 
 
-    React.useEffect(() => {
-        if (orderStatusOpen && orderStatusOptions.length === 0) {
-            getOrderheaderStatuses()
-        }
-    }, [getOrderheaderStatuses, orderStatusOpen, orderStatusOptions.length]);
+
+
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -155,11 +135,9 @@ const OrderheaderForm = ({ hideModal }) => {
             endDate: fd.get('endDate'),
             issuedDate: fd.get('issuedDate'),
         }
-
-        console.log(apiObject)
         submitOrderheader({
             variables: { patch: apiObject, id: selectedOrder.id }
-        }).then(() => { hideModal(); history.push('/orders') })
+        })
     }
 
     return (
@@ -187,13 +165,7 @@ const OrderheaderForm = ({ hideModal }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-                        open={areasOpen}
-                        onOpen={() => {
-                            setAreasOpen(true);
-                        }}
-                        onClose={() => {
-                            setAreasOpen(false);
-                        }}
+
                         isOptionEqualToValue={(option, value) => option.description === value.description}
                         getOptionLabel={(option) => option.description}
                         options={areaOptions}
@@ -223,13 +195,7 @@ const OrderheaderForm = ({ hideModal }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-                        open={worktypesOpen}
-                        onOpen={() => {
-                            setWorktypesOpen(true);
-                        }}
-                        onClose={() => {
-                            setWorktypesOpen(false);
-                        }}
+
                         isOptionEqualToValue={(option, value) => option.description === value.description}
                         getOptionLabel={(option) => option.description}
                         options={worktypeOptions}
@@ -257,13 +223,7 @@ const OrderheaderForm = ({ hideModal }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
-                        open={orderStatusOpen}
-                        onOpen={() => {
-                            setOrderStatusOpen(true);
-                        }}
-                        onClose={() => {
-                            setOrderStatusOpen(false);
-                        }}
+
                         isOptionEqualToValue={(option, value) => option.statusDescription === value.statusDescription}
                         getOptionLabel={(option) => option.statusDescription}
                         options={orderStatusOptions}

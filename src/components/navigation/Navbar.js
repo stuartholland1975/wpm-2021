@@ -59,6 +59,12 @@ export default function NavBar() {
   else if (routeMatch.pathname.startsWith('/analysis')) {
     text = 'PERIOD ANALYSIS';
   }
+  else if (routeMatch.pathname.startsWith('/enquiries')) {
+    text = 'ENQUIRIES';
+  }
+  else if (routeMatch.pathname.startsWith('/enquiry/applications')) {
+    text = 'APPLICATION ENQUIRY';
+  }
   else {
     text = 'WORK PACKAGE MANAGER';
   }
@@ -96,7 +102,7 @@ export default function NavBar() {
             </IconButton>
           </div>
           <Typography
-            sx={{ ml: 'auto', color: 'navy', fontWeight: 'bold' }}
+            sx={{ ml: 'auto', mr: -40, color: 'navy', fontWeight: 'bold' }}
             variant='h5'
           >
             {text}
@@ -141,6 +147,16 @@ export default function NavBar() {
               activeStyle={{ color: 'blue' }}
             >
               ANALYSIS
+            </IconButton>
+            <IconButton
+              color='inherit'
+              sx={{ fontSize: 18 }}
+              component={NavLink}
+              to='/enquiries'
+              exact
+              activeStyle={{ color: 'blue' }}
+            >
+              ENQUIRIES
             </IconButton>
           </div>
         </Toolbar>
