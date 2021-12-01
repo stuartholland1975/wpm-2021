@@ -1,8 +1,8 @@
 import React from 'react';
-import { AgGridReact } from 'ag-grid-react';
-import { formatDateGrid, formatNumberGridTwoDecimals, } from '../../functions/commonFunctions';
-import { useReactiveVar } from "@apollo/client";
-import { gridSelectionsVar } from "../../cache";
+import {AgGridReact} from 'ag-grid-react';
+import {formatDateGrid, formatNumberGridTwoDecimals,} from '../../functions/commonFunctions';
+import {useReactiveVar} from "@apollo/client";
+import {gridSelectionsVar} from "../../cache";
 
 const cellClassRulesSubmiited = {
   "cell-pass": params => params.value === true,
@@ -95,7 +95,7 @@ const columnTypes = {
   },
 };
 
-const ApplicationsGrid = ({ data }) => {
+const ApplicationsGrid = ({data, pageSize}) => {
   //const { setSelectedApplication } = React.useContext(WpmGridContext);
   const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
   console.log(selectedApplication)
@@ -104,7 +104,7 @@ const ApplicationsGrid = ({ data }) => {
     defaultColDef,
     columnTypes,
     pagination: true,
-    paginationPageSize: 35,
+    paginationPageSize: pageSize,
     domLayout: 'autoHeight',
     animateRows: true,
     rowSelection: 'single',
@@ -120,20 +120,20 @@ const ApplicationsGrid = ({ data }) => {
       });
     }
     else {
-      gridSelectionsVar({ ...gridSelectionsVar(), selectedApplication: false });
+      gridSelectionsVar({...gridSelectionsVar(), selectedApplication: false});
     }
   }
 
   return (
     <>
 
-      <div className='ag-theme-custom-react' style={{ margin: 5 }}>
+      <div className='ag-theme-custom-react' style={{margin: 5}}>
         <AgGridReact
           gridOptions={gridOptions}
           rowData={data}
           onGridReady={(params) => params.api.sizeColumnsToFit()}
           onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
-          reactUi={true}
+          //  reactUi={true}
         />
       </div>
     </>

@@ -4,7 +4,7 @@ import {Switch, Route} from 'react-router-dom';
 import {CircularProgress} from "@mui/material";
 import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
 import ContractDashboard from './components/dashboard/ContractDashboard';
-import ApplicationEnquiry from './components/enquiries/ApplicationEnquiry';
+import ApplicationEnquiry from './components/enquiries/applications/ApplicationEnquiry';
 import Enquiries from './components/enquiries/Enquiries';
 
 const Home = lazy(() => import('./components/home/Home'));
