@@ -1,29 +1,34 @@
 /** @format */
 
-import { InMemoryCache, makeVar } from '@apollo/client';
+import {InMemoryCache, makeVar} from '@apollo/client';
 
-export const cache = new InMemoryCache({
+export const cache = new InMemoryCache ({
 	typePolicies: {
 		Query: {
 			fields: {
 				gridSelections: {
-					read() {
-						return gridSelectionsVar();
+					read () {
+						return gridSelectionsVar ();
 					},
 				},
 				selectedWorksheets: {
-					read() {
-						return selectedWorksheetsVar()
+					read () {
+						return selectedWorksheetsVar ()
 					}
 				},
 				toggleComplete: {
-					read() {
-						return toggleCompleteVar();
+					read () {
+						return toggleCompleteVar ();
 					},
 				},
 				mutationApi: {
-					read() {
-						return mutationApiVar();
+					read () {
+						return mutationApiVar ();
+					},
+				},
+				toggleModal: {
+					read () {
+						return toggleModal ();
 					},
 				},
 			},
@@ -45,10 +50,12 @@ const mutationApiInitialValue = {
 	data: false,
 };
 
-export const gridSelectionsVar = makeVar(GridSelectionsInitialValue);
+export const gridSelectionsVar = makeVar (GridSelectionsInitialValue);
 
-export const toggleCompleteVar = makeVar('all');
+export const toggleCompleteVar = makeVar ('all');
 
-export const mutationApiVar = makeVar(mutationApiInitialValue);
+export const mutationApiVar = makeVar (mutationApiInitialValue);
 
-export const selectedWorksheetsVar = makeVar()
+export const selectedWorksheetsVar = makeVar ()
+
+export const toggleModal = makeVar (false)

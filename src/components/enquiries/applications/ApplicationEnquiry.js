@@ -30,29 +30,29 @@ const GET_ALL_APPLICATIONS = gql`
 `;
 
 const ApplicationEnquiry = () => {
-  const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
-  const {loading, data} = useQuery(GET_ALL_APPLICATIONS)
+	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
+	const {loading, data} = useQuery (GET_ALL_APPLICATIONS)
 
-  React.useEffect(() => {
-    return () => gridSelectionsVar({
-      ...gridSelectionsVar(),
-      selectedApplication: false
-    })
-  }, [])
+	React.useEffect (() => {
+		return () => gridSelectionsVar ({
+			...gridSelectionsVar (),
+			selectedApplication: false
+		})
+	}, [])
 
-  if (loading) return <CircularProgress/>
+	if ( loading ) return <CircularProgress/>
 
-  return (
-    <Box sx={{mt: 2}}>
-      <ApplicationsGrid data={data.applicationWithValues.nodes} pageSize={5}/>
-      {selectedApplication &&
-      <>
-        <hr/>
-        <ApplicationSummary/>
-      </>
-      }
-    </Box>
-  );
+	return (
+		<Box>
+			<ApplicationsGrid data={data.applicationWithValues.nodes} pageSize={10}/>
+			{selectedApplication &&
+				<>
+					<hr/>
+					<ApplicationSummary/>
+				</>
+			}
+		</Box>
+	);
 };
 
 export default ApplicationEnquiry;

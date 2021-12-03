@@ -1,92 +1,96 @@
 /** @format */
 
 .App {
-	text-align: center;
+    text-align: center;
 }
 
 .page-title {
-	color: white;
-	font-size: 20px;
-	font-weight: bolder;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	text-transform: uppercase;
-	vertical-align: middle;
-	margin: 20px 10px 10px;
-	border-style: solid;
-	border-width: 1px;
-	background-color: grey;
-	padding: 5px;
-	border-color: black;
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin: 20px 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: grey;
+    padding: 5px;
+    border-color: black;
 }
 
 .complete-row {
-	color: red;
-	font-weight: bolder;
+    color: red;
+    font-weight: bolder;
 }
 
 .no-data-message {
-	font-size: 25px;
-	text-align: center;
-	text-decoration: underline;
-	font-weight: bold;
+    font-size: 25px;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .restrict-card {
-	height: 175px;
+    height: 175px;
 
-	background-color: blue;
+    background-color: blue;
 }
 
 .react-excel .active-sheet {
-	background-color: #a1d6e2;
-	color: rgb(65, 65, 66);
+    background-color: #a1d6e2;
+    color: rgb(65, 65, 66);
 }
 
 .react-excel div {
-	display: flex;
-	justify-content: space-evenly;
-	margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
 }
 
 .react-excel div button {
-	border: 1px solid black;
-	border-radius: 10px;
-	padding: 1rem 2rem;
-	color: rgb(86, 86, 231);
-	cursor: pointer;
-	font-size: larger;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    color: rgb(86, 86, 231);
+    cursor: pointer;
+    font-size: larger;
 }
 
 .react-excel table {
-	margin: 2rem auto;
-	border-collapse: collapse;
+    margin: 2rem auto;
+    border-collapse: collapse;
 }
 
 .react-excel th,
 .react-excel td {
-	border: 1px solid #ddd;
-	padding: 8px;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 .react-excel table tr:nth-child(even) {
-	background-color: #b4b4f8;
+    background-color: #b4b4f8;
 }
 
 .custom-ui {
-	background: rgb(26, 0, 26);
-	width: 450px;
-	height: 180px;
-	text-align: center;
-	color: white;
+    background: rgb(26, 0, 26);
+    width: 450px;
+    height: 180px;
+    text-align: center;
+    color: white;
 }
 
 .custom-ui button {
-	background-color: transparent;
-	border: 1px solid white;
-	width: 150px;
-	height: 2rem;
-	margin: 1rem;
-	color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    width: 150px;
+    height: 2rem;
+    margin: 1rem;
+    color: white;
+}
+
+.grid-bold-font {
+    font-weight: bold;
 }

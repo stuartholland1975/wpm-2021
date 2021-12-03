@@ -1,11 +1,11 @@
 import React from 'react';
 import ApplicationStats from "../../application-admin/ApplicationStats";
-import {useQuery, gql, useReactiveVar, useLazyQuery} from "@apollo/client";
+import {useQuery, gql, useReactiveVar} from "@apollo/client";
 import {gridSelectionsVar} from "../../../cache";
 import {CircularProgress, Grid} from "@mui/material";
-import AppByArea from "./AppByArea";
+import AreaByApp from "./AreaByApp";
 import Box from "@mui/material/Box";
-
+import OrdersByApp from "./OrdersByApp";
 
 const GET_APPLICATION_STATS = gql`
 query GetApplicationStats($id: Int!) {
@@ -29,27 +29,28 @@ query GetApplicationStats($id: Int!) {
 }
 `
 
-
 const ApplicationSummary = () => {
 
-  const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
+	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 
-  const {data: appStatsData, loading: appStatsLoading} = useQuery(GET_APPLICATION_STATS, {
-    variables: {id: selectedApplication}
-  })
+	const {data: appStatsData, loading: appStatsLoading} = useQuery (GET_APPLICATION_STATS, {
+		variables: {id: selectedApplication}
+	})
 
-  if (appStatsLoading) return <CircularProgress/>
-  return (
-    <div>
-      <ApplicationStats data={appStatsData.applicationWithValue}/>
-      <Box m={2}> <Grid container={true}>
-        <Grid xs={4}>
-          <AppByArea/>
-        </Grid>
-      </Grid></Box>
-
-    </div>
-  );
+	if ( appStatsLoading ) return <CircularProgress/>
+	return (
+		<div>
+			<ApplicationStats data={appStatsData.applicationWithValue}/>
+			<Box m={2}> <Grid container={true} spacing={2}>
+				<Grid item xs={6}>
+					<AreaByApp/>
+				</Grid>
+				<Grid item xs={6}>
+					<OrdersByApp/>
+				</Grid>
+			</Grid></Box>
+		</div>
+	);
 };
 
 export default ApplicationSummary;
