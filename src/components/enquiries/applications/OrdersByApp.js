@@ -70,6 +70,7 @@ const OrdersByApp = () => {
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 	const {loading, data} = useQuery (GET_APP_BY_ORDER, {
 		variables: {applicationId: selectedApplication},
+		fetchPolicy: 'network-only',
 		onCompleted: data => setTableData (data.applicationDetailOrderheaderLevels.nodes.map (item => ({
 			...item,
 			id: uuidv4 (),
@@ -79,7 +80,7 @@ const OrdersByApp = () => {
 
 	if ( loading ) return <CircularProgress/>
 	return (
-		<div style={{height: 375, width: '100%'}}>
+		<div style={{height: 600, width: '100%', marginTop: 50}}>
 			<h3 style={{textDecoration: 'underline'}}>APPLICATION SUMMARY BY ORDER NUMBER</h3>
 			<DataGrid
 				className={classes.root}
@@ -88,7 +89,7 @@ const OrdersByApp = () => {
 					valueApplied: formatNumberTwoDecimals (item.valueApplied)
 				}))}
 				columns={columns}
-				pageSize={5}
+				pageSize={10}
 				rowsPerPageOptions={[5, 10, 15, 20]}
 				disableSelectionOnClick
 			/>

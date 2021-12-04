@@ -31,7 +31,9 @@ const GET_ALL_APPLICATIONS = gql`
 
 const ApplicationEnquiry = () => {
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
-	const {loading, data} = useQuery (GET_ALL_APPLICATIONS)
+	const {loading, data} = useQuery (GET_ALL_APPLICATIONS, {
+		fetchPolicy: "network-only"
+	})
 
 	React.useEffect (() => {
 		return () => gridSelectionsVar ({

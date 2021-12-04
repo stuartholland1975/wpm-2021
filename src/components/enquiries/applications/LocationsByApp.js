@@ -36,7 +36,7 @@ query GetAppByLocation($applicationId:Int!, $orderId:Int!) {
 
 const useStyles = makeStyles ({
 	root: {
-		background: "#c1c1c1",
+		background: "#e5d8d8",
 		borderWidth: 1,
 		borderColor: 'black'
 	}
@@ -88,6 +88,8 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 				rows={tableData}
 				columns={columns}
 				pageSize={5}
+				density={'compact'}
+				autoHeight={true}
 			/>
 		</div>
 	);

@@ -100,99 +100,99 @@ mutation AddWorksheetsToApplication($id: [Int!]) {
 `
 const ApplicationAdmin = () => {
 
-  const [availableOrders, setAvailableOrders] = React.useState([])
-  const [availableLocations, setAvailableLocations] = React.useState([])
-  const [availableItems, setAvailableItems] = React.useState([])
-  const worksheets = useReactiveVar(selectedWorksheetsVar)
+	const [availableOrders, setAvailableOrders] = React.useState ([])
+	const [availableLocations, setAvailableLocations] = React.useState ([])
+	const [availableItems, setAvailableItems] = React.useState ([])
+	const worksheets = useReactiveVar (selectedWorksheetsVar)
 
-  const {data, loading} = useQuery(GET_CURRENT_APPLICATION, {
-    fetchPolicy: 'cache-and-network'
-  })
+	const {data, loading} = useQuery (GET_CURRENT_APPLICATION, {
+		fetchPolicy: 'cache-and-network'
+	})
 
-  const {refetch} = useQuery(GET_DATA_AVAILABLE_FOR_APPLICATION, {
-    fetchPolicy: 'cache-and-network',
-    onCompleted: data => {
-      const orderData = data.wpmGraphqlGetOrdersAvailableForApplication.nodes
-      const orderGridData = orderData.map(item => ({
-        ...item,
-        locationCount: data.wpmGraphqlGetLocationsAvailableForApplication.nodes.filter(obj => obj.orderheaderId === item.id).length
-      }))
-      setAvailableOrders(orderGridData)
-      const locationData = data.wpmGraphqlGetLocationsAvailableForApplication.nodes
-      const locationGridData = locationData.map(item => ({
-        ...item,
-        itemCount: data.wpmGraphqlGetItemsAvailableForApplication.nodes.filter(obj => obj.sitelocationId === item.id).length
-      }))
-      setAvailableLocations(locationGridData)
-      const itemData = data.wpmGraphqlGetItemsAvailableForApplication.nodes
-      const itemGridData = itemData.map(item => ({
-        ...item,
-        worksheetCount: data.wpmGraphqlGetWorksheetsAvailableForApplication.nodes.filter(obj => obj.orderdetailId === item.id).length,
-        worksheetId: data.wpmGraphqlGetWorksheetsAvailableForApplication.nodes.filter(obj => obj.orderdetailId === item.id).map(item => item.id)
-      }))
+	const {refetch} = useQuery (GET_DATA_AVAILABLE_FOR_APPLICATION, {
+		fetchPolicy: 'cache-and-network',
+		onCompleted: data => {
+			const orderData = data.wpmGraphqlGetOrdersAvailableForApplication.nodes
+			const orderGridData = orderData.map (item => ({
+				...item,
+				locationCount: data.wpmGraphqlGetLocationsAvailableForApplication.nodes.filter (obj => obj.orderheaderId === item.id).length
+			}))
+			setAvailableOrders (orderGridData)
+			const locationData = data.wpmGraphqlGetLocationsAvailableForApplication.nodes
+			const locationGridData = locationData.map (item => ({
+				...item,
+				itemCount: data.wpmGraphqlGetItemsAvailableForApplication.nodes.filter (obj => obj.sitelocationId === item.id).length
+			}))
+			setAvailableLocations (locationGridData)
+			const itemData = data.wpmGraphqlGetItemsAvailableForApplication.nodes
+			const itemGridData = itemData.map (item => ({
+				...item,
+				worksheetCount: data.wpmGraphqlGetWorksheetsAvailableForApplication.nodes.filter (obj => obj.orderdetailId === item.id).length,
+				worksheetId: data.wpmGraphqlGetWorksheetsAvailableForApplication.nodes.filter (obj => obj.orderdetailId === item.id).map (item => item.id)
+			}))
 
-      setAvailableItems(itemGridData)
-    }
-  })
+			setAvailableItems (itemGridData)
+		}
+	})
 
-  const [processWorksheets] = useMutation(ADD_WORKSHEETS_TO_APPLICATION, {
-    refetchQueries: [
-      {query: GET_DATA_AVAILABLE_FOR_APPLICATION},
-      {query: GET_CURRENT_APPLICATION}
-    ],
+	const [processWorksheets] = useMutation (ADD_WORKSHEETS_TO_APPLICATION, {
+		refetchQueries: [
+			{query: GET_DATA_AVAILABLE_FOR_APPLICATION},
+			{query: GET_CURRENT_APPLICATION}
+		],
 
-    awaitRefetchQueries: true,
-    onCompleted: data => refetch()
-  })
+		awaitRefetchQueries: true,
+		onCompleted: data => refetch ()
+	})
 
-  const processData = () => {
-    if (worksheets.length > 0) {
+	const processData = () => {
+		if ( worksheets.length > 0 ) {
 
-      confirmAlert({
-        customUI: ({onClose}) => {
-          return (
-            <div className="custom-ui">
-              <h1>Confirm Submission</h1>
-              <p>{`Submission Value Is: ${formatNumberTwoDecimals(gridSelectionsVar().worksheetsValue)}`}</p>
-              <button onClick={() => processWorksheets({
-                variables: {
-                  id: worksheets
-                },
-              }).then(() => onClose())}
-              >SUBMIT
-              </button>
-              <button onClick={() => {
-                onClose()
-              }}
-              >CANCEL
-              </button>
-            </div>
-          );
-        }
-      });
-    }
-  }
+			confirmAlert ({
+				customUI: ({onClose}) => {
+					return (
+						<div className="custom-ui">
+							<h1>Confirm Submission</h1>
+							<p>{`Submission Value Is: ${formatNumberTwoDecimals (gridSelectionsVar ().worksheetsValue)}`}</p>
+							<button onClick={() => processWorksheets ({
+								variables: {
+									id: worksheets
+								},
+							}).then (() => onClose ())}
+							>SUBMIT
+							</button>
+							<button onClick={() => {
+								onClose ()
+							}}
+							>CANCEL
+							</button>
+						</div>
+					);
+				}
+			});
+		}
+	}
 
-  if (loading) return <CircularProgress/>
+	if ( loading ) return <CircularProgress/>
 
-  return (
-    <div>
-      <br/>
-      <ApplicationProcessingButtons submit={processData}/>
-      <ApplicationStats data={data && data.applicationWithValues.nodes[0]}/>
-      <hr/>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <AvailableOrdersList data={availableOrders}/>
-          <AvailableLocationsList data={availableLocations}/>
-        </Grid>
+	return (
+		<div>
+			<br/>
+			<ApplicationProcessingButtons submit={processData}/>
+			<ApplicationStats data={data.applicationWithValues.nodes[0]}/>
+			<hr/>
+			<Grid container spacing={2}>
+				<Grid item xs={6}>
+					<AvailableOrdersList data={availableOrders}/>
+					<AvailableLocationsList data={availableLocations}/>
+				</Grid>
 
-        <Grid item xs={6}>
-          <AvailableItemsList data={availableItems}/>
-        </Grid>
-      </Grid>
-    </div>
-  );
+				<Grid item xs={6}>
+					<AvailableItemsList data={availableItems}/>
+				</Grid>
+			</Grid>
+		</div>
+	);
 };
 
 export default ApplicationAdmin;

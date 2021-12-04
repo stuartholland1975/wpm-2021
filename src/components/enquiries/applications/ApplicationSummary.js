@@ -34,7 +34,8 @@ const ApplicationSummary = () => {
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 
 	const {data: appStatsData, loading: appStatsLoading} = useQuery (GET_APPLICATION_STATS, {
-		variables: {id: selectedApplication}
+		variables: {id: selectedApplication},
+		fetchPolicy: 'network-only'
 	})
 
 	if ( appStatsLoading ) return <CircularProgress/>

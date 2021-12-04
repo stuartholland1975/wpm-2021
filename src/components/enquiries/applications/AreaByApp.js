@@ -53,6 +53,7 @@ const AreaByApp = () => {
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 	const {loading} = useQuery (GET_APP_BY_AREA, {
 		variables: {applicationId: selectedApplication},
+		fetchPolicy: 'network-only',
 		onCompleted: data => setTableData (data.applicationDetailAreaLevels.nodes.map (item => ({
 			...item,
 			id: uuidv4 (),
@@ -63,13 +64,13 @@ const AreaByApp = () => {
 	if ( loading ) return <CircularProgress/>
 
 	return (
-		<div style={{height: 375, width: '100%'}}>
+		<div style={{height: 600, width: '100%', marginTop: 50}}>
 			<h3 style={{textDecoration: 'underline'}}>APPLICATION SUMMARY BY AREA</h3>
 			<DataGrid
 				className={classes.root}
 				rows={tableData}
 				columns={columns}
-				pageSize={5}
+				pageSize={10}
 				rowsPerPageOptions={[5, 10, 15, 20]}
 				onRowClick={params => console.log (params, params.row)}
 			/>
