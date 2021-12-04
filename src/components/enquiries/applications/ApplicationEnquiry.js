@@ -46,10 +46,7 @@ const ApplicationEnquiry = () => {
 		<Box>
 			<ApplicationsGrid data={data.applicationWithValues.nodes} pageSize={10}/>
 			{selectedApplication &&
-				<>
-					<hr/>
-					<ApplicationSummary/>
-				</>
+				<ApplicationSummary/>
 			}
 		</Box>
 	);

@@ -78,7 +78,7 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 	if ( loading ) return <CircularProgress/>
 
 	return (
-		<div style={{width: '100%', height: '80%'}}>
+		<div style={{width: '100%', height: '30%'}}>
 			<Button onClick={hideModal}>
 				CLOSE WINDOW
 			</Button>
@@ -86,14 +86,8 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 			<DataGrid
 				className={classes.root}
 				rows={tableData}
-				/* rows={data.applicationDetailSitelocationLevels.nodes.map(item => ({
-					...item,
-					id: uuidv4(),
-					valueApplied: formatNumberTwoDecimals(Number(item.valueApplied))
-				}))} */
 				columns={columns}
 				pageSize={5}
-				rowsPerPageOptions={[5, 10, 15, 20]}
 			/>
 		</div>
 	);
@@ -113,11 +107,12 @@ const LocationsByAppModal = (params) => {
 	});
 	return (
 		<Button
+			size={'small'}
 			variant="contained"
-			style={{background: '#22415e', padding: 4}}
+			style={{background: '#22415e', padding: 5}}
 			onClick={showModal}
 		>
-			View Detail
+			View Locations
 		</Button>
 	);
 };
