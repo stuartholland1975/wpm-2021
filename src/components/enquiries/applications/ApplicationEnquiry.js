@@ -1,14 +1,14 @@
 import React from 'react';
-import {gql, useQuery, useReactiveVar} from '@apollo/client'
-import {CircularProgress, Box} from '@mui/material';
+import { gql, useQuery, useReactiveVar } from '@apollo/client'
+import { CircularProgress, Box } from '@mui/material';
 import ApplicationsGrid from '../../grids/ApplicationsGrid';
-import {gridSelectionsVar} from '../../../cache';
+import { gridSelectionsVar } from '../../../cache';
 import ApplicationSummary from "./ApplicationSummary";
 
 
 const GET_ALL_APPLICATIONS = gql`
 	query GetAllApplications {
-		applicationWithValues(orderBy: APPLICATION_NUMBER_DESC) {
+		applicationSummaryWithCumulativeValues(orderBy: APPLICATION_NUMBER_DESC) {
 			nodes {
 				applicationCurrent
 				applicationDate
@@ -16,7 +16,8 @@ const GET_ALL_APPLICATIONS = gql`
 				applicationOpen
 				applicationReference
 				applicationSubmitted
-				applicationValue
+				thisApplicationValue
+				cumulativeApplicationValue
 				dateSubmitted
 				id
 				imageCount
@@ -30,25 +31,25 @@ const GET_ALL_APPLICATIONS = gql`
 `;
 
 const ApplicationEnquiry = () => {
-	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
-	const {loading, data} = useQuery (GET_ALL_APPLICATIONS, {
+	const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
+	const { loading, data } = useQuery(GET_ALL_APPLICATIONS, {
 		fetchPolicy: "network-only"
 	})
 
-	React.useEffect (() => {
-		return () => gridSelectionsVar ({
-			...gridSelectionsVar (),
+	React.useEffect(() => {
+		return () => gridSelectionsVar({
+			...gridSelectionsVar(),
 			selectedApplication: false
 		})
 	}, [])
 
-	if ( loading ) return <CircularProgress/>
+	if (loading) return <CircularProgress />
 
 	return (
 		<Box>
-			<ApplicationsGrid data={data.applicationWithValues.nodes} pageSize={10}/>
+			<ApplicationsGrid data={data.applicationSummaryWithCumulativeValues.nodes} pageSize={10} />
 			{selectedApplication &&
-				<ApplicationSummary/>
+				<ApplicationSummary />
 			}
 		</Box>
 	);

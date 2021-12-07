@@ -4,6 +4,7 @@ import { CircularProgress } from '@mui/material';
 import { AgGridReact } from 'ag-grid-react';
 import GlobalDocumentAdminButtons from '../button-bars/GlobalDocumentAdminButtons';
 import { gridSelectionsVar } from '../../cache';
+import React from 'react'
 
 export const columnCentered = {
 	headerClass: 'text-center',
@@ -112,7 +113,7 @@ const GlobalDocuments = () => {
 		domLayout: 'autoHeight',
 		rowSelection: 'single',
 		animateRows: true,
-		rowData: data && data.documents.nodes,
+		rowData: data?.documents.nodes,
 		onGridReady: (params) => params.api.sizeColumnsToFit(),
 		onGridSizeChanged: (params) => params.api.sizeColumnsToFit(),
 		onRowSelected: selectedRow,

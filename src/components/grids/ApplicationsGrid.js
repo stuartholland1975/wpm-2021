@@ -1,10 +1,8 @@
-import React from 'react';
-import {AgGridReact} from 'ag-grid-react';
-import {formatDateGrid, formatNumberGridTwoDecimals,} from '../../functions/commonFunctions';
-import {useReactiveVar} from "@apollo/client";
-import {gridSelectionsVar} from "../../cache";
+import { AgGridReact } from 'ag-grid-react';
+import { formatDateGrid, formatNumberGridTwoDecimals, } from '../../functions/commonFunctions';
+import { gridSelectionsVar } from "../../cache";
 
-const cellClassRulesSubmiited = {
+const cellClassRulesSubmitted = {
 	"cell-pass": params => params.value === true,
 	"cell-warning": params => params.value === false
 };
@@ -50,7 +48,7 @@ const columnDefs = [
 		headerName: 'Submitted',
 		field: 'applicationSubmitted',
 		type: 'rightAligned',
-		cellClassRules: cellClassRulesSubmiited,
+		cellClassRules: cellClassRulesSubmitted,
 		valueFormatter: function (params) {
 			return params.value ? 'Yes' : 'No';
 		},
@@ -76,8 +74,14 @@ const columnDefs = [
 		type: 'rightAligned',
 	},
 	{
-		headerName: 'Application Value',
-		field: 'applicationValue',
+		headerName: 'This Application Value',
+		field: 'thisApplicationValue',
+		type: 'numericColumn',
+		valueFormatter: formatNumberGridTwoDecimals,
+	},
+	{
+		headerName: 'Cumulative Application Value',
+		field: 'cumulativeApplicationValue',
 		type: 'numericColumn',
 		valueFormatter: formatNumberGridTwoDecimals,
 	},
@@ -95,8 +99,7 @@ const columnTypes = {
 	},
 };
 
-const ApplicationsGrid = ({data, pageSize}) => {
-	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
+const ApplicationsGrid = ({ data, pageSize }) => {
 	const gridOptions = {
 		columnDefs,
 		defaultColDef,
@@ -109,28 +112,28 @@ const ApplicationsGrid = ({data, pageSize}) => {
 		onRowSelected: selectedRow,
 	};
 
-	function selectedRow (params) {
-		const selected = params.api.getSelectedNodes ();
-		if ( selected.length > 0 ) {
-			gridSelectionsVar ({
-				...gridSelectionsVar (),
+	function selectedRow(params) {
+		const selected = params.api.getSelectedNodes();
+		if (selected.length > 0) {
+			gridSelectionsVar({
+				...gridSelectionsVar(),
 				selectedApplication: selected[0].data.id,
 			});
 		} else {
-			gridSelectionsVar ({...gridSelectionsVar (), selectedApplication: false});
+			gridSelectionsVar({ ...gridSelectionsVar(), selectedApplication: false });
 		}
 	}
 
 	return (
 		<>
 
-			<div className='ag-theme-custom-react' style={{margin: 5}}>
+			<div className='ag-theme-custom-react' style={{ margin: 5 }}>
 				<AgGridReact
 					gridOptions={gridOptions}
 					rowData={data}
-					onGridReady={(params) => params.api.sizeColumnsToFit ()}
-					onGridSizeChanged={(params) => params.api.sizeColumnsToFit ()}
-					//  reactUi={true}
+					onGridReady={(params) => params.api.sizeColumnsToFit()}
+					onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
+				//  reactUi={true}
 				/>
 			</div>
 		</>

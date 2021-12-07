@@ -1,13 +1,14 @@
+/* eslint-disable react/prop-types */
 /** @format */
 
 import React from 'react';
 import ApplicationsGrid from '../grids/ApplicationsGrid';
-import {gql, useMutation, useQuery} from '@apollo/client';
-import {CircularProgress, Box} from '@mui/material';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { CircularProgress, Box } from '@mui/material';
 import ActionButton from '../ui-components/buttons/ActionButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
-import {confirmAlert} from "react-confirm-alert";
+import { confirmAlert } from "react-confirm-alert";
 
 const GET_ALL_APPLICATIONS = gql`
 	query GetAllApplications {
@@ -59,8 +60,8 @@ const CLOSE_CURRENT_APPLICATION = gql`
 	}
 `;
 
-function Item (props) {
-	const {sx, ...other} = props;
+function Item(props) {
+	const { sx, ...other } = props;
 	return (
 		<Box
 			sx={{
@@ -76,37 +77,33 @@ function Item (props) {
 	);
 }
 
-const ApplicationAdminButtons = ({currentApplication}) => {
-	const [closeApp] = useMutation (CLOSE_CURRENT_APPLICATION, {
-		//   onCompleted: (data) => refetch(),
-	});
+const ApplicationAdminButtons = ({ currentApplication }) => {
+	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION, {});
 
 	const handleCloseApplication = () => {
-
-		confirmAlert ({
+		confirmAlert({
 			title: 'Confirm Submission',
 			message: `Are You Sure You Want To Close ${currentApplication[0].applicationReference} ?`,
 			buttons: [
 				{
 					label: 'SUBMIT',
 					onClick: () =>
-						closeApp ({variables: {id: currentApplication[0].id}})
+						closeApp({ variables: { id: currentApplication[0].id } })
 				},
 				{
 					label: 'CANCEL',
-					//onClick: () => alert('Click No'),
 				},
 			],
 		});
 	};
 
 	const handleSubmitApplication = () => {
-		console.log (currentApplication);
+		console.log(currentApplication);
 
 	};
 
 	return (
-		<Box sx={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2}}>
+		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}>
 			<Item>
 				<ActionButton
 					label='close current application'
@@ -117,19 +114,19 @@ const ApplicationAdminButtons = ({currentApplication}) => {
 				<ActionButton
 					label='submit application'
 					onClick={handleSubmitApplication}
-					//	disabled={selectedPeriod !== false}
+				//	disabled={selectedPeriod !== false}
 				/>
 			</Item>
 			<Item>
 				<EditButton
 					label='edit application'
-					//			disabled={selectedPeriod === false
+				//			disabled={selectedPeriod === false
 				/>
 			</Item>
 			<Item>
 				<DeleteButton
 					label='delete application'
-					//	disabled={selectedPeriod === false}
+				//	disabled={selectedPeriod === false}
 				/>
 			</Item>
 		</Box>
@@ -137,20 +134,20 @@ const ApplicationAdminButtons = ({currentApplication}) => {
 };
 
 const Applications = () => {
-	const [gridData, setGridData] = React.useState ([]);
-	const {loading, refetch} = useQuery (GET_ALL_APPLICATIONS, {
+	const [gridData, setGridData] = React.useState([]);
+	const { loading, refetch } = useQuery(GET_ALL_APPLICATIONS, {
 		fetchPolicy: 'cache-and-network',
-		onCompleted: (data) => setGridData (data.applicationWithValues.nodes),
+		onCompleted: (data) => setGridData(data.applicationWithValues.nodes),
 	});
 
-	const currentApplication = gridData.filter ((obj) => obj.applicationCurrent);
-	console.log (currentApplication);
+	const currentApplication = gridData.filter((obj) => obj.applicationCurrent);
+	console.log(currentApplication);
 
-	if ( loading ) return <CircularProgress/>;
+	if (loading) return <CircularProgress />;
 	return (
 		<div>
-			<ApplicationAdminButtons currentApplication={currentApplication} refetch={refetch}/>
-			<ApplicationsGrid data={gridData} pageSize={35}/>
+			<ApplicationAdminButtons currentApplication={currentApplication} refetch={refetch} />
+			<ApplicationsGrid data={gridData} pageSize={35} />
 		</div>
 	);
 };
