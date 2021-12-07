@@ -11,6 +11,7 @@ import {useModal} from "react-modal-hook";
 import CreateButton from "../../ui-components/buttons/CreateButton";
 import Button from "@mui/material/Button";
 import ItemsByLocationApp from "./ItemsByLocationApp";
+import ImageViewer from "../../ui-components/image-viewer/ImageViewer";
 
 
 const GET_APP_BY_LOCATION = gql`
@@ -34,6 +35,24 @@ query GetAppByLocation($applicationId:Int!, $orderId:Int!) {
     }
   }
 }
+`
+
+const GET_LOCATION_IMAGES = gql`
+query GetAppLocationImages($locationId:Int!) {
+  imageDetails(filter: {sitelocationId: {equalTo: $locationId}}) {
+    nodes {
+      dateTakenManual
+      exifDate
+      headerImageFile
+      exifGps
+      id
+      longName
+      shortName
+      reference
+    }
+  }
+}
+
 `
 
 const useStyles = makeStyles ({
@@ -98,9 +117,10 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 	const [tableData, setTableData] = React.useState ([])
 	const [showDetail, setShowDetail] = React.useState (false)
 	const [selectedLocation, setSelectedLocation] = React.useState ({})
+	const [images, setImages] = React.useState (false)
 	const {data, loading} = useQuery (GET_APP_BY_LOCATION, {
 		variables: {applicationId: params.row.applicationId, orderId: params.row.orderId},
-		notifyOnNetworkStatusChange: true,
+		//	notifyOnNetworkStatusChange: true,
 		fetchPolicy: 'network-only',
 		onCompleted: data => setTableData (data.applicationSummarySitelocationWithCumulativeValues.nodes.map (item => ({
 			...item,
@@ -111,7 +131,12 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 		})))
 	})
 	//console.log (params.row.orderId, selectedApplication, params.row.applicationId, data && data.applicationSummarySitelocationWithCumulativeValues.nodes)
-
+	const [getImages, {called}] = useLazyQuery (GET_LOCATION_IMAGES, {
+		onCompleted: data => {
+			console.log (data)
+			setImages (data)
+		}
+	})
 	if ( loading ) return <CircularProgress/>
 
 	return (
@@ -130,12 +155,21 @@ const LocationsByApp = ({hideModal, params, showModal}) => {
 				onRowClick={params => {
 					setSelectedLocation (params.row)
 					setShowDetail (true)
+					getImages (
+						{
+							variables: {locationId: params.row.id}
+						}
+					).then (res => setImages (res.data))
 				}}
 				disableSelectionOnClick
 			/>
 
 			{
-				showDetail && <ItemsByLocationApp data={selectedLocation} selections={params.row} s/>
+				showDetail &&
+				<>
+					<ItemsByLocationApp data={selectedLocation} selections={params.row} s/>
+					{images && <ImageViewer data={images} height={400}/>}
+				</>
 			}
 
 		</div>

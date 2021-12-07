@@ -56,7 +56,6 @@ const ItemsByLocationApp = ({selections, data}) => {
 			prevCumulativeApplicationValue: formatNumberTwoDecimals (item.prevCumulativeApplicationValue)
 		})))
 	})
-	console.log (selections)
 	if ( loading ) return <CircularProgress/>
 	return (
 		<Box m={5}>
