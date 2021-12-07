@@ -1,17 +1,17 @@
 import React from 'react';
-import { DataGrid } from '@mui/x-data-grid'
-import { makeStyles } from '@mui/styles';
-import { useQuery, gql, useReactiveVar } from "@apollo/client";
-import { gridSelectionsVar } from "../../../cache";
-import { CircularProgress } from "@mui/material";
-import { v4 as uuidv4 } from 'uuid'
-import { formatNumberTwoDecimals } from "../../../functions/commonFunctions";
+import {DataGrid} from '@mui/x-data-grid'
+import {makeStyles} from '@mui/styles';
+import {useQuery, gql, useReactiveVar} from "@apollo/client";
+import {gridSelectionsVar} from "../../../cache";
+import {CircularProgress} from "@mui/material";
+import {v4 as uuidv4} from 'uuid'
+import {formatNumberTwoDecimals} from "../../../functions/commonFunctions";
 import LocationsByAppModal from "./LocationsByApp";
 import Button from "@mui/material/Button";
-import { toggleModal } from "../../../cache";
+import {toggleModal} from "../../../cache";
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles ({
 	root: {
 		background: "#b6aaaa",
 		borderWidth: 1,
@@ -42,12 +42,12 @@ query GetAppByOrder($applicationId: Int!) {
 }
 `
 const columns = [
-	{ field: 'areaDescription', headerName: 'Area Description', minWidth: 150, flex: 1 },
-	{ field: 'orderNumber', headerName: 'Order Number', minWidth: 80, flex: 1 },
-	{ field: 'projectTitle', headerName: 'Project Title', minWidth: 100, flex: 1 },
-	{ field: 'locationCount', headerName: 'Locations', type: 'number', minWidth: 100, flex: 1 },
-	{ field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1 },
-	{ field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1 },
+	{field: 'areaDescription', headerName: 'Area Description', minWidth: 150, flex: 1},
+	{field: 'orderNumber', headerName: 'Order Number', minWidth: 80, flex: 1},
+	{field: 'projectTitle', headerName: 'Project Title', minWidth: 100, flex: 1},
+	{field: 'locationCount', headerName: 'Locations', type: 'number', minWidth: 100, flex: 1},
+	{field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1},
+	{field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1},
 	{
 		field: 'thisApplicationValue',
 		headerName: 'App Value',
@@ -74,35 +74,35 @@ const columns = [
 
 const OrdersByApp = () => {
 
-	const classes = useStyles()
-	const [tableData, setTableData] = React.useState([])
-	const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
-	const { loading, data } = useQuery(GET_APP_BY_ORDER, {
-		variables: { applicationId: selectedApplication },
+	const classes = useStyles ()
+	const [tableData, setTableData] = React.useState ([])
+	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
+	const {loading, data} = useQuery (GET_APP_BY_ORDER, {
+		variables: {applicationId: selectedApplication},
 		fetchPolicy: 'network-only',
-		onCompleted: data => setTableData(data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map(item => ({
+		onCompleted: data => setTableData (data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map (item => ({
 			...item,
-			id: uuidv4(),
-			thisApplicationValue: formatNumberTwoDecimals(item.thisApplicationValue),
-			cumulativeApplicationValue: formatNumberTwoDecimals(item.cumulativeApplicationValue)
+			id: uuidv4 (),
+			thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
+			cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue)
 		})))
 	})
 
-	if (loading) return <CircularProgress />
+	if ( loading ) return <CircularProgress/>
 	return (
-		<div style={{ height: 600, width: '100%', marginTop: 50 }}>
-			<h3 style={{ textDecoration: 'underline' }}>APPLICATION SUMMARY BY ORDER NUMBER</h3>
+		<div style={{height: 600, width: '100%', marginTop: 50}}>
+			<h3 style={{textDecoration: 'underline'}}>APPLICATION SUMMARY BY ORDER NUMBER</h3>
 			<DataGrid
 				className={classes.root}
-				rows={data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map(item => ({
+				rows={data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map (item => ({
 					...item,
-					thisApplicationValue: formatNumberTwoDecimals(item.thisApplicationValue),
-					cumulativeApplicationValue: formatNumberTwoDecimals(item.cumulativeApplicationValue)
+					thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
+					cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue)
 				}))}
 				columns={columns}
 				pageSize={10}
 				rowsPerPageOptions={[5, 10, 15, 20]}
-				disableSelectionOnClick
+				//	disableSelectionOnClick
 			/>
 		</div>
 	);
