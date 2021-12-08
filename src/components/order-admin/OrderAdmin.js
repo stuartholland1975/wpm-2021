@@ -1,9 +1,10 @@
-import React, {Suspense, lazy} from 'react';
+import React, { Suspense, lazy } from 'react';
 import OrderAdminButtons from '../button-bars/OrderAdminButtons';
 import OrderStats from './OrderStats';
-import {Route, Switch} from 'react-router-dom';
-import {CircularProgress} from '@mui/material';
+import { Route, Switch } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 import OrderItemProgress from './OrderItemProgress';
+import OrderWorksheetsGrid from '../grids/OrderWorksheetsGrid';
 
 const OrderLocations = lazy(() => import('./OrderLocations'));
 const OrderItems = lazy(() => import('./OrderItems'));
@@ -13,26 +14,29 @@ const OrderDocuments = lazy(() => import('./OrderDocuments'));
 const OrderAdmin = () => {
   return (
     <>
-      <br/>
-      <OrderAdminButtons/>
-      <OrderStats/>
-      <hr/>
-      <Suspense fallback={<CircularProgress/>}>
+      <br />
+      <OrderAdminButtons />
+      <OrderStats />
+      <hr />
+      <Suspense fallback={<CircularProgress />}>
         <Switch>
           <Route path='/orders/admin/locations/:orderId' exact>
-            <OrderLocations/>
+            <OrderLocations />
           </Route>
           <Route path='/orders/admin/progress/:locationId' exact>
-            <OrderItemProgress/>
+            <OrderItemProgress />
           </Route>
           <Route path='/orders/admin/items/:orderId' exact>
-            <OrderItems/>
+            <OrderItems />
           </Route>
           <Route path='/orders/admin/images/:orderId' exact>
-            <OrderImages/>
+            <OrderImages />
           </Route>
           <Route path='/orders/admin/documents/:orderId' exact>
-            <OrderDocuments/>
+            <OrderDocuments />
+          </Route>
+          <Route path='/orders/admin/worksheets/:orderId' exact>
+            <OrderWorksheetsGrid />
           </Route>
         </Switch>
       </Suspense>

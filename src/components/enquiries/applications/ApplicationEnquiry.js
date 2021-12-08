@@ -48,8 +48,7 @@ const ApplicationEnquiry = () => {
 	return (
 		<Box>
 			<ApplicationsGrid data={data.applicationSummaryWithCumulativeValues.nodes} pageSize={10} />
-			{selectedApplication &&
-				<ApplicationSummary />
+			{selectedApplication && <ApplicationSummary />
 			}
 		</Box>
 	);

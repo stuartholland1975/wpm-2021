@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
-import {AgGridReact} from 'ag-grid-react';
-import {formatNumberGridTwoDecimals} from '../../functions/commonFunctions';
-import {gridSelectionsVar, toggleCompleteVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
+import React, { useEffect } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
+import { gridSelectionsVar } from '../../cache';
+import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,
@@ -23,20 +26,23 @@ const columnTypes = {
   },
 };
 
-const OrderLocationsGrid = ({data}) => {
+const OrderLocationsGrid = ({ data }) => {
+
+  const [value, setValue] = React.useState(false);
+  const [gridApi, setGridApi] = React.useState(null);
 
   const columnDefs = React.useMemo(() =>
     [
-      {field: 'id', hide: true, sort: 'asc'},
+      { field: 'id', hide: true, sort: 'asc' },
       {
         headerName: 'Worksheet Ref',
         field: 'worksheetReference',
-        cellStyle: {'text-align': 'left'}
+        cellStyle: { 'text-align': 'left' }
       },
       {
         headerName: 'Location',
         field: 'reference',
-        cellStyle: {'text-align': 'left'}
+        cellStyle: { 'text-align': 'left' }
       },
       {
         headerName: 'Item Count',
@@ -122,21 +128,20 @@ const OrderLocationsGrid = ({data}) => {
     ], []
   )
 
+  const isExternalFilterPresent = (params) => {
+    return value !== 0;
+  }
 
-  const toggleComplete = useReactiveVar(toggleCompleteVar);
-
-  /* useEffect(() => {
-        api && api.getFilterInstance('complete', filterInstance => {
-            filterInstance.setModel({
-                filterType: 'text',
-                type: 'equals',
-                filter: toggle,
-            });
-            api.onFilterChanged()
-        });
-    }, [api, toggle]) */
-
-  console.log(toggleComplete);
+  const doesExternalFilterPass = node => {
+    switch (value) {
+      case true:
+        return node.data.complete === true;
+      case false:
+        return node.data.complete === false;
+      default:
+        return 0;
+    }
+  };
 
   const gridOptions = {
     columnDefs: columnDefs,
@@ -149,10 +154,16 @@ const OrderLocationsGrid = ({data}) => {
     onRowSelected: selectedRow,
     animateRows: true,
     rowClassRules: rowClassRules,
-    animateShowChangeCellRenderer: true,
-    onGridReady: (params) => params.api.sizeColumnsToFit(),
+    onGridReady: (params) => { params.api.sizeColumnsToFit(); setGridApi(params.api) },
     rowData: data,
+
   };
+
+  useEffect(() => {
+    if (gridApi) {
+      gridApi.onFilterChanged();
+    }
+  }, [gridApi, value])
 
   function selectedRow(params) {
     const selected = params.api.getSelectedRows();
@@ -163,20 +174,53 @@ const OrderLocationsGrid = ({data}) => {
       });
     }
     else {
-      gridSelectionsVar({...gridSelectionsVar(), selectedLocation: false});
+      gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
     }
   }
 
   useEffect(() => {
-    gridSelectionsVar({...gridSelectionsVar(), selectedLocation: false});
+    gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
   }, []);
+
   return (
-    <div style={{marginLeft: 5, marginRight: 5}}>
+    <div style={{ marginLeft: 5, marginRight: 5 }}>
       <AgGridReact
-        reactUi={false}
+        reactUi={true}
         gridOptions={gridOptions}
         className='ag-theme-custom-react'
+        isExternalFilterPresent={isExternalFilterPresent}
+        doesExternalFilterPass={doesExternalFilterPass}
       />
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <BottomNavigation
+          sx={{
+            "& .MuiBottomNavigationAction-root": {
+              color: "navy",
+              fontWeight: 'bold',
+            },
+            "& .Mui-selected ": {
+              color: "red",
+              fontWeight: 'bolder',
+              "& .MuiBottomNavigationAction-label": { fontSize: 18 },
+              "& .MuiBottomNavigationAction-icon": { color: 'black' },
+            },
+            "& .MuiBottomNavigationAction-label": { fontSize: 14 },
+            backgroundColor: 'lightgray',
+            borderTopStyle: 'solid',
+            borderWidth: 2
+          }}
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+
+          }}
+        >
+          <BottomNavigationAction label="Show All" value={0} icon={<AllInclusiveIcon />} />
+          <BottomNavigationAction label="Complete Only" value={true} icon={<CheckIcon />} />
+          <BottomNavigationAction label="Outstanding Only" value={false} icon={<ClearIcon />} />
+        </BottomNavigation>
+      </Paper>
     </div>
   );
 };

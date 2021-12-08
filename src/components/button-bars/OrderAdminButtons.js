@@ -49,7 +49,13 @@ const OrderAdminButtons = (props) => {
 				/>
 			</Item>
 			<Item item>
-				<NavigationButton label='worksheets' />
+				<NavigationButton label='worksheets' disabled={routeMatch.pathname.startsWith('/orders/admin/worksheets')}
+					onClick={() =>
+						history.push({
+							pathname: `/orders/admin/worksheets/${history.location.state}`,
+							state: history.location.state,
+						})
+					} />
 			</Item>
 			<Item>
 				<NavigationButton

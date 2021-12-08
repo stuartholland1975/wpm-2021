@@ -65,6 +65,9 @@ export default function NavBar() {
   else if (routeMatch.pathname.startsWith('/enquiry/applications')) {
     text = 'APPLICATION ENQUIRY';
   }
+  else if (routeMatch.pathname.startsWith('/orders/admin/worksheets')) {
+    text = 'WORK ORDER WORKSHEETS';
+  }
   else {
     text = 'WORK PACKAGE MANAGER';
   }
