@@ -4,11 +4,8 @@ import {makeStyles} from '@mui/styles';
 import {useQuery, gql, useReactiveVar} from "@apollo/client";
 import {gridSelectionsVar} from "../../../cache";
 import {CircularProgress} from "@mui/material";
-import {v4 as uuidv4} from 'uuid'
 import {formatNumberTwoDecimals} from "../../../functions/commonFunctions";
 import LocationsByAppModal from "./LocationsByApp";
-import Button from "@mui/material/Button";
-import {toggleModal} from "../../../cache";
 
 
 const useStyles = makeStyles ({
@@ -37,6 +34,7 @@ query GetAppByOrder($applicationId: Int!) {
       orderId
 	  id
 	  cumulativeApplicationValue
+	  orderValue
     }
   }
 }
@@ -65,6 +63,14 @@ const columns = [
 		cellClassName: 'grid-bold-font'
 	},
 	{
+		field: 'orderValue',
+		headerName: 'Order Value',
+		type: 'number',
+		minWidth: 100,
+		flex: 1,
+		cellClassName: 'grid-bold-font'
+	},
+	{
 		field: '', renderCell: LocationsByAppModal,
 		flex: 2,
 		align: 'center',
@@ -75,17 +81,11 @@ const columns = [
 const OrdersByApp = () => {
 
 	const classes = useStyles ()
-	const [tableData, setTableData] = React.useState ([])
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 	const {loading, data} = useQuery (GET_APP_BY_ORDER, {
 		variables: {applicationId: selectedApplication},
 		fetchPolicy: 'network-only',
-		onCompleted: data => setTableData (data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map (item => ({
-			...item,
-			id: uuidv4 (),
-			thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
-			cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue)
-		})))
+
 	})
 
 	if ( loading ) return <CircularProgress/>
@@ -97,7 +97,8 @@ const OrdersByApp = () => {
 				rows={data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map (item => ({
 					...item,
 					thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
-					cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue)
+					cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue),
+					orderValue: formatNumberTwoDecimals (item.orderValue)
 				}))}
 				columns={columns}
 				pageSize={10}

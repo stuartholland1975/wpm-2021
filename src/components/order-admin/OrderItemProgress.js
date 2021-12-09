@@ -27,6 +27,7 @@ const GET_INCOMPLETE_LOCATION_ITEMS = gql`
 				id
 				sitelocationId
 				orderheaderId
+				unitPayableTotal
 			}
 		}
 	}
@@ -171,7 +172,15 @@ const OrderItemProgress = () => {
 
 	const processData = () => {
 		const editedItems = gridData.filter ((obj) => obj.qtyDone > 0);
-		const apiObject = editedItems.map (({date, id, qtyDone, supervisor, sitelocationId, orderheaderId}) => ({
+		const apiObject = editedItems.map (({
+			                                    date,
+			                                    id,
+			                                    qtyDone,
+			                                    supervisor,
+			                                    sitelocationId,
+			                                    orderheaderId,
+			                                    unitPayableTotal
+		                                    }) => ({
 			supervisorId: supervisors.supervisors.nodes
 				.filter ((obj) => obj.displayName === supervisor)
 				.map ((item) => item.id)[0],
@@ -181,7 +190,8 @@ const OrderItemProgress = () => {
 			orderdetailId: id,
 			batchId: batchRef.current,
 			orderheaderId,
-			sitelocationId
+			sitelocationId,
+			valueComplete: qtyDone * Number (unitPayableTotal)
 		}));
 		const errorCheck = apiObject
 			.map (
