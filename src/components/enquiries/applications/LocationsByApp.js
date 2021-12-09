@@ -181,12 +181,8 @@ const LocationsByApp = ({hideModal, params}) => {
 
 };
 
-
 const LocationsByAppModal = (params) => {
-	//console.log (params.row.orderId, params.row.applicationId)
-
 	const [showModal, hideModal] = useModal (() => {
-
 		return (
 			<ReactModal isOpen appElement={document.getElementById ('root')}>
 				<LocationsByApp hideModal={hideModal} params={params} showModal={showModal}/>
@@ -200,9 +196,8 @@ const LocationsByAppModal = (params) => {
 			style={{background: '#22415e', padding: 5}}
 			onClick={showModal}
 		>
-			View Locations
+			View
 		</Button>
 	);
 };
-
 export default LocationsByAppModal;

@@ -48,7 +48,7 @@ const columns = [
 	{field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1},
 	{
 		field: 'thisApplicationValue',
-		headerName: 'App Value',
+		headerName: 'This App Value',
 		type: 'number',
 		minWidth: 100,
 		flex: 1,
