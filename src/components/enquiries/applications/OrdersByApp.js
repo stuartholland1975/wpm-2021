@@ -32,6 +32,7 @@ query GetAppByOrder($applicationId: Int!) {
       applicationId
       orderId
 	  cumulativeApplicationValue
+	  prevCumulativeApplicationValue
 	  orderValue
     }
   }
@@ -44,6 +45,14 @@ const columns = [
 	{field: 'projectTitle', headerName: 'Project Title', minWidth: 100, flex: 1},
 	{field: 'locationCount', headerName: 'Locations', type: 'number', minWidth: 100, flex: 1},
 	{field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1},
+	{
+		field: 'prevCumulativeApplicationValue',
+		headerName: 'Prev Cum App Value',
+		type: 'number',
+		minWidth: 100,
+		flex: 1,
+		cellClassName: 'grid-bold-font'
+	},
 	{
 		field: 'thisApplicationValue',
 		headerName: 'This App Value',
@@ -95,6 +104,7 @@ const OrdersByApp = () => {
 					...item,
 					thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
 					cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue),
+					prevCumulativeApplicationValue: formatNumberTwoDecimals (item.prevCumulativeApplicationValue),
 					orderValue: formatNumberTwoDecimals (item.orderValue),
 					id: uuidv4 ()
 				}))}
