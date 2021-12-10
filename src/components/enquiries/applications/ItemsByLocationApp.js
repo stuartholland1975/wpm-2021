@@ -45,7 +45,7 @@ const columns = [
 	{field: 'orderValue', headerName: 'Order Value', type: 'number', flex: 1},
 ]
 
-const ItemsByLocationApp = ({selections, data}) => {
+const ItemsByLocationApp = ({selections, data, images}) => {
 	const classes = useStyles ()
 	const [tableData, setTableData] = React.useState ([])
 	const {loading} = useQuery (GET_APP_LOCATION_ITEMS, {
@@ -67,13 +67,12 @@ const ItemsByLocationApp = ({selections, data}) => {
 				className={classes.root}
 				rows={tableData}
 				columns={columns}
-				pageSize={5}
+				pageSize={images.length > 0 ? 5 : 20}
 				density={'compact'}
 				autoHeight={true}
 				disableSelectionOnClick
 			/>
 		</Box>
-
 	)
 }
 export default ItemsByLocationApp;

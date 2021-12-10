@@ -8,7 +8,7 @@ import ReactModal from 'react-modal';
 import {useModal} from "react-modal-hook";
 import ItemsByLocationApp from "./ItemsByLocationApp";
 import ImageViewer from "../../ui-components/image-viewer/ImageViewer";
-
+import CancelButton from "../../ui-components/buttons/CancelButton";
 
 const GET_APP_BY_LOCATION = gql`
 query GetAppByLocation($applicationId:Int!, $orderId:Int!) {
@@ -49,7 +49,6 @@ query GetAppLocationImages($locationId:Int!) {
     }
   }
 }
-
 `
 
 const useStyles = makeStyles ({
@@ -125,22 +124,19 @@ const LocationsByApp = ({hideModal, params}) => {
 	const [images, setImages] = React.useState (false)
 	const {loading} = useQuery (GET_APP_BY_LOCATION, {
 		variables: {applicationId: params.row.applicationId, orderId: params.row.orderId},
-		//	notifyOnNetworkStatusChange: true,
 		fetchPolicy: 'network-only',
 		onCompleted: data => setTableData (data.applicationSummarySitelocationWithCumulativeValues.nodes.map (item => ({
 			...item,
-			//	id: uuidv4 (),
 			thisApplicationValue: formatNumberTwoDecimals (Number (item.thisApplicationValue)),
 			cumulativeApplicationValue: formatNumberTwoDecimals (Number (item.cumulativeApplicationValue)),
 			prevCumulativeApplicationValue: formatNumberTwoDecimals (Number (item.prevCumulativeApplicationValue)),
 			orderValue: formatNumberTwoDecimals (Number (item.orderValue))
 		})))
 	})
-	//console.log (params.row.orderId, selectedApplication, params.row.applicationId, data && data.applicationSummarySitelocationWithCumulativeValues.nodes)
+
 	const [getImages] = useLazyQuery (GET_LOCATION_IMAGES, {
 		fetchPolicy: 'network-only',
 		onCompleted: data => {
-			console.log (data)
 			setImages (data)
 		}
 	})
@@ -148,9 +144,14 @@ const LocationsByApp = ({hideModal, params}) => {
 
 	return (
 		<div style={{width: '100%', height: '30%'}}>
-			<Button onClick={hideModal}>
-				CLOSE WINDOW
-			</Button>
+
+			<Box>
+
+				<Button onClick={hideModal}>
+					<h4 style={{color: 'red'}}>CLOSE WINDOW</h4>
+				</Button>
+				<h2 style={{color: 'navy', textAlign: 'center', textDecoration: 'underline'}}>{tableData[0]?.projectTitle}</h2>
+			</Box>
 			<h3 style={{textDecoration: 'underline'}}>APPLICATION LOCATION DETAIL</h3>
 			<DataGrid
 				className={classes.root}
@@ -166,19 +167,18 @@ const LocationsByApp = ({hideModal, params}) => {
 						{
 							variables: {locationId: params.row.id}
 						}
-					).then (res => setImages (res.data))
+					)
 				}}
 				disableSelectionOnClick
 			/>
 			<>
-				{showDetail && <ItemsByLocationApp data={selectedLocation} selections={params.row} s/>}
+				{showDetail && <ItemsByLocationApp data={selectedLocation} selections={params.row} images={images}/>}
 				{showDetail && images && <Box m={5}>
 					<ImageViewer data={images} height={400}/>
 				</Box>}
 			</>
 		</div>
 	)
-
 };
 
 const LocationsByAppModal = (params) => {

@@ -6,7 +6,7 @@ import {gridSelectionsVar} from "../../../cache";
 import {CircularProgress} from "@mui/material";
 import {formatNumberTwoDecimals} from "../../../functions/commonFunctions";
 import LocationsByAppModal from "./LocationsByApp";
-
+import {v4 as uuidv4} from 'uuid'
 
 const useStyles = makeStyles ({
 	root: {
@@ -24,7 +24,6 @@ query GetAppByOrder($applicationId: Int!) {
   ) {
     nodes {
       areaDescription
-      imageCount
       itemCount
       locationCount
       orderNumber
@@ -32,20 +31,19 @@ query GetAppByOrder($applicationId: Int!) {
       thisApplicationValue
       applicationId
       orderId
-	  id
 	  cumulativeApplicationValue
 	  orderValue
     }
   }
 }
 `
+
 const columns = [
 	{field: 'areaDescription', headerName: 'Area Description', minWidth: 150, flex: 1},
 	{field: 'orderNumber', headerName: 'Order Number', minWidth: 80, flex: 1},
 	{field: 'projectTitle', headerName: 'Project Title', minWidth: 100, flex: 1},
 	{field: 'locationCount', headerName: 'Locations', type: 'number', minWidth: 100, flex: 1},
 	{field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1},
-	{field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1},
 	{
 		field: 'thisApplicationValue',
 		headerName: 'This App Value',
@@ -79,16 +77,15 @@ const columns = [
 ]
 
 const OrdersByApp = () => {
-
 	const classes = useStyles ()
 	const selectedApplication = useReactiveVar (gridSelectionsVar).selectedApplication
 	const {loading, data} = useQuery (GET_APP_BY_ORDER, {
 		variables: {applicationId: selectedApplication},
 		fetchPolicy: 'network-only',
-
 	})
 
 	if ( loading ) return <CircularProgress/>
+
 	return (
 		<div style={{height: 600, width: '100%', marginTop: 50}}>
 			<h3 style={{textDecoration: 'underline'}}>APPLICATION SUMMARY BY ORDER NUMBER</h3>
@@ -98,12 +95,11 @@ const OrdersByApp = () => {
 					...item,
 					thisApplicationValue: formatNumberTwoDecimals (item.thisApplicationValue),
 					cumulativeApplicationValue: formatNumberTwoDecimals (item.cumulativeApplicationValue),
-					orderValue: formatNumberTwoDecimals (item.orderValue)
+					orderValue: formatNumberTwoDecimals (item.orderValue),
+					id: uuidv4 ()
 				}))}
 				columns={columns}
 				pageSize={10}
-				rowsPerPageOptions={[5, 10, 15, 20]}
-				//	disableSelectionOnClick
 			/>
 		</div>
 	);
