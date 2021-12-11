@@ -37,9 +37,10 @@ const GET_ALL_APPLICATIONS = gql`
 `;
 
 const CLOSE_CURRENT_APPLICATION = gql`
-	mutation CloseCurrentApplication($id: Int!) {
+	mutation CloseCurrentApplication($id:Int!, $ref:String!, $dt: Datetime!) {
 		updateApplication(
-			input: { patch: { applicationCurrent: false, applicationOpen: false }, id: $id }
+			input: { patch: { applicationCurrent: false, applicationOpen: false, finalisationReference: $ref
+        dateFinalised: $dt }, id: $id }
 		) {
 			application {
       applicationWithValueById {
@@ -80,6 +81,22 @@ mutation SubmitApplication($id:Int!, $ref:String!, $dt: Datetime!) {
 }
 `
 
+const REMOVE_APPLICATION_SUBMISSION_FLAG = gql`
+mutation RemoveApplicationSubmissionFlag($id:Int!) {
+	updateApplication(
+		input: {
+			patch: {
+				applicationSubmitted: false
+			}
+			id:$id
+		}
+	){
+		clientMutationId
+	}
+}
+`
+
+
 function Item(props) {
 	const { sx, ...other } = props;
 	return (
@@ -99,8 +116,26 @@ function Item(props) {
 
 const ApplicationAdminButtons = ({ currentApplication }) => {
 	const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
-	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION, {});
-	const [submitApp] = useMutation(SUBMIT_APPLICATION)
+
+	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION);
+
+	const [submitApp] = useMutation(SUBMIT_APPLICATION, {
+		refetchQueries: [
+			{
+				query: GET_ALL_APPLICATIONS
+			}
+		],
+		awaitRefetchQueries: true
+	})
+
+	const [reverseSubmitApp] = useMutation(REMOVE_APPLICATION_SUBMISSION_FLAG, {
+		refetchQueries: [
+			{
+				query: GET_ALL_APPLICATIONS
+			}
+		],
+		awaitRefetchQueries: true
+	})
 
 	const handleCloseApplication = () => {
 		confirmAlert({
@@ -110,7 +145,7 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 				{
 					label: 'SUBMIT',
 					onClick: () =>
-						closeApp({ variables: { id: currentApplication[0].id } })
+						closeApp({ variables: { id: currentApplication[0].id, ref: uuidv4(), dt: new Date() } })
 				},
 				{
 					label: 'CANCEL',
@@ -122,23 +157,53 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 	const handleSubmitApplication = () => {
 
 		confirmAlert({
-			title: 'Confirm Submission',
-			message: `Are You Sure You Want To Submit ${selectedApplication.applicationReference} ?`,
-			buttons: [
-				{
-					label: 'SUBMIT',
-					onClick: () =>
-						submitApp({
+			customUI: ({ onClose }) => {
+				return (
+					<div className="custom-ui">
+						<h1>Confirm Submission</h1>
+						<p>{`Are You Sure You Want To Submit ${selectedApplication.applicationReference} ?`}</p>
+						<button onClick={() => submitApp({
 							variables: { id: selectedApplication.id, ref: uuidv4(), dt: new Date() }
-						})
-				},
-				{
-					label: 'CANCEL',
-				},
-			],
+						}).then(() => { onClose(); gridSelectionsVar({ ...gridSelectionsVar(), selectedApplication: false }) })}
+						>SUBMIT
+						</button>
+						<button onClick={() => {
+							onClose()
+						}}
+						>CANCEL
+						</button>
+					</div>
+				);
+			}
 		});
 
 	};
+
+	const handleReverseSubmitApplication = () => {
+
+		confirmAlert({
+			customUI: ({ onClose }) => {
+				return (
+					<div className="custom-ui">
+						<h1>Confirm Submission</h1>
+						<p>{`Are You Sure You Want To Reverse Submit ${selectedApplication.applicationReference} ?`}</p>
+						<button onClick={() => reverseSubmitApp({
+							variables: { id: selectedApplication.id }
+						}).then(() => { onClose(); gridSelectionsVar({ ...gridSelectionsVar(), selectedApplication: false }) })}
+						>REVERSE SUBMIT
+						</button>
+						<button onClick={() => {
+							onClose()
+						}}
+						>CANCEL
+						</button>
+					</div>
+				);
+			}
+		});
+
+	};
+
 
 	return (
 		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}>
@@ -152,19 +217,20 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 				<ActionButton
 					label='submit application'
 					onClick={handleSubmitApplication}
-				//	disabled={selectedPeriod !== false}
+					disabled={selectedApplication === false || selectedApplication?.applicationSubmitted}
 				/>
 			</Item>
 			<Item>
-				<EditButton
-					label='edit application'
-				//			disabled={selectedPeriod === false
+				<ActionButton
+					label='remove submission flag'
+					disabled={selectedApplication === false || selectedApplication?.applicationSubmitted === false}
+					onClick={handleReverseSubmitApplication}
 				/>
 			</Item>
 			<Item>
 				<DeleteButton
 					label='delete application'
-				//	disabled={selectedPeriod === false}
+					disabled={selectedApplication === false}
 				/>
 			</Item>
 		</Box>
