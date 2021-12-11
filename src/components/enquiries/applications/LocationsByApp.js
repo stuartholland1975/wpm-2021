@@ -8,7 +8,6 @@ import ReactModal from 'react-modal';
 import { useModal } from "react-modal-hook";
 import ItemsByLocationApp from "./ItemsByLocationApp";
 import ImageViewer from "../../ui-components/image-viewer/ImageViewer";
-import CancelButton from "../../ui-components/buttons/CancelButton";
 
 const GET_APP_BY_LOCATION = gql`
 query GetAppByLocation($applicationId:Int!, $orderId:Int!) {
@@ -138,6 +137,7 @@ const LocationsByApp = ({ hideModal, params }) => {
 		fetchPolicy: 'network-only',
 		onCompleted: data => {
 			setImages(data)
+
 		}
 	})
 	if (loading) return <CircularProgress />

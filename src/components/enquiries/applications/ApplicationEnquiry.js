@@ -1,10 +1,11 @@
+/** @format */
+
 import React from 'react';
-import { gql, useQuery, useReactiveVar } from '@apollo/client'
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { CircularProgress, Box } from '@mui/material';
 import ApplicationsGrid from '../../grids/ApplicationsGrid';
 import { gridSelectionsVar } from '../../../cache';
-import ApplicationSummary from "./ApplicationSummary";
-
+import ApplicationSummary from './ApplicationSummary';
 
 const GET_ALL_APPLICATIONS = gql`
 	query GetAllApplications {
@@ -25,31 +26,36 @@ const GET_ALL_APPLICATIONS = gql`
 				locationCount
 				orderCount
 				submissionReference
+				areaCount
 			}
 		}
 	}
 `;
 
 const ApplicationEnquiry = () => {
-	const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
+	const selectedApplication =
+		useReactiveVar(gridSelectionsVar).selectedApplication;
 	const { loading, data } = useQuery(GET_ALL_APPLICATIONS, {
-		fetchPolicy: "network-only"
-	})
+		fetchPolicy: 'network-only',
+	});
 
 	React.useEffect(() => {
-		return () => gridSelectionsVar({
-			...gridSelectionsVar(),
-			selectedApplication: false
-		})
-	}, [])
+		return () =>
+			gridSelectionsVar({
+				...gridSelectionsVar(),
+				selectedApplication: false,
+			});
+	}, []);
 
-	if (loading) return <CircularProgress />
+	if (loading) return <CircularProgress />;
 
 	return (
 		<Box>
-			<ApplicationsGrid data={data.applicationSummaryWithCumulativeValues.nodes} pageSize={10} />
-			{selectedApplication && <ApplicationSummary />
-			}
+			<ApplicationsGrid
+				data={data.applicationSummaryWithCumulativeValues.nodes}
+				pageSize={10}
+			/>
+			{selectedApplication && <ApplicationSummary />}
 		</Box>
 	);
 };

@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRendersCount } from 'react-use';
 import BottomNavTest from './BottomNavTest'
+import ExportToExcel from './ExportToExcel';
 
 const TestComponent = () => {
   const rendersCount = useRendersCount();
@@ -12,7 +13,7 @@ const TestComponent = () => {
       <h1>
         TEST
       </h1>
-      <BottomNavTest />
+      <ExportToExcel />
     </>
   );
 };

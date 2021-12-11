@@ -1,15 +1,20 @@
+/** @format */
+
 import { AgGridReact } from 'ag-grid-react';
-import { formatDateGrid, formatNumberGridTwoDecimals, } from '../../functions/commonFunctions';
-import { gridSelectionsVar } from "../../cache";
+import {
+	formatDateGrid,
+	formatNumberGridTwoDecimals,
+} from '../../functions/commonFunctions';
+import { gridSelectionsVar } from '../../cache';
 
 const cellClassRulesSubmitted = {
-	"cell-pass": params => params.value === true,
-	"cell-warning": params => params.value === false
+	'cell-pass': (params) => params.value === true,
+	'cell-warning': (params) => params.value === false,
 };
 
 const cellClassRulesOpen = {
-	"cell-pass": params => params.value === true,
-}
+	'cell-pass': (params) => params.value === true,
+};
 
 const columnDefs = [
 	{
@@ -52,6 +57,11 @@ const columnDefs = [
 		valueFormatter: function (params) {
 			return params.value ? 'Yes' : 'No';
 		},
+	},
+	{
+		headerName: 'Areas',
+		field: 'areaCount',
+		type: 'rightAligned',
 	},
 	{
 		headerName: 'Orders',
@@ -126,14 +136,13 @@ const ApplicationsGrid = ({ data, pageSize }) => {
 
 	return (
 		<>
-
 			<div className='ag-theme-custom-react' style={{ margin: 5 }}>
 				<AgGridReact
 					gridOptions={gridOptions}
 					rowData={data}
 					onGridReady={(params) => params.api.sizeColumnsToFit()}
 					onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
-				//  reactUi={true}
+					//  reactUi={true}
 				/>
 			</div>
 		</>
