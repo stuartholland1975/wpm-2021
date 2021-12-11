@@ -1,11 +1,11 @@
 import React from 'react';
-import {DataGrid} from '@mui/x-data-grid'
-import {makeStyles} from '@mui/styles';
-import {useQuery, gql, useLazyQuery} from "@apollo/client";
-import {CircularProgress, Box, Button} from "@mui/material";
-import {formatNumberTwoDecimals} from "../../../functions/commonFunctions";
+import { DataGrid } from '@mui/x-data-grid'
+import { makeStyles } from '@mui/styles';
+import { useQuery, gql, useLazyQuery } from "@apollo/client";
+import { CircularProgress, Box, Button } from "@mui/material";
+import { formatNumberTwoDecimals } from "../../../functions/commonFunctions";
 import ReactModal from 'react-modal';
-import {useModal} from "react-modal-hook";
+import { useModal } from "react-modal-hook";
 import ItemsByLocationApp from "./ItemsByLocationApp";
 import ImageViewer from "../../ui-components/image-viewer/ImageViewer";
 import CancelButton from "../../ui-components/buttons/CancelButton";
@@ -51,7 +51,7 @@ query GetAppLocationImages($locationId:Int!) {
 }
 `
 
-const useStyles = makeStyles ({
+const useStyles = makeStyles({
 	root: {
 		background: "#e5d8d8",
 		borderWidth: 1,
@@ -60,12 +60,12 @@ const useStyles = makeStyles ({
 })
 
 const columns = [
-	{field: 'orderNumber', headerName: 'Order Number', minWidth: 150, flex: 1, cellClassName: 'grid-bold - font'},
-	{field: 'projectTitle', headerName: 'Project Title', minWidth: 80, flex: 1},
-	{field: 'worksheetReference', headerName: 'Worksheet Reference', minWidth: 80, flex: 1},
-	{field: 'reference', headerName: 'Reference', type: 'number', minWidth: 100, flex: 1},
-	{field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1},
-	{field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1},
+	{ field: 'orderNumber', headerName: 'Order Number', minWidth: 150, flex: 1, cellClassName: 'grid-bold - font' },
+	{ field: 'projectTitle', headerName: 'Project Title', minWidth: 80, flex: 1 },
+	{ field: 'worksheetReference', headerName: 'Worksheet Reference', minWidth: 80, flex: 1 },
+	{ field: 'reference', headerName: 'Reference', type: 'number', minWidth: 100, flex: 1 },
+	{ field: 'itemCount', headerName: 'Items', type: 'number', minWidth: 80, flex: 1 },
+	{ field: 'imageCount', headerName: 'Images', type: 'number', minWidth: 80, flex: 1 },
 	{
 		field: 'prevCumulativeApplicationValue',
 		headerName: 'Prev Cum App Value',
@@ -108,7 +108,7 @@ const columns = [
 				size={'small'}
 				variant="contained"
 				fullWidth
-				style={{background: '#22415e', padding: 5, margin: 5}}
+				style={{ background: '#22415e', padding: 5, margin: 5 }}
 			>
 				view detail
 			</Button>
@@ -116,43 +116,43 @@ const columns = [
 	}
 ]
 
-const LocationsByApp = ({hideModal, params}) => {
-	const classes = useStyles ()
-	const [tableData, setTableData] = React.useState ([])
-	const [showDetail, setShowDetail] = React.useState (false)
-	const [selectedLocation, setSelectedLocation] = React.useState ({})
-	const [images, setImages] = React.useState (false)
-	const {loading} = useQuery (GET_APP_BY_LOCATION, {
-		variables: {applicationId: params.row.applicationId, orderId: params.row.orderId},
+const LocationsByApp = ({ hideModal, params }) => {
+	const classes = useStyles()
+	const [tableData, setTableData] = React.useState([])
+	const [showDetail, setShowDetail] = React.useState(false)
+	const [selectedLocation, setSelectedLocation] = React.useState({})
+	const [images, setImages] = React.useState(false)
+	const { loading } = useQuery(GET_APP_BY_LOCATION, {
+		variables: { applicationId: params.row.applicationId, orderId: params.row.orderId },
 		fetchPolicy: 'network-only',
-		onCompleted: data => setTableData (data.applicationSummarySitelocationWithCumulativeValues.nodes.map (item => ({
+		onCompleted: data => setTableData(data.applicationSummarySitelocationWithCumulativeValues.nodes.map(item => ({
 			...item,
-			thisApplicationValue: formatNumberTwoDecimals (Number (item.thisApplicationValue)),
-			cumulativeApplicationValue: formatNumberTwoDecimals (Number (item.cumulativeApplicationValue)),
-			prevCumulativeApplicationValue: formatNumberTwoDecimals (Number (item.prevCumulativeApplicationValue)),
-			orderValue: formatNumberTwoDecimals (Number (item.orderValue))
+			thisApplicationValue: formatNumberTwoDecimals(Number(item.thisApplicationValue)),
+			cumulativeApplicationValue: formatNumberTwoDecimals(Number(item.cumulativeApplicationValue)),
+			prevCumulativeApplicationValue: formatNumberTwoDecimals(Number(item.prevCumulativeApplicationValue)),
+			orderValue: formatNumberTwoDecimals(Number(item.orderValue))
 		})))
 	})
 
-	const [getImages] = useLazyQuery (GET_LOCATION_IMAGES, {
+	const [getImages] = useLazyQuery(GET_LOCATION_IMAGES, {
 		fetchPolicy: 'network-only',
 		onCompleted: data => {
-			setImages (data)
+			setImages(data)
 		}
 	})
-	if ( loading ) return <CircularProgress/>
+	if (loading) return <CircularProgress />
 
 	return (
-		<div style={{width: '100%', height: '30%'}}>
+		<div style={{ width: '100%', height: '30%' }}>
 
 			<Box>
 
-				<Button onClick={hideModal}>
-					<h4 style={{color: 'red'}}>CLOSE WINDOW</h4>
+				<Button onClick={hideModal} variant='contained' size='small' sx={{ backgroundColor: 'darkred' }}>
+					CLOSE WINDOW
 				</Button>
-				<h2 style={{color: 'navy', textAlign: 'center', textDecoration: 'underline'}}>{tableData[0]?.projectTitle}</h2>
+				<h2 style={{ color: 'navy', textAlign: 'center', textDecoration: 'underline' }}>{tableData[0]?.projectTitle}</h2>
 			</Box>
-			<h3 style={{textDecoration: 'underline'}}>APPLICATION LOCATION DETAIL</h3>
+			<h3 style={{ textDecoration: 'underline' }}>APPLICATION LOCATION DETAIL</h3>
 			<DataGrid
 				className={classes.root}
 				rows={tableData}
@@ -161,20 +161,20 @@ const LocationsByApp = ({hideModal, params}) => {
 				density={'compact'}
 				autoHeight={true}
 				onRowClick={params => {
-					setSelectedLocation (params.row)
-					setShowDetail (true)
-					getImages (
+					setSelectedLocation(params.row)
+					setShowDetail(true)
+					getImages(
 						{
-							variables: {locationId: params.row.id}
+							variables: { locationId: params.row.id }
 						}
 					)
 				}}
 				disableSelectionOnClick
 			/>
 			<>
-				{showDetail && <ItemsByLocationApp data={selectedLocation} selections={params.row} images={images}/>}
+				{showDetail && <ItemsByLocationApp data={selectedLocation} selections={params.row} images={images} />}
 				{showDetail && images && <Box m={5}>
-					<ImageViewer data={images} height={400}/>
+					<ImageViewer data={images} height={400} />
 				</Box>}
 			</>
 		</div>
@@ -182,10 +182,10 @@ const LocationsByApp = ({hideModal, params}) => {
 };
 
 const LocationsByAppModal = (params) => {
-	const [showModal, hideModal] = useModal (() => {
+	const [showModal, hideModal] = useModal(() => {
 		return (
-			<ReactModal isOpen appElement={document.getElementById ('root')}>
-				<LocationsByApp hideModal={hideModal} params={params} showModal={showModal}/>
+			<ReactModal isOpen appElement={document.getElementById('root')}>
+				<LocationsByApp hideModal={hideModal} params={params} showModal={showModal} />
 			</ReactModal>
 		)
 	});
@@ -193,7 +193,7 @@ const LocationsByAppModal = (params) => {
 		<Button
 			size={'small'}
 			variant="contained"
-			style={{background: '#22415e', padding: 5}}
+			style={{ background: '#22415e', padding: 5 }}
 			onClick={showModal}
 		>
 			View
