@@ -117,7 +117,7 @@ const ApplicationsGrid = ({ data, pageSize }) => {
 		if (selected.length > 0) {
 			gridSelectionsVar({
 				...gridSelectionsVar(),
-				selectedApplication: selected[0].data.id,
+				selectedApplication: selected[0].data,
 			});
 		} else {
 			gridSelectionsVar({ ...gridSelectionsVar(), selectedApplication: false });

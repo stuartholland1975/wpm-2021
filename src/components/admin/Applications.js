@@ -3,16 +3,18 @@
 
 import React from 'react';
 import ApplicationsGrid from '../grids/ApplicationsGrid';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { CircularProgress, Box } from '@mui/material';
 import ActionButton from '../ui-components/buttons/ActionButton';
 import EditButton from '../ui-components/buttons/EditButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import { confirmAlert } from "react-confirm-alert";
+import { v4 as uuidv4 } from 'uuid'
+import { gridSelectionsVar } from '../../cache';
 
 const GET_ALL_APPLICATIONS = gql`
 	query GetAllApplications {
-		applicationWithValues {
+		applicationSummaryWithCumulativeValues {
 			nodes {
 				applicationCurrent
 				applicationDate
@@ -20,7 +22,7 @@ const GET_ALL_APPLICATIONS = gql`
 				applicationOpen
 				applicationReference
 				applicationSubmitted
-				applicationValue
+				thisApplicationValue
 				dateSubmitted
 				id
 				imageCount
@@ -28,6 +30,7 @@ const GET_ALL_APPLICATIONS = gql`
 				locationCount
 				orderCount
 				submissionReference
+				cumulativeApplicationValue
 			}
 		}
 	}
@@ -60,6 +63,23 @@ const CLOSE_CURRENT_APPLICATION = gql`
 	}
 `;
 
+const SUBMIT_APPLICATION = gql`
+mutation SubmitApplication($id:Int!, $ref:String!, $dt: Datetime!) {
+  updateApplication(
+    input: {
+      patch: {
+        applicationSubmitted: true
+        submissionReference: $ref
+        dateSubmitted: $dt
+      }
+      id: $id
+    }
+  ) {
+    clientMutationId
+  }
+}
+`
+
 function Item(props) {
 	const { sx, ...other } = props;
 	return (
@@ -78,11 +98,13 @@ function Item(props) {
 }
 
 const ApplicationAdminButtons = ({ currentApplication }) => {
+	const selectedApplication = useReactiveVar(gridSelectionsVar).selectedApplication
 	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION, {});
+	const [submitApp] = useMutation(SUBMIT_APPLICATION)
 
 	const handleCloseApplication = () => {
 		confirmAlert({
-			title: 'Confirm Submission',
+			title: 'Confirm Close Application',
 			message: `Are You Sure You Want To Close ${currentApplication[0].applicationReference} ?`,
 			buttons: [
 				{
@@ -98,7 +120,23 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 	};
 
 	const handleSubmitApplication = () => {
-		console.log(currentApplication);
+
+		confirmAlert({
+			title: 'Confirm Submission',
+			message: `Are You Sure You Want To Submit ${selectedApplication.applicationReference} ?`,
+			buttons: [
+				{
+					label: 'SUBMIT',
+					onClick: () =>
+						submitApp({
+							variables: { id: selectedApplication.id, ref: uuidv4(), dt: new Date() }
+						})
+				},
+				{
+					label: 'CANCEL',
+				},
+			],
+		});
 
 	};
 
@@ -137,7 +175,7 @@ const Applications = () => {
 	const [gridData, setGridData] = React.useState([]);
 	const { loading, refetch } = useQuery(GET_ALL_APPLICATIONS, {
 		fetchPolicy: 'cache-and-network',
-		onCompleted: (data) => setGridData(data.applicationWithValues.nodes),
+		onCompleted: (data) => setGridData(data.applicationSummaryWithCumulativeValues.nodes),
 	});
 
 	const currentApplication = gridData.filter((obj) => obj.applicationCurrent);
