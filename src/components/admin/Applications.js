@@ -123,7 +123,14 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 	const selectedApplication =
 		useReactiveVar(gridSelectionsVar).selectedApplication;
 
-	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION);
+	const [closeApp] = useMutation(CLOSE_CURRENT_APPLICATION, {
+		refetchQueries: [
+			{
+				query: GET_ALL_APPLICATIONS,
+			},
+		],
+		awaitRefetchQueries: true,
+	});
 
 	const [submitApp] = useMutation(SUBMIT_APPLICATION, {
 		refetchQueries: [

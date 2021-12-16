@@ -5,44 +5,7 @@ import SimpleDateEditor from './cell-renderers/SimpleDateEditor';
 import SimpleNumericEditor from "./cell-renderers/SimpleNumericEditor";
 import SimpleSelectEditor from './cell-renderers/SimpleSelectEditor'
 
-/*
-export const CREATE_BULK_WORKSHEETS = gql`
-  mutation CreateBulkWorksheets(
-    $input: WorksheetCreateBulkWorksheetsInput!
-    $orderId: Int!
-  ) {
-    worksheetCreateBulkWorksheets(input: $input) {
-      query {
-        orderheaderWithValueById(id: $orderId) {
-          area
-          averageItemValue
-          averageLocationValue
-          id
-          itemCount
-          itemCountBoq
-          itemCountVarn
-          itemsComplete
-          itemsCompleteBoq
-          itemsCompleteVarn
-          locationCount
-          orderNumber
-          orderValueLabour
-          orderValueMaterials
-          orderValueOther
-          orderValueTotal
-          orderValueTotalApplied
-          orderValueTotalBoq
-          orderValueTotalComplete
-          orderValueTotalVarn
-          projectTitle
-          workType
-          issuedDate
-        }
-      }
-    }
-  }
-`;
-*/
+
 
 const WorkProgressGrid = ({ data, supervisors, currentPeriod }) => {
   /** @namespace params.data.valueOs **/
@@ -131,7 +94,6 @@ const WorkProgressGrid = ({ data, supervisors, currentPeriod }) => {
     defaultColDef: defaultColDef,
     pagination: false,
     singleClickEdit: true,
-    stopEditingWhenGridLosesFocus: false,
   };
 
   const onDataRendered = (params) => {
@@ -150,7 +112,7 @@ const WorkProgressGrid = ({ data, supervisors, currentPeriod }) => {
           rowData={data}
           onFirstDataRendered={onDataRendered}
           onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
-        //reactUi={true}
+          reactUi={false}
         //  getRowNodeId={data => data.id}
         />
       </div>

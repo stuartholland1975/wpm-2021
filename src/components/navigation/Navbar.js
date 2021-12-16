@@ -103,6 +103,16 @@ export default function NavBar() {
             >
               TEST
             </IconButton>
+            <IconButton
+              color='inherit'
+              sx={{ fontSize: 18 }}
+              component={NavLink}
+              to='/login'
+              exact
+              activeStyle={{ color: 'blue' }}
+            >
+              LOGIN
+            </IconButton>
           </div>
           <Typography
             sx={{ ml: 'auto', mr: -40, color: 'navy', fontWeight: 'bold' }}

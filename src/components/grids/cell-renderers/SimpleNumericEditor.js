@@ -1,9 +1,9 @@
-import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState} from 'react';
-import {numberOnly} from "../../../functions/commonFunctions";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { numberOnly } from "../../../functions/commonFunctions";
 
 export default forwardRef((props, ref) => {
   const inputRef = useRef();
-  const {qtyOs} = props.data
+  const { qtyOs } = props.data
   const [value, setValue] = useState(qtyOs)
 
 
@@ -25,15 +25,15 @@ export default forwardRef((props, ref) => {
     }
   }, []);
 
-  useEffect(() => {
-    inputRef.current.focus()
-    inputRef.current.select()
-  }, [])
 
   useImperativeHandle(ref, () => {
     return {
       getValue() {
         return value;
+      },
+      afterGuiAttached: () => {
+        inputRef.current.focus();
+        inputRef.current.select();
       }
     };
   });

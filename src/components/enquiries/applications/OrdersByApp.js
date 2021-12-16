@@ -122,17 +122,17 @@ const OrdersByApp = ({ orderData }) => {
 			setTableData(() =>
 				orderData
 					? orderData.map((item) => ({
+						...item,
+						id: uuidv4(),
+						valueApplied: formatNumberTwoDecimals(item.valueApplied),
+					}))
+					: data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map(
+						(item) => ({
 							...item,
 							id: uuidv4(),
 							valueApplied: formatNumberTwoDecimals(item.valueApplied),
-					  }))
-					: data.applicationSummaryOrderheaderWithCumulativeValues.nodes.map(
-							(item) => ({
-								...item,
-								id: uuidv4(),
-								valueApplied: formatNumberTwoDecimals(item.valueApplied),
-							}),
-					  ),
+						}),
+					),
 			),
 	});
 

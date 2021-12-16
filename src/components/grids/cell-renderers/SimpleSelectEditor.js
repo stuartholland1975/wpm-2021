@@ -5,7 +5,7 @@ import React, {
   useRef,
 
 } from 'react';
-import {MenuItem, Select} from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 
 
 export default forwardRef((props, ref) => {
@@ -18,7 +18,7 @@ export default forwardRef((props, ref) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   function handleKeyDown(e) {
     e.key === "ArrowDown" && setOpen(true);
@@ -63,7 +63,7 @@ export default forwardRef((props, ref) => {
       ref={inputRef}
       fullWidth
       open={open}
-      style={{height: 30}}
+      style={{ height: 30 }}
       displayEmpty={true}
       renderValue={() => value.displayName}
       onClose={handleClose}

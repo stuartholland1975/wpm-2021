@@ -35,18 +35,18 @@ const OrderItemsGrid = ({ data }) => {
         headerName: 'Item Type',
         field: 'typeShort',
         maxWidth: 120,
-        cellStyle: { 'text-align': 'left' }
+        cellStyle: { textAlign: 'left' }
       },
       { headerName: 'Worksheet', field: 'worksheetReference', cellStyle: { 'text-align': 'left' } },
       {
         headerName: 'Activity Code',
         field: 'activityCode',
-        cellStyle: { 'text-align': 'left' }
+        cellStyle: { textAlign: 'left' }
       },
       {
         headerName: 'Activity Description',
         field: 'activityDescription',
-        cellStyle: { 'text-align': 'left' },
+        cellStyle: { textAlign: 'left' },
         // editable: true,
       },
       {

@@ -6,6 +6,7 @@ import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useReactiveVar } from '@apollo/client';
 
 const rowClassRules = {
   'complete-row': (params) => params.data.complete,
@@ -31,18 +32,20 @@ const OrderLocationsGrid = ({ data }) => {
   const [value, setValue] = React.useState(false);
   const [gridApi, setGridApi] = React.useState(null);
 
+  const gridSelections = useReactiveVar(gridSelectionsVar)
+
   const columnDefs = React.useMemo(() =>
     [
       { field: 'id', hide: true, sort: 'asc' },
       {
         headerName: 'Worksheet Ref',
         field: 'worksheetReference',
-        cellStyle: { 'text-align': 'left' }
+        cellStyle: { textAlign: 'left' }
       },
       {
         headerName: 'Location',
         field: 'reference',
-        cellStyle: { 'text-align': 'left' }
+        cellStyle: { textAlign: 'left' }
       },
       {
         headerName: 'Item Count',
@@ -159,6 +162,8 @@ const OrderLocationsGrid = ({ data }) => {
 
   };
 
+  useEffect(() => console.log(gridSelections))
+
   useEffect(() => {
     if (gridApi) {
       gridApi.onFilterChanged();
@@ -181,7 +186,7 @@ const OrderLocationsGrid = ({ data }) => {
   useEffect(() => {
     gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
   }, []);
-
+  console.log(gridSelectionsVar())
   return (
     <div style={{ marginLeft: 5, marginRight: 5 }}>
       <AgGridReact

@@ -89,11 +89,44 @@ export const fixKeys = (fn) => (obj) =>
 			Array.isArray(v)
 				? v.map(fixKeys(fn))
 				: typeof v == 'object'
-				? fixKeys(fn)(v)
-				: v,
+					? fixKeys(fn)(v)
+					: v,
 		]),
 	);
 
+export function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
 export const camelCase = (s) => s.replace(/_(.)/g, (s, c) => c.toUpperCase());
 
+export const snakeCase = (s) => s.replace(/_(.)/g, (s, c) => c.toLowerCase());
+
 export const camelizeKeys = fixKeys(camelCase);
+
+export const SnakeCaseToWords = fixKeys(snakeCase)
+
+function lowerCase(str) {
+	return str.toLowerCase();
+}
+
+/**
+ * "Safer" String.toUpperCase()
+ */
+function upperCase(str) {
+	return str.toUpperCase();
+}
+
+
+export function properCase(str) {
+	return str.split(' ').map((word) => {
+		return word[0].toUpperCase() + word.substring(1);
+	}).join(" ");
+}
+
+//const words = mySentence.split(" ");
+
+//words.map((word) => {
+//	return word[0].toUpperCase() + word.substring(1);
+//}).join(" ");

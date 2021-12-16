@@ -7,7 +7,7 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ApolloClient, ApolloLink, ApolloProvider } from '@apollo/client';
+import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink } from '@apollo/client';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
 import './GridStyles.scss';
@@ -16,14 +16,33 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { cache } from './cache';
 import { ModalProvider } from 'react-modal-hook';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'https://workpm.ddns.net/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 persistCache({
   cache,
-  storage: new LocalStorageWrapper(window.sessionStorage),
+  storage: new LocalStorageWrapper(window.localStorage),
 });
 
 export const client = new ApolloClient({
-  link: ApolloLink.from([
+  link: authLink.concat(httpLink),
+
+  /* ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) =>
@@ -32,13 +51,12 @@ export const client = new ApolloClient({
           )
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
-    }),
-    createUploadLink({
-      uri: 'https://workpm.ddns.net/graphql',
-
-      // credentials: 'include'
-    }),
-  ]),
+    }), */
+  /*  createUploadLink({
+     uri: 'https://workpm.ddns.net/graphql',
+     credentials: 'same-origin'
+   }), 
+ ]),*/
   cache,
 });
 
@@ -87,8 +105,4 @@ function cssHasLoaded(theme) {
 }
 
 initialise();
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
