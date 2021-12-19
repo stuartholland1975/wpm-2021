@@ -4,6 +4,8 @@ import React from 'react';
 import NavigationButton from '../ui-components/buttons/NavigationButton';
 import { Box } from '@mui/material';
 import { useHistory, useLocation } from 'react-router-dom';
+import ActionButton from '../ui-components/buttons/ActionButton';
+import DownloadIcon from '@mui/icons-material/Download';
 
 function Item(props) {
 	const { sx, ...other } = props;
@@ -23,7 +25,7 @@ const OrderAdminButtons = (props) => {
 	let routeMatch = useLocation();
 
 	return (
-		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
+		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2 }}>
 			<Item>
 				<NavigationButton
 					label='locations'
@@ -78,6 +80,15 @@ const OrderAdminButtons = (props) => {
 							pathname: `/orders/admin/images/${history.location.state}`,
 							state: history.location.state,
 						})
+					}
+				/>
+			</Item>
+			<Item>
+				<ActionButton
+					label='Download Workbook'
+					startIcon={<DownloadIcon />}
+					onClick={() =>
+						console.log("WORKBOOK")
 					}
 				/>
 			</Item>

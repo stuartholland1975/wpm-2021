@@ -2,16 +2,9 @@ import React from 'react';
 import { gql, useQuery, useReactiveVar } from '@apollo/client'
 import { CircularProgress } from '@mui/material';
 import { gridSelectionsVar } from '../../../cache';
-import {
-	camelizeKeys,
-	fixKeys,
-	SnakeCaseToWords,
-	capitalizeFirstLetter,
-	properCase
-} from '../../../functions/commonFunctions';
-import { convertDateToLocal, formatNumberTwoDecimals, formatNumberForExcel } from '../../../functions/commonFunctions';
 import XLSX from "xlsx";
 import ActionButton from '../../ui-components/buttons/ActionButton'
+
 
 const GET_APPLICATION_SUBMISSION_DATA = gql`
 query GetApplicationSubmissionData($id:Int!) {
