@@ -2,23 +2,29 @@
 const sharp = require('sharp');
 const PgManyToManyPlugin = require('@graphile-contrib/pg-many-to-many');
 const express = require('express');
-const {postgraphile} = require('postgraphile');
+const { postgraphile } = require('postgraphile');
 const SimplifyInflectionsPlugin = require('@graphile-contrib/pg-simplify-inflector');
 const PgAggregatesPlugin = require('@graphile/pg-aggregates').default;
-//const { tableExtensionPlugin } = require('postgraphile-table-extension-plugin');
-
 require('dotenv').config();
 const PgConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
 const PostGraphileNestedMutations = require('postgraphile-plugin-nested-mutations');
 const path = require('path');
 const PostGraphileUploadFieldPlugin = require('postgraphile-plugin-upload-field');
-const {graphqlUploadExpress} = require('graphql-upload');
+const { graphqlUploadExpress } = require('graphql-upload');
 const fs = require('fs');
 const {
   addFakeUniqueConstraintFromIndex,
 } = require('postgraphile-index-to-unique-constraint-plugin');
 const PgOrderByRelatedPlugin = require('@graphile-contrib/pg-order-by-related');
 const PgOrderByMultiColumnIndexPlugin = require('@graphile-contrib/pg-order-by-multi-column-index');
+const {
+  postgraphilePolyRelationCorePlugin,
+} = require('postgraphile-polymorphic-relation-plugin');
+const cors = require('cors');
+//const PassportLoginPlugin = require('./PassportLoginPlugin');
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
+const { auth } = require('express-oauth2-jwt-bearer');
 
 //const DOCUMENTS_UPLOAD_DIR_NAME = "/var/www/html/documents";
 const DOCUMENTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media/documents');
@@ -35,10 +41,20 @@ const THUMBNAIL_IMAGES_UPLOAD_DIR_NAME = path.join(
 //const REPORTS_UPLOAD_DIR_NAME = "/var/www/html/reports";
 const REPORTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media.reports');
 
-const cors = require('cors');
-const {
-  postgraphilePolyRelationCorePlugin,
-} = require('postgraphile-polymorphic-relation-plugin');
+
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://workpm.ddns.net`,
+  }),
+  // audience: "YOUR_API_IDENTIFIER",
+  //  issuer: `https://YOUR_DOMAIN/`,
+  algorithms: ["RS256"],
+});
+
+
 
 const postGraphOptions = {
   watchPg: true,
@@ -47,9 +63,8 @@ const postGraphOptions = {
   dynamicJson: true,
   enhanceGraphiql: true,
   allowExplain: true,
-  enableCors: true,
-  showErrorStack: 'json',
-  extendedErrors: ['hint', 'detail', 'errcode'],
+  showErrorStack: true,
+  extendedErrors: ['severity', 'code', 'detail', 'hint', 'position', 'internalPosition', 'internalQuery', 'where', 'schema', 'table', 'column', 'dataType', 'constraint', 'file', 'line', 'routine'],
   exportGqlSchemaPath: 'schema.graphql',
   appendPlugins: [
     SimplifyInflectionsPlugin,
@@ -69,74 +84,90 @@ const postGraphOptions = {
     connectionFilterPolymorphicForward: true,
     connectionFilterPolymorphicBackward: true,
     nestedMutationsSimpleFieldNames: true,
+    orderByRelatedColumnAggregates: true,
     uploadFieldDefinitions: [
       {
-        match: ({column}) => column === 'header_document_file',
+        match: ({ column }) => column === 'header_document_file',
         resolve: resolveDocumentUpload,
       },
       {
-        match: ({column}) => column === 'header_image_file',
+        match: ({ column }) => column === 'header_image_file',
         resolve: processImage,
       },
       {
-        match: ({column}) => column === 'header_report_file',
+        match: ({ column }) => column === 'header_report_file',
         resolve: resolveReportUpload,
       },
     ],
   },
 };
+const { DATABASE, PG_USER, PASSWORD, HOST, PG_PORT, SCHEMA, PORT } = process.env
+
 const middleware = postgraphile(
-  process.env.DATABASE_URL ||
-  'postgres://production:987jmo00@developer-toshiba:5432/wpm_live',
-  'wpm_graphql',
+  {
+    database: DATABASE,
+    user: PG_USER,
+    password: PASSWORD,
+    host: HOST,
+    port: PG_PORT,
+    checkJwt
+  },
+  SCHEMA,
   postGraphOptions,
-);
+  /* {
+    pgSettings: req => {
+      const settings = {};
+      if (req.user) {
+        settings["user.permissions"] = req.user.scopes;
+      }
+      return settings;
+    }
+  } */
+)
+
+/* const authErrors = (err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    console.log(err); // You will still want to log the error...
+    // but we don't want to send back internal operation details
+    // like a stack trace to the client!
+    res.status(err.status).json({ errors: [{ message: err.message }] });
+    res.end();
+  }
+}; */
+
+// Apply error handling to the graphql endpoint
+
+
+const corsOptions = {
+  origin: '*',
+  credentials: true // <-- REQUIRED backend setting
+};
 
 const app = express();
-app.use(express.json({limit: '100mb', extended: true}));
-app.use(express.urlencoded({limit: '100mb', extended: true}));
-app.use(graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 10}));
-app.use(cors('*'));
-app.use(express.static(path.join(__dirname, 'media')));
-app.use(middleware, express.json({limit: '100mb', extended: true}));
+app.use(express.json({ limit: '100mb', extended: true }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
+app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
+app.use(cors(corsOptions));
+//app.use(checkJwt)
+//app.use(authErrors)
 
-const PORT = process.env.PORT || 5000;
+//app.use(cors('*'));
+app.use(express.static(path.join(__dirname, 'media')));
+app.use(middleware, express.json({ limit: '100mb', extended: true }));
+
+
 const server = app.listen(PORT, () => {
   const address = server.address();
   console.log(`Postgraphile Listening on  ${address.port}`);
 });
 
 async function resolveDocumentUpload(upload) {
-  const {filename, mimetype, encoding, createReadStream} = upload;
+  const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
-  const {id, path} = await saveDocument({stream, filename});
+  const { id, path } = await saveDocument({ stream, filename });
   return {
     id,
     path,
-    filename,
-    mimetype,
-    encoding,
-  };
-}
-
-async function resolveImageUpload(upload) {
-  console.log(upload);
-  const {filename, mimetype, encoding, createReadStream} = upload;
-  const stream = createReadStream();
-  const timestamp = new Date().toISOString().replace(/\D/g, '');
-  const id = `${timestamp}_${filename}`;
-
-  const allPromises = await Promise.all([
-    saveOriginalImage({stream, id}),
-    saveThumbnailImage({stream, id}),
-    saveResizedImage({stream, id}),
-  ]);
-
-  console.log(allPromises[0], allPromises[1], allPromises[2]);
-
-  return {
-    id,
-    path: allPromises[0].filepath,
     filename,
     mimetype,
     encoding,
@@ -144,10 +175,10 @@ async function resolveImageUpload(upload) {
 }
 
 async function resolveReportUpload(upload) {
-  const {filename, mimetype, encoding, createReadStream} = upload;
+  const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
 
-  const {id, path} = await saveReport({stream, filename});
+  const { id, path } = await saveReport({ stream, filename });
   return {
     id,
     path,
@@ -157,7 +188,7 @@ async function resolveReportUpload(upload) {
   };
 }
 
-function saveDocument({stream, filename}) {
+function saveDocument({ stream, filename }) {
   const timestamp = new Date().toISOString().replace(/\D/g, '');
   const id = `${timestamp}_${filename}`;
   const filepath = path.join(DOCUMENTS_UPLOAD_DIR_NAME, id);
@@ -171,35 +202,13 @@ function saveDocument({stream, filename}) {
           fs.unlinkSync(filepath);
         reject(error);
       })
-      .on('end', () => resolve({id, filepath}))
-      .pipe(fs.createWriteStream(filepath)),
-  );
-}
-
-function saveOriginalImage({stream, id}) {
-  const filepath = path.join(IMAGES_UPLOAD_DIR_NAME, id);
-  return new Promise((resolve, reject) =>
-    stream
-      .on('error', (error) => {
-        console.log(error);
-        if (stream.truncated)
-          // Delete the truncated file
-          fs.unlinkSync(filepath);
-        reject(error);
-      })
-      .on('end', () => {
-        resolve({id, filepath});
-        console.log('END OF ORIGINAL');
-      })
-      .on('readable', () => {
-        stream.read();
-      })
+      .on('end', () => resolve({ id, filepath }))
       .pipe(fs.createWriteStream(filepath)),
   );
 }
 
 async function processImage(upload) {
-  const {filename, mimetype, encoding, createReadStream} = upload;
+  const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
   const timestamp = new Date().toISOString().replace(/\D/g, '');
   const id = `${timestamp}_${filename}`;
@@ -207,25 +216,21 @@ async function processImage(upload) {
   const resizedFilepath = path.join(RESIZED_IMAGES_UPLOAD_DIR_NAME, id);
   const originalFilepath = path.join(IMAGES_UPLOAD_DIR_NAME, id);
 
-  const transformThumbnail = sharp()
-    .rotate()
-    .resize(720)
+  const transformThumbnail = sharp().rotate().resize(720);
 
-  const transformResize = sharp()
-    .rotate()
-    .resize(1920)
+  const transformResize = sharp().rotate().resize(1920);
 
   try {
-    const tn = await stream.pipe(transformThumbnail)
-    const rs = await stream.pipe(transformResize)
-    await stream.pipe(fs.createWriteStream(originalFilepath))
-    rs.pipe(fs.createWriteStream(resizedFilepath))
-    tn.pipe(fs.createWriteStream(thumbnailFilepath))
+    const tn = await stream.pipe(transformThumbnail);
+    const rs = await stream.pipe(transformResize);
+    await stream.pipe(fs.createWriteStream(originalFilepath));
+    rs.pipe(fs.createWriteStream(resizedFilepath));
+    tn.pipe(fs.createWriteStream(thumbnailFilepath));
   }
   catch (e) {
     if (stream.truncated) {
       fs.unlinkSync(thumbnailFilepath);
-      console.log(e)
+      console.log(e);
     }
   } finally {
     return {
@@ -236,64 +241,9 @@ async function processImage(upload) {
       encoding,
     };
   }
-
 }
 
-function saveThumbnailImage({stream, id}) {
-  const thumbnailFilepath = path.join(THUMBNAIL_IMAGES_UPLOAD_DIR_NAME, id);
-  tempPath = id;
-  return new Promise((resolve, reject) =>
-    stream
-      .on('error', (error) => {
-        console.log(error);
-        if (stream.truncated)
-          // Delete the truncated file
-          fs.unlinkSync(thumbnailFilepath);
-        reject(error);
-      })
-      .on('end', () => {
-        resolve({id, thumbnailFilepath});
-        console.log('END OF THUMBNAIL');
-      })
-      .on('readable', () => {
-        stream.read();
-      })
-      .on('close', () => {
-        console.log('THUMBNAIL CLOSED');
-      })
-      .pipe(transformThumbnail)
-      //	.pipe(transformToFile),
-      .pipe(fs.createWriteStream(thumbnailFilepath)),
-  );
-}
-
-function saveResizedImage({stream, id}) {
-  const resizedFilepath = path.join(RESIZED_IMAGES_UPLOAD_DIR_NAME, id);
-  return new Promise((resolve, reject) =>
-    stream
-      .on('error', (error) => {
-        console.log(error);
-        if (stream.truncated)
-          // Delete the truncated file
-          fs.unlinkSync(thumbnailFilepath);
-        reject(error);
-      })
-      .on('end', () => {
-        resolve({id, resizedFilepath});
-        console.log('END OF RESIZED');
-      })
-      .on('readable', () => {
-        stream.read();
-      })
-      .on('close', () => {
-        console.log('RESIZED CLOSED');
-      })
-      .pipe(transformResized)
-      .pipe(fs.createWriteStream(resizedFilepath)),
-  );
-}
-
-function saveReport({stream, filename}) {
+function saveReport({ stream, filename }) {
   const timestamp = new Date().toISOString().replace(/\D/g, '');
   const id = `${timestamp}_${filename}`;
   const filepath = path.join(REPORTS_UPLOAD_DIR_NAME, id);
@@ -306,7 +256,7 @@ function saveReport({stream, filename}) {
           fs.unlinkSync(filepath);
         reject(error);
       })
-      .on('end', () => resolve({id, filepath}))
+      .on('end', () => resolve({ id, filepath }))
       .pipe(fs.createWriteStream(filepath)),
   );
 }
