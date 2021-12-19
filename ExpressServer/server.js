@@ -70,7 +70,7 @@ const postGraphOptions = {
     SimplifyInflectionsPlugin,
     PgOrderByMultiColumnIndexPlugin,
     PgAggregatesPlugin,
-    PostGraphileNestedMutations,
+    //  PostGraphileNestedMutations,
     PostGraphileUploadFieldPlugin,
     PgConnectionFilterPlugin,
     postgraphilePolyRelationCorePlugin,
@@ -83,7 +83,7 @@ const postGraphOptions = {
     connectionFilterRelations: true,
     connectionFilterPolymorphicForward: true,
     connectionFilterPolymorphicBackward: true,
-    nestedMutationsSimpleFieldNames: true,
+    //   nestedMutationsSimpleFieldNames: false,
     orderByRelatedColumnAggregates: true,
     uploadFieldDefinitions: [
       {
