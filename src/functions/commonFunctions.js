@@ -24,6 +24,9 @@ export const formatDateGridText = (date) =>
 	DateTime.fromISO(date.value).toLocaleString();
 export const formatDateText = (date) => DateTime(date).toFormat('dd/LL/y');
 
+export const convertDateToLocal = date => DateTime.fromISO(date.slice(0, 10)).toFormat('dd/LL/y')
+
+
 export const parseDateGrid = (date) =>
 	DateTime.fromISO(date.value).toLocaleString();
 
@@ -130,3 +133,8 @@ export function properCase(str) {
 //words.map((word) => {
 //	return word[0].toUpperCase() + word.substring(1);
 //}).join(" ");
+
+export const formatNumberForExcel = (num) => {
+	var m = Number((Math.abs(num) * 100).toPrecision(15));
+	return Math.round(m) / 100 * Math.sign(num);
+}

@@ -1,20 +1,12 @@
-/**
- * /* eslint-disable react/prop-types
- *
- * @format
- */
-
-/** @format */
-
 import React from 'react';
-import ApplicationsGrid from '../grids/ApplicationsGrid';
-import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import ApplicationsGrid from '../../grids/ApplicationsGrid';
+import { gql, useMutation, useQuery, useReactiveVar, useLazyQuery } from '@apollo/client';
 import { CircularProgress, Box } from '@mui/material';
-import ActionButton from '../ui-components/buttons/ActionButton';
+import ActionButton from '../../ui-components/buttons/ActionButton';
 import { confirmAlert } from 'react-confirm-alert';
 import { v4 as uuidv4 } from 'uuid';
-import { gridSelectionsVar } from '../../cache';
-
+import { gridSelectionsVar } from '../../../cache';
+import XLSX from "xlsx";
 const GET_ALL_APPLICATIONS = gql`
 	query GetAllApplications {
 		applicationSummaryWithCumulativeValues {
@@ -102,6 +94,21 @@ const REMOVE_APPLICATION_SUBMISSION_FLAG = gql`
 	}
 `;
 
+const GET_APPLICATION_SUBMISSION_DATA = gql`
+query GetApplicationSubmissionData($id:Int!) {
+    submittedApplicationByApplicationId(applicationId: $id) {
+    applicationHeader
+    applicationId
+    areas
+    images
+    orderdetails
+    orderheaders
+    sitelocations
+    worksheets
+  }
+}
+`
+
 function Item(props) {
 	const { sx, ...other } = props;
 	return (
@@ -118,6 +125,27 @@ function Item(props) {
 		/>
 	);
 }
+
+const exportJS = (element) => {
+	const { appHeader, appAreas, appLocations, appItems, appWorksheets, appOrders, description } = element
+	const wb = XLSX.utils.book_new();
+	const w1 = XLSX.utils.json_to_sheet(appHeader);
+	const w2 = XLSX.utils.json_to_sheet(appAreas)
+	const w3 = XLSX.utils.json_to_sheet(appLocations)
+	const w4 = XLSX.utils.json_to_sheet(appItems)
+	const w5 = XLSX.utils.json_to_sheet(appWorksheets)
+	const w6 = XLSX.utils.json_to_sheet(appOrders)
+
+	XLSX.utils.book_append_sheet(wb, w1, "Application Header");
+	XLSX.utils.book_append_sheet(wb, w2, "Application Area");
+	XLSX.utils.book_append_sheet(wb, w3, "Application Locations");
+	XLSX.utils.book_append_sheet(wb, w4, "Application Items");
+	XLSX.utils.book_append_sheet(wb, w5, "Application Worksheets");
+	XLSX.utils.book_append_sheet(wb, w6, "Application Orders");
+
+	XLSX.writeFile(wb, `${appHeader[0].application_reference} ${description}.xlsx`);
+}
+
 
 const ApplicationAdminButtons = ({ currentApplication }) => {
 	const selectedApplication =
@@ -148,6 +176,31 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 			},
 		],
 		awaitRefetchQueries: true,
+	});
+
+	const [downloadSubmissionData] = useLazyQuery(GET_APPLICATION_SUBMISSION_DATA, {
+		fetchPolicy: 'network-only',
+		onCompleted: data => {
+			const appHeader = data.submittedApplicationByApplicationId.applicationHeader
+			const appAreas = data.submittedApplicationByApplicationId.areas
+			const appItems = data.submittedApplicationByApplicationId.orderdetails
+			const appLocations = data.submittedApplicationByApplicationId.sitelocations
+			const appWorksheets = data.submittedApplicationByApplicationId.worksheets
+			const appOrders = data.submittedApplicationByApplicationId.orderheaders
+			const workBooks = appAreas.map(item => ({ id: item.area_id, description: item.area_description }))
+			const workSheets = workBooks.map(item => (
+				{
+					id: item.id,
+					description: item.description,
+					appHeader: appHeader,
+					appAreas: appAreas.filter(obj => obj.area_id === item.id),
+					appOrders: appOrders.filter(obj => obj.area_id === item.id),
+					appLocations: appLocations.filter(obj => obj.area_id === item.id),
+					appItems: appItems.filter(obj => obj.area_id === item.id),
+					appWorksheets: appWorksheets.filter(obj => obj.area_id === item.id)
+				}))
+			workSheets.forEach(element => exportJS(element))
+		}
 	});
 
 	const handleCloseApplication = () => {
@@ -244,8 +297,41 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 	};
 
 	const handleExportDetail = () => {
-		console.log('exported');
+		confirmAlert({
+			customUI: ({ onClose }) => {
+				return (
+					<div className='custom-ui'>
+						<h1>Confirm Download</h1>
+						<p>{`Are You Sure You Want To Download ${selectedApplication.applicationReference} ?`}</p>
+						<button
+							onClick={() =>
+								downloadSubmissionData({
+									variables: { id: selectedApplication.id },
+								}).then(() => {
+
+									//exportJS()
+									onClose();
+									/* gridSelectionsVar({
+										...gridSelectionsVar(),
+										selectedApplication: false,
+									}); */
+								})
+							}>
+							DOWNLOAD
+						</button>
+						<button
+							onClick={() => {
+								onClose();
+							}}>
+							CANCEL
+						</button>
+					</div>
+				);
+			},
+		});
 	};
+
+
 
 	return (
 		<Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', mb: 2 }}>
@@ -278,14 +364,17 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 			</Item>
 			<Item>
 				<ActionButton
-					label='export application detail'
+					label='download submission data'
 					disabled={
 						selectedApplication === false ||
-						selectedApplication?.applicationSubmitted === false
+						selectedApplication.applicationSubmitted === false
 					}
 					onClick={handleExportDetail}
 				/>
 			</Item>
+			{/* <Item>
+				<ExportApplicationData />
+			</Item> */}
 		</Box>
 	);
 };

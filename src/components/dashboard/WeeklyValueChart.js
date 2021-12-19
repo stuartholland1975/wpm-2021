@@ -16,10 +16,12 @@ import ChartTableModal from '../ui-components/modals/ChartTableModal';
 
 const GET_PERIOD_VALUES = gql`
 query GetPeriodValues {
- periodWithValues(filter: {closed: {equalTo: true}}, orderBy: PERIOD_NUMBER_ASC) {
+ periodWithValues(filter: {worksValueCurrent: {greaterThan: "0"}}
+    last: 10
+    orderBy: PERIOD_NUMBER_ASC) {
     nodes {
       periodNumber
-      worksValueClosed
+      worksValueCurrent
     }
   }
 }
@@ -44,7 +46,10 @@ const WeeklyValueChart = () => {
   const [chartData, setChartData] = React.useState([])
 
   const { loading } = useQuery(GET_PERIOD_VALUES, {
-    onCompleted: data => setChartData(data.periodWithValues.nodes)
+    onCompleted: data => setChartData(() => data.periodWithValues.nodes.map(item => ({
+      ...item,
+      worksValueCurrent: Number(item.worksValueCurrent)
+    })))
   })
 
   const [getAreaSplit] = useLazyQuery(GET_PERIOD_AREA_VALUES, {
@@ -79,7 +84,7 @@ const WeeklyValueChart = () => {
           </XAxis>
           <YAxis tickFormatter={data => formatNumberNoDecimals(data)} />
           <Tooltip formatter={(value, name) => [formatNumberNoDecimals(value), 'Period Value']} />
-          <Bar dataKey="worksValueClosed" fill="#4d004d" onClick={onBarClick} />
+          <Bar dataKey="worksValueCurrent" fill="#4d004d" />
         </BarChart>
       </ResponsiveContainer>
     </div>

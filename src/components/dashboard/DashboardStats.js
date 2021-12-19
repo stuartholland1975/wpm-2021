@@ -30,11 +30,11 @@ function Item(props) {
             sx={{
                 bgcolor: '#b4cce4',
                 p: 2,
-                mt: 1,
                 ml: 0.25,
                 mr: 0.25,
                 flexGrow: 1,
-                color: 'black',
+                borderWidth: 2,
+                borderStyle: 'solid',
                 ...sx,
             }}
             {...other}
@@ -48,7 +48,7 @@ const DashboardStats = () => {
     if (loading) return <CircularProgress />
 
     return (
-        <Box sx={{ display: 'flex', ml: 0.5, mr: 0.5 }}>
+        <Box sx={{ display: 'flex', ml: 0.5, mr: 0.5, mb: 3, mt: 3, }}>
             <Item>
                 <Typography>CONTRACT CURRENT YEAR</Typography>
                 <Typography>
