@@ -5,14 +5,15 @@ import NavigationButton from '../ui-components/buttons/NavigationButton';
 import CreateButton from '../ui-components/buttons/CreateButton';
 import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
-import {gridSelectionsVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
-import {useHistory} from 'react-router-dom';
+import { gridSelectionsVar } from '../../cache';
+import { useReactiveVar } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 import AddOrderheaderForm from '../forms/AddOrderheaderForm';
 import EditOrderheaderForm from '../forms/EditOrderheaderForm';
+import FormModal from '../forms/multi-step/order/FormModal';
 
 function Item(props) {
-  const {sx, ...other} = props;
+  const { sx, ...other } = props;
   return (
     <Box
       sx={{
@@ -34,16 +35,19 @@ const OrderheaderButtons = () => {
   const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
   function handleImportClick(event) {
-    history.push({pathname: `orders/import/${selectedOrder.id}`})
+    history.push({ pathname: `orders/import/${selectedOrder.id}` })
   }
 
   return (
-    <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2}}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2 }}>
       <Item>
-        <AddOrderheaderForm/>
+        <AddOrderheaderForm />
       </Item>
       <Item>
-        <EditOrderheaderForm/>
+        <FormModal />
+      </Item>
+      <Item>
+        <EditOrderheaderForm />
       </Item>
       <Item item>
         <DeleteButton
@@ -60,7 +64,7 @@ const OrderheaderButtons = () => {
       </Item>
       <Item>
         <NavigationButton
-          label='work order adminisration'
+          label='work order administration'
           disabled={selectedOrder === false}
           onClick={() =>
             history.push({

@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { gridSelectionsVar } from '../../cache';
 import { CircularProgress } from '@mui/material';
 import WorkProgressGrid from '../grids/WorkProgressGrid';

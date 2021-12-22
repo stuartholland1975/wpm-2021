@@ -1,12 +1,9 @@
 import React from 'react';
-import { useReactiveVar, useLazyQuery, gql, useMutation } from '@apollo/client';
-import { gridSelectionsVar } from '../../cache';
-import CreateButton from '../ui-components/buttons/CreateButton';
+import { useLazyQuery, gql, useMutation } from '@apollo/client';
 import CancelButton from '../ui-components/buttons/CancelButton';
 import { TextField, Grid, Autocomplete, CircularProgress } from '@mui/material';
-import { useModal } from 'react-modal-hook';
-import ReactModal from 'react-modal';
 import { DateTime } from 'luxon'
+import SpinnerButton from '../ui-components/buttons/SpinnerButton';
 
 const GET_ALL_AREAS = gql`
 query getAreas {
@@ -79,7 +76,7 @@ const GET_ALL_ORDER_HEADERS = gql`
 
 const defaultDate = DateTime.now().toISODate();
 
-const OrderheaderForm = ({ hideModal }) => {
+const CreateOrderForm = ({ hideModal, confirmLabel, cancelLabel, handleChange, nextStep, submitting }) => {
 
     const [areasOpen, setAreasOpen] = React.useState(false);
     const [areaOptions, setAreaOptions] = React.useState([])
@@ -103,13 +100,14 @@ const OrderheaderForm = ({ hideModal }) => {
         fetchPolicy: 'cache-and-network'
     })
 
-    const [submitOrderheader] = useMutation(CREATE_ORDERHEADER, {
+    const [submitOrderheader, { submitting: loading }] = useMutation(CREATE_ORDERHEADER, {
         refetchQueries: [
             {
                 query: GET_ALL_ORDER_HEADERS
             }
         ],
-        awaitRefetchQueries: true
+        awaitRefetchQueries: true,
+        onCompleted: () => nextStep()
     })
 
     React.useEffect(() => {
@@ -150,7 +148,7 @@ const OrderheaderForm = ({ hideModal }) => {
         }
         submitOrderheader({
             variables: { input: apiObject }
-        }).then(() => hideModal())
+        })
     }
 
 
@@ -178,6 +176,7 @@ const OrderheaderForm = ({ hideModal }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <Autocomplete
+
                         open={areasOpen}
                         onOpen={() => {
                             setAreasOpen(true);
@@ -324,37 +323,21 @@ const OrderheaderForm = ({ hideModal }) => {
                     />
                 </Grid>
                 <Grid item xs={6}>
-                    <CreateButton type={"submit"} label={"SUBMIT"} />
+                    <CancelButton label={cancelLabel} type={"button"} onClick={hideModal} fullWidth />
                 </Grid>
                 <Grid item xs={6}>
-                    <CancelButton label={"CLOSE"} type={"button"} onClick={hideModal} fullWidth />
+                    <SpinnerButton type={"submit"} loading={submitting} fullWidth
+
+                        variant='contained'
+                        color='primary' >
+                        NEXT
+                    </SpinnerButton>
                 </Grid>
             </Grid>
         </form>
     )
 }
 
-const AddOrderheaderForm = () => {
 
-    const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder;
 
-    const [showModal, hideModal] = useModal(() => (
-        <ReactModal isOpen appElement={document.getElementById('root')}>
-            <h3>CREATE WORK ORDER</h3>
-            <hr />
-            <OrderheaderForm hideModal={hideModal} />
-        </ReactModal>
-    ));
-
-    return (
-        <div>
-            <CreateButton
-                label='CREATE WORK ORDER'
-                onClick={showModal}
-                disabled={selectedOrder !== false}
-            />
-        </div>
-    );
-};
-
-export default AddOrderheaderForm;
+export default CreateOrderForm;

@@ -110,14 +110,14 @@ export const camelizeKeys = fixKeys(camelCase);
 
 export const SnakeCaseToWords = fixKeys(snakeCase)
 
-function lowerCase(str) {
+export function lowerCase(str) {
 	return str.toLowerCase();
 }
 
 /**
  * "Safer" String.toUpperCase()
  */
-function upperCase(str) {
+export function upperCase(str) {
 	return str.toUpperCase();
 }
 

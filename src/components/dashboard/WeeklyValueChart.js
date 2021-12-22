@@ -9,10 +9,9 @@ import {
   ResponsiveContainer,
   Label
 } from 'recharts';
-import { gql, useQuery, useLazyQuery } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import { CircularProgress } from '@mui/material';
 import { formatNumberNoDecimals } from '../../functions/commonFunctions';
-import ChartTableModal from '../ui-components/modals/ChartTableModal';
 
 const GET_PERIOD_VALUES = gql`
 query GetPeriodValues {
@@ -27,7 +26,7 @@ query GetPeriodValues {
 }
 `
 
-const GET_PERIOD_AREA_VALUES = gql`
+/* const GET_PERIOD_AREA_VALUES = gql`
 query GetPeriodAreaValues($period: Int!) {
   commercialValuesByPeriodAndAreas(
     filter: { periodNumber: { equalTo: $period } }
@@ -39,7 +38,7 @@ query GetPeriodAreaValues($period: Int!) {
     }
   }
 }
-`
+` */
 
 const WeeklyValueChart = () => {
 
@@ -51,17 +50,6 @@ const WeeklyValueChart = () => {
       worksValueCurrent: Number(item.worksValueCurrent)
     })))
   })
-
-  const [getAreaSplit] = useLazyQuery(GET_PERIOD_AREA_VALUES, {
-    onCompleted: data => ChartTableModal(data.commercialValuesByPeriodAndAreas.nodes)
-  })
-
-  function onBarClick(event) {
-    getAreaSplit({
-      variables: { period: event.periodNumber }
-    });
-    //ChartTableModal(event.periodNumber)
-  }
 
   if (loading) return <CircularProgress />
 
