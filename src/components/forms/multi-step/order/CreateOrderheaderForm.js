@@ -46,7 +46,7 @@ const CreateOrderheaderForm = ({ nextStep, setOrderheaderValues, hideModal }) =>
 
 	const { data: orderHeaders } = useQuery(CHECK_ORDER_NUMBER)
 
-	const orderNumbers = orderHeaders.orderheaders.nodes.map(item => item.orderNumber)
+	const orderNumbers = orderHeaders?.orderheaders.nodes.map(item => item.orderNumber)
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>

@@ -71,11 +71,11 @@ const ItemForm = ({ hideModal }) => {
     const [itemTypesOpen, setItemTypesOpen] = React.useState(false);
     const [itemTypeOptions, setItemTypeOptions] = React.useState([])
 
-    const [ratesetsOpen, setratesetsOpen] = React.useState(false);
+    const [ratesetsOpen, setRatesetsOpen] = React.useState(false);
     const [ratesetOptions, setRatesetOptions] = React.useState([])
     const [selectedRateset, setSelectedRateset] = React.useState(false)
 
-    const [ratesetPricesOpen, setratesetPricesOpen] = React.useState(false);
+    const [ratesetPricesOpen, setRatesetPricesOpen] = React.useState(false);
     const [ratesetPriceOptions, setRatesetPriceOptions] = React.useState([])
     const [selectedRatesetPrice, setSelectedRatesetPrice] = React.useState(false)
 
@@ -276,10 +276,10 @@ const ItemForm = ({ hideModal }) => {
                     <Autocomplete
                         open={ratesetsOpen}
                         onOpen={() => {
-                            setratesetsOpen(true);
+                            setRatesetsOpen(true);
                         }}
                         onClose={() => {
-                            setratesetsOpen(false);
+                            setRatesetsOpen(false);
 
                         }}
                         isOptionEqualToValue={(option, value) => option.description === value.description}
@@ -313,10 +313,10 @@ const ItemForm = ({ hideModal }) => {
                     <Autocomplete
                         open={ratesetPricesOpen}
                         onOpen={() => {
-                            setratesetPricesOpen(true);
+                            setRatesetPricesOpen(true);
                         }}
                         onClose={() => {
-                            setratesetPricesOpen(false);
+                            setRatesetPricesOpen(false);
 
                         }}
                         isOptionEqualToValue={(option, value) => option.activityCode === value.activityCode}
