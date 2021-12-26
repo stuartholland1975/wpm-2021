@@ -299,7 +299,7 @@ const ApplicationAdminButtons = ({ currentApplication }) => {
 					startIcon={<DownloadIcon />}
 					disabled={
 						selectedApplication === false ||
-						selectedApplication.applicationSubmitted === false
+						selectedApplication?.applicationSubmitted === false
 					}
 					onClick={handleExportDetail}
 				/>

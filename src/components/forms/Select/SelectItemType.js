@@ -36,10 +36,6 @@ const SelectItemType = (props) => {
                 )}
             />}
         />
-
-
-
-
     )
 };
 

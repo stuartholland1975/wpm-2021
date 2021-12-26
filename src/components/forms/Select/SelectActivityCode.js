@@ -51,6 +51,7 @@ const SelectActivityCode = (props) => {
 					control={control}
 					render={({ field }) =>
 						<Autocomplete {...field}
+							openOnFocus
 							fullWidth
 							isOptionEqualToValue={(option, value) => option?.description === value?.description}
 							getOptionLabel={(option) => option?.description}

@@ -50,7 +50,7 @@ const CreateItemWithDetailForm = ({ onSubmit }) => {
 	}
 
 	const { register, control, handleSubmit, reset, trigger, setError } = useForm({
-		defaultValues: defaultValues,
+
 		mode: "onSubmit"
 	});
 	const { fields, append, remove } = useFieldArray({

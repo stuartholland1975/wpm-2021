@@ -1,11 +1,11 @@
 /** @format */
-import CreateLocationsForm from "../forms/multi-line/CreateLocationsForm";
+import CreateItemsForm from "../forms/multi-line/CreateItemsForm";
 
 const TestComponent = () => {
 
 	return (
 		<>
-			<CreateLocationsForm />
+			<CreateItemsForm />
 		</>
 	);
 };
