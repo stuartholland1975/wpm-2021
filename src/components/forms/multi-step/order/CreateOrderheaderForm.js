@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useMutation } from '@apollo/client'
 import { useForm } from "react-hook-form";
 import { TextField, Grid } from '@mui/material';
 import CreateButton from '../../../ui-components/buttons/CreateButton';
@@ -8,6 +8,7 @@ import React from 'react'
 import SelectWorktype from '../../Select/SelectWorktype';
 import SelectStatus from '../../Select/SelectOrderheaderStatus';
 import { DateTime } from 'luxon'
+
 
 
 const CHECK_ORDER_NUMBER = gql`
@@ -21,7 +22,7 @@ query CheckOrderNumber {
 `
 const defaultDate = DateTime.now().toISODate();
 
-const CreateOrderheaderForm = ({ nextStep, setOrderheaderValues, hideModal }) => {
+const CreateOrderheaderForm = ({ nextStep, setOrderheaderValues, hideModal, onSubmit }) => {
 	const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
 		mode: "onChange",
 		defaultValues: {
@@ -32,17 +33,6 @@ const CreateOrderheaderForm = ({ nextStep, setOrderheaderValues, hideModal }) =>
 	});
 
 
-	const onSubmit = data => {
-		console.log(data);
-		setOrderheaderValues(prevState => ({
-			...prevState,
-			...data,
-			areaId: data.areaId.id,
-			orderStatusId: data.orderStatusId.id,
-			worktypeId: data.worktypeId.id
-		}))
-		nextStep()
-	};
 
 	const { data: orderHeaders } = useQuery(CHECK_ORDER_NUMBER)
 
@@ -59,7 +49,7 @@ const CreateOrderheaderForm = ({ nextStep, setOrderheaderValues, hideModal }) =>
 						variant='filled'
 						fullWidth
 						autoFocus
-						{...register('OrderNumber', {
+						{...register('orderNumber', {
 							required: true,
 							maxLength: 7,
 							validate: value => !orderNumbers.includes(value)

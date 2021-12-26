@@ -45,7 +45,6 @@ const LocationForm = ({ hideModal }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-
             <Grid container spacing={5} mt={2}>
                 <Grid item xs={12}>
                     <TextField

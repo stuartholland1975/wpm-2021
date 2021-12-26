@@ -39,3 +39,24 @@ export const GET_SINGLE_LOCATION = gql`
 		}
 	}
 `;
+
+export const GET_ORDER_LOCATIONS = gql`
+	query GetOrderLocations($id: Int!) {
+		sitelocationWithValues(filter: { orderheaderId: { equalTo: $id } }) {
+			nodes {
+				complete
+				id
+				itemCount
+				itemsComplete
+				orderValue
+				orderheaderId
+				reference
+				valueApplied
+				valueComplete
+				worksheetReference
+				imageCount
+			}
+			totalCount
+		}
+	}
+`;

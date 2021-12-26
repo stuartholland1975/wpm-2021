@@ -5,8 +5,9 @@ import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
 import OrderImageAdmin from '../order-admin/OrderImageAdmin';
 import { useHistory } from 'react-router-dom';
-import CreateLocationForm from '../forms/CreateLocationForm';
+import CreateLocationsForm from '../forms/multi-line/CreateLocationsForm';
 import EditLocationForm from '../forms/EditLocationForm';
+import DeleteLocationForm from '../forms/DeleteLocationForm';
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -33,19 +34,13 @@ const OrderLocationButtons = (props) => {
   return (
     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
-        <CreateLocationForm />
+        <CreateLocationsForm />
       </Item>
       <Item>
         <EditLocationForm />
       </Item>
       <Item item>
-        <DeleteButton
-          label='delete location'
-          disabled={
-            selectedLocation === false ||
-            (selectedLocation && selectedLocation.complete)
-          }
-        />
+        <DeleteLocationForm />
       </Item>
       <Item item>
         <OrderImageAdmin />

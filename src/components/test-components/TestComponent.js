@@ -1,16 +1,11 @@
 /** @format */
-import MultiLineForm from "./MultiLineForm";
-//import CreateOrderheaderForm from './CreateOrderheaderForm';
+import CreateLocationsForm from "../forms/multi-line/CreateLocationsForm";
 
 const TestComponent = () => {
 
 	return (
 		<>
-			<h1>
-				TEST
-			</h1>
-			<MultiLineForm />
-
+			<CreateLocationsForm />
 		</>
 	);
 };

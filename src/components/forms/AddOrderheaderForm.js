@@ -43,8 +43,33 @@ mutation CreateOrderheader($input: OrderheaderInput!) {
   createOrderheader(
     input: {orderheader: $input}
   ) {
-    orderheader {
-      id
+   orderheader {
+      orderheaderWithValueById {
+                area
+				averageItemValue
+				averageLocationValue
+				id
+				itemCount
+				itemsComplete
+				locationsComplete
+				itemCountVarn
+				locationCount
+				orderNumber
+				projectTitle
+				workType
+				issuedDate
+				documentCount
+				orderValueTotal
+				orderValueTotalComplete
+				orderValueTotalApplied
+				imageCount
+				statusDescription
+                startDate
+                endDate
+                areaId
+                worktypeId
+                orderStatusId
+      }
     }
   }
 }
@@ -105,11 +130,10 @@ const OrderheaderForm = ({ hideModal }) => {
 
     const [submitOrderheader] = useMutation(CREATE_ORDERHEADER, {
         refetchQueries: [
-            {
-                query: GET_ALL_ORDER_HEADERS
-            }
+            { query: GET_ALL_ORDER_HEADERS }
         ],
-        awaitRefetchQueries: true
+        // awaitRefetchQueries: true,
+        onCompleted: data => { console.log(data); hideModal() }
     })
 
     React.useEffect(() => {
@@ -150,7 +174,7 @@ const OrderheaderForm = ({ hideModal }) => {
         }
         submitOrderheader({
             variables: { input: apiObject }
-        }).then(() => hideModal())
+        })
     }
 
 
