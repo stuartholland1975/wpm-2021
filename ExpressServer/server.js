@@ -68,12 +68,12 @@ const postGraphOptions = {
   exportGqlSchemaPath: 'schema.graphql',
   appendPlugins: [
     SimplifyInflectionsPlugin,
+    PgConnectionFilterPlugin,
     PgOrderByMultiColumnIndexPlugin,
     PgAggregatesPlugin,
-    //  PostGraphileNestedMutations,
+    PostGraphileNestedMutations,
     PostGraphileUploadFieldPlugin,
-    PgConnectionFilterPlugin,
-    postgraphilePolyRelationCorePlugin,
+    //postgraphilePolyRelationCorePlugin,
     addFakeUniqueConstraintFromIndex,
     PgManyToManyPlugin,
     require('postgraphile-plugin-many-create-update-delete').default,
@@ -81,9 +81,9 @@ const postGraphOptions = {
   ],
   graphileBuildOptions: {
     connectionFilterRelations: true,
+    nestedMutationsSimpleFieldNames: false,
     connectionFilterPolymorphicForward: true,
     connectionFilterPolymorphicBackward: true,
-    //   nestedMutationsSimpleFieldNames: false,
     orderByRelatedColumnAggregates: true,
     uploadFieldDefinitions: [
       {
