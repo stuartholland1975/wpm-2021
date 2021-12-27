@@ -6,7 +6,7 @@ import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
 import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';
-import CreateItemForm from '../forms/CreateItemForm';
+import CreateItemsForm from '../forms/multi-line/CreateItemsForm';
 
 function Item(props) {
   const { sx, ...other } = props;
@@ -31,7 +31,7 @@ const OrderItemButtons = (props) => {
   return (
     <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
-        <CreateItemForm />
+        <CreateItemsForm />
       </Item>
       <Item>
         <EditButton

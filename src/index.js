@@ -17,7 +17,8 @@ import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://workpm.ddns.net/graphql',
+  //uri: 'https://workpm.ddns.net/graphql',
+  uri: 'http://developer-toshiba:5000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

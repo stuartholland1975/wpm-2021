@@ -11,7 +11,7 @@ const SelectItemType = (props) => {
 
     const { loading } = useQuery(GET_ITEM_TYPES, {
         onCompleted: data => setItemTypeOptions(data.itemTypes.nodes),
-        fetchPolicy: 'cache-and-network'
+
     })
 
     if (loading) return <CircularProgress />

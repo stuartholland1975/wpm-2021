@@ -30,14 +30,14 @@ const OrderItemsGrid = ({ data }) => {
   const [gridApi, setGridApi] = React.useState(null);
   const columnDefs = React.useMemo(() =>
     [
-      { headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120, cellStyle: { 'text-align': 'left' } },
+      { headerName: 'Item No', field: 'itemNumber', sort: 'desc', maxWidth: 120, cellStyle: { textAlign: 'left' } },
       {
         headerName: 'Item Type',
         field: 'typeShort',
         maxWidth: 120,
         cellStyle: { textAlign: 'left' }
       },
-      { headerName: 'Worksheet', field: 'worksheetReference', cellStyle: { 'text-align': 'left' } },
+      { headerName: 'Worksheet', field: 'worksheetReference', cellStyle: { textAlign: 'left' } },
       {
         headerName: 'Activity Code',
         field: 'activityCode',

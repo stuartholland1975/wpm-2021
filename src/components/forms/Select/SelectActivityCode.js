@@ -34,7 +34,6 @@ const SelectActivityCode = (props) => {
 		onCompleted: data => {
 			setRatesetOptions(data.ratesetHeaders.nodes);
 		},
-		fetchPolicy: 'cache-and-network'
 	})
 
 	const [getRatesetPrices, { loading: ratesetPricesLoading }] = useLazyQuery(GET_RATESET_PRICES, {

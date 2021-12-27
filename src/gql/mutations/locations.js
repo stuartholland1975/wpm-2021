@@ -26,6 +26,16 @@ mutation CreateManyLocations($input: [SitelocationInput]!) {
 }
 `
 
+export const CREATE_MANY_ITEMS = gql`
+mutation CreateManyItems($input: [OrderdetailInput]!) {
+   orderdetailCreateBulkItems(
+    input: {orderdetails: $input}
+  ) {
+    clientMutationId
+  }
+}
+`
+
 export const DELETE_LOCATION = gql`
 mutation DeleteLocation($id: Int!) {
   deleteSitelocation(input: {id: $id}) {
