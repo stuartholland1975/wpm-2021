@@ -88,7 +88,7 @@ const postGraphOptions = {
     uploadFieldDefinitions: [
       {
         match: ({ column }) => column === 'header_document_file',
-        resolve: resolveDocumentUpload,
+        resolve: resolveDocumentUpload
       },
       {
         match: ({ column }) => column === 'header_image_file',
@@ -162,6 +162,7 @@ const server = app.listen(PORT, () => {
 });
 
 async function resolveDocumentUpload(upload) {
+  console.log(upload)
   const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
   const { id, path } = await saveDocument({ stream, filename });
@@ -175,14 +176,14 @@ async function resolveDocumentUpload(upload) {
 }
 
 async function resolveReportUpload(upload) {
-  const { filename, mimetype, encoding, createReadStream } = upload;
+  const { name, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
 
-  const { id, path } = await saveReport({ stream, filename });
+  const { id, path } = await saveReport({ stream, name });
   return {
     id,
     path,
-    filename,
+    name,
     mimetype,
     encoding,
   };
@@ -192,7 +193,7 @@ function saveDocument({ stream, filename }) {
   const timestamp = new Date().toISOString().replace(/\D/g, '');
   const id = `${timestamp}_${filename}`;
   const filepath = path.join(DOCUMENTS_UPLOAD_DIR_NAME, id);
-
+  console.log(timestamp, id, filepath)
   return new Promise((resolve, reject) =>
     stream
       .on('error', (error) => {
@@ -208,6 +209,7 @@ function saveDocument({ stream, filename }) {
 }
 
 async function processImage(upload) {
+  console.log(upload)
   const { filename, mimetype, encoding, createReadStream } = upload;
   const stream = createReadStream();
   const timestamp = new Date().toISOString().replace(/\D/g, '');
