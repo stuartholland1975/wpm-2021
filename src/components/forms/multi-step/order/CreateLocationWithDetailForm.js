@@ -1,15 +1,12 @@
-import { useMutation } from '@apollo/client';
-import React from 'react';
 import CancelButton from '../../../ui-components/buttons/CancelButton';
 import { TextField, Grid } from '@mui/material';
 import { useForm } from "react-hook-form";
-import { CREATE_LOCATION } from '../../../../gql/mutations/locations';
 //import CreatedOrderSummary from '../summaries/CreatedOrderSummary';
 import ActionButton from '../../../ui-components/buttons/ActionButton';
 
 const CreateLocationWithDetailForm = ({ prevStep, onSubmit }) => {
 
-    const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset } = useForm({
         mode: "onChange"
     });
 

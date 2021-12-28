@@ -1,16 +1,11 @@
-import React from 'react';
-import { useQuery, useReactiveVar } from '@apollo/client';
 import { Controller } from 'react-hook-form';
-import { Autocomplete, TextField, CircularProgress, Select, MenuItem, InputLabel } from '@mui/material';
-import { GET_ORDER_LOCATIONS } from '../../../gql/queries/locations'
-import { gridSelectionsVar } from '../../../cache';
+import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 
 const SelectSiteLocation = ({ control, fieldName, orderLocations, loading }) => {
-    const selectedOrder = useReactiveVar(gridSelectionsVar).selectedOrder
 
-    console.log(control)
+
     if (loading || !orderLocations) return <CircularProgress />
-    // if (loading || !orderLocations) return null
+
 
     return (
         <Controller

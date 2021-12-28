@@ -1,11 +1,9 @@
-/** @format */
-import CreateItemsForm from "../forms/multi-line/CreateItemsForm";
 
 const TestComponent = () => {
 
 	return (
 		<>
-			<CreateItemsForm />
+			<h1>TEST</h1>
 		</>
 	);
 };

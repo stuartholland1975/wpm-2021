@@ -20,6 +20,7 @@ const columnDefs = [
 	{
 		headerName: 'Application Number',
 		field: 'applicationNumber',
+		sort: "desc",
 	},
 	{
 		headerName: 'Application Reference',
@@ -88,6 +89,7 @@ const columnDefs = [
 		field: 'thisApplicationValue',
 		type: 'numericColumn',
 		valueFormatter: formatNumberGridTwoDecimals,
+		cellStyle: { fontWeight: 'bold' },
 	},
 	{
 		headerName: 'Cumulative Application Value',
@@ -142,7 +144,7 @@ const ApplicationsGrid = ({ data, pageSize }) => {
 					rowData={data}
 					onGridReady={(params) => params.api.sizeColumnsToFit()}
 					onGridSizeChanged={(params) => params.api.sizeColumnsToFit()}
-					//  reactUi={true}
+				//  reactUi={true}
 				/>
 			</div>
 		</>

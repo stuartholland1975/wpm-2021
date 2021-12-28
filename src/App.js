@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import NavBar from './components/navigation/Navbar';
 import { Switch, Route } from 'react-router-dom';
 import { CircularProgress } from "@mui/material";
-import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
+//import ApplicationAdmin from './components/application-admin/ApplicationAdmin';
 //import ContractDashboard from './components/dashboard/ContractDashboard';
 import ApplicationEnquiry from './components/enquiries/applications/ApplicationEnquiry';
 //import Enquiries from './components/enquiries/Enquiries';
@@ -17,6 +17,7 @@ const ImportOrderDetail = lazy(() => import("./components/forms/ImportOrderDetai
 const Enquiries = lazy(() => import("./components/enquiries/Enquiries"))
 const Analysis = lazy(() => import('./components/analysis/Analysis'))
 const ContractDashboard = lazy(() => import('./components/dashboard/ContractDashboard'))
+const ApplicationAdmin = lazy(() => import('./components/application-admin/ApplicationAdmin'))
 
 function App() {
   return (

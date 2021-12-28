@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { formatDateGrid, formatNumberGridNoDecimals, } from '../../functions/commonFunctions';
+import { formatDateGrid, formatNumberGridNoDecimals, divideIfNotZero, formatNumberGridTwoDecimals } from '../../functions/commonFunctions';
 import { gridSelectionsVar } from '../../cache';
 
 const OrderheaderGrid = ({ data }) => {
@@ -9,24 +9,27 @@ const OrderheaderGrid = ({ data }) => {
       {
         headerName: 'Work Instruction',
         field: 'orderNumber',
-        cellStyle: { fontWeight: 'bold' },
         maxWidth: 160,
+        cellStyle: { textAlign: 'left', fontWeight: 'bold' },
       },
       {
         headerName: 'Project Title',
         field: 'projectTitle',
         //minWidth: 300,
         flex: 2,
+        cellStyle: { textAlign: 'left' },
       },
-      {
+      /* {
         headerName: 'Work Type',
         field: 'workType',
         flex: 1,
-      },
+        cellStyle: { textAlign: 'left' },
+      }, */
       {
         headerName: 'Area',
         field: 'area',
         maxWidth: 100,
+        cellStyle: { textAlign: 'left' },
       },
       {
         headerName: 'Date Issued',
@@ -34,6 +37,7 @@ const OrderheaderGrid = ({ data }) => {
         filter: 'agDateColumnFilter',
         valueFormatter: formatDateGrid,
         maxWidth: 150,
+        cellStyle: { textAlign: 'left' },
       },
       {
         headerName: 'Order Value',
@@ -120,6 +124,13 @@ const OrderheaderGrid = ({ data }) => {
         maxWidth: 150,
       },
       {
+        headerName: '% Complete',
+        valueGetter: params => divideIfNotZero(params.data.orderValueTotalComplete, params.data.orderValueTotal) * 100,
+        type: 'numericColumn',
+        valueFormatter: formatNumberGridTwoDecimals,
+        maxWidth: 150,
+      },
+      {
         headerName: 'Applied Value',
         field: 'orderValueTotalApplied',
         valueFormatter: formatNumberGridNoDecimals,
@@ -128,10 +139,17 @@ const OrderheaderGrid = ({ data }) => {
         maxWidth: 150,
       },
       {
-        headerName: 'Order Status',
-        field: 'statusDescription',
+        headerName: '% Applied',
+        valueGetter: params => divideIfNotZero(params.data.orderValueTotalApplied, params.data.orderValueTotal) * 100,
+        type: 'numericColumn',
+        valueFormatter: formatNumberGridTwoDecimals,
         maxWidth: 150,
       },
+      /*  {
+         headerName: 'Order Status',
+         field: 'statusDescription',
+         maxWidth: 150,
+       }, */
     ],
     []
   );

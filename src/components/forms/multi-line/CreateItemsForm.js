@@ -1,14 +1,13 @@
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { Box, TextField, IconButton, Grid, CircularProgress } from '@mui/material'
-import { MdOutlineAdd, MdRemove } from "react-icons/md";
+import { TextField, IconButton, Grid, CircularProgress } from '@mui/material'
+import { MdRemove } from "react-icons/md";
 import ReactModal from 'react-modal'
-import { useMutation, useReactiveVar, gql, useQuery } from '@apollo/client'
+import { useMutation, gql, useQuery } from '@apollo/client'
 import { gridSelectionsVar } from '../../../cache'
 import { useModal } from 'react-modal-hook'
 import CreateButton from '../../ui-components/buttons/CreateButton'
 import CancelButton from '../../ui-components/buttons/CancelButton'
-import { ErrorMessage } from '@hookform/error-message';
 import { GET_SINGLE_ORDERHEADER } from '../../../gql/queries/orderheaders';
 import SelectItemType from '../Select/SelectItemType';
 import SelectActivityCode from '../Select/SelectActivityCode';
@@ -44,7 +43,7 @@ const ItemsForm = ({ hideModal }) => {
         siteLocation: { id: orderLocations[0].id, reference: orderLocations[0].reference }
     }
     console.log(defaultValues)
-    const { register, control, handleSubmit, reset, trigger, setError } = useForm({
+    const { register, control, handleSubmit } = useForm({
         mode: "onChange"
     });
     const { fields, append, remove } = useFieldArray({

@@ -1,12 +1,9 @@
 import React from 'react';
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { gql, useQuery, useReactiveVar } from '@apollo/client'
-import { gridSelectionsVar } from '../../../../cache';
-import { CircularProgress, TextField, Box, Container, IconButton } from '@mui/material';
+import { useForm, useFieldArray } from "react-hook-form";
+import { gql, useQuery } from '@apollo/client'
+import { CircularProgress, TextField, Box, IconButton } from '@mui/material';
 import SelectItemType from '../../Select/SelectItemType';
 import SelectActivityCode from '../../Select/SelectActivityCode';
-import RemoveIcon from '@mui/icons-material/Remove';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MdDelete } from "react-icons/md";
 import CreateButton from "../../../ui-components/buttons/CreateButton";
 
@@ -49,7 +46,7 @@ const CreateItemWithDetailForm = ({ onSubmit }) => {
 		ratesetPrice: { id: 4, activityCode: 'NSMAT' },
 	}
 
-	const { register, control, handleSubmit, reset, trigger, setError } = useForm({
+	const { register, control, handleSubmit } = useForm({
 
 		mode: "onSubmit"
 	});
@@ -68,7 +65,7 @@ const CreateItemWithDetailForm = ({ onSubmit }) => {
 
 	React.useEffect(() => {
 		append(defaultValues)
-	}, [])
+	}, [append])
 
 	if (maxItemNumberLoading) return <CircularProgress />
 

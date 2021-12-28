@@ -2,7 +2,7 @@ import React from 'react';
 import { GET_RATESET_HEADERS, GET_RATESET_PRICES } from '../../../gql/queries/other';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { Controller } from 'react-hook-form';
-import { Autocomplete, TextField, CircularProgress, Box, MenuItem, InputLabel } from '@mui/material';
+import { Autocomplete, TextField, Box } from '@mui/material';
 
 function Item(props) {
 	const { sx, ...other } = props;
@@ -30,13 +30,13 @@ const SelectActivityCode = (props) => {
 	const [ratesetPriceOptions, setRatesetPriceOptions] = React.useState([])
 
 
-	const { loading: ratesetsLoading } = useQuery(GET_RATESET_HEADERS, {
+	useQuery(GET_RATESET_HEADERS, {
 		onCompleted: data => {
 			setRatesetOptions(data.ratesetHeaders.nodes);
 		},
 	})
 
-	const [getRatesetPrices, { loading: ratesetPricesLoading }] = useLazyQuery(GET_RATESET_PRICES, {
+	const [getRatesetPrices] = useLazyQuery(GET_RATESET_PRICES, {
 		onCompleted: data => setRatesetPriceOptions(data.pricesWithUplifts.nodes),
 		fetchPolicy: 'cache-and-network'
 	})

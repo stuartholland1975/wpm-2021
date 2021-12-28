@@ -1,5 +1,4 @@
 import NavigationButton from '../ui-components/buttons/NavigationButton';
-import DeleteButton from '../ui-components/buttons/DeleteButton';
 import Box from '@mui/material/Box';
 import { gridSelectionsVar } from '../../cache';
 import { useReactiveVar } from '@apollo/client';

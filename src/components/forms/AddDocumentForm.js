@@ -6,6 +6,7 @@ import CreateButton from '../ui-components/buttons/CreateButton';
 import CancelButton from '../ui-components/buttons/CancelButton';
 import { useMutation, gql, useReactiveVar } from '@apollo/client';
 import { gridSelectionsVar } from '../../cache';
+import { useForm } from 'react-hook-form';
 
 const UPLOAD_GLOBAL_DOCUMENT = gql`
 	mutation UploadGlobalDocument($input: CreateDocumentInput!) {
@@ -33,6 +34,8 @@ const GET_GLOBAL_DOCUMENTS = gql`
 `;
 
 const DocumentForm = ({ hideModal }) => {
+	const { register, handleSubmit } = useForm()
+
 	const [documentFile, setDocumentFile] = React.useState();
 	const [submitDocument] = useMutation(UPLOAD_GLOBAL_DOCUMENT, {
 		refetchQueries: [
@@ -47,48 +50,60 @@ const DocumentForm = ({ hideModal }) => {
 		},
 	});
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		console.log(event);
-		let fd = new FormData(event.target);
-		const title = fd.get('title');
+	const onSubmit = (data) => {
+		//	event.preventDefault();
+		//	console.log(event.target);
+		//	let fd = new FormData(event.target);
+		//	const title = fd.get('title');
+		//	const documentFile = fd.get('loadedFile')
+		const { loadedFile, title } = data
+		const apiObject = {
+			title,
+			headerDocumentFile: loadedFile[0],
+			global: true
+		}
+		console.log(apiObject, loadedFile[0]);
+		//	console.log(apiObject, documentFile);
+
+
 		submitDocument({
 			variables: {
 				input: {
-					document: {
-						title,
-						headerDocumentFile: documentFile,
-						global: true,
-					},
+					document: apiObject
 				},
 			},
 		});
 	};
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<Grid container spacing={2}>
 				<Grid item xs={6}>
 					<TextField
+						{...register('title')}
 						label='Title'
 						name='title'
 						required
 						variant='filled'
 						fullWidth
+						autoFocus
 					/>
 				</Grid>
 				<Grid item xs={6}>
-					<TextField
+					<input type='file' {...register('loadedFile')} />
+
+
+					{/* <TextField
 						label='Select Document File'
 						type='file'
 						fullWidth
 						variant='filled'
+						{...register('loadedFile')}
 						InputLabelProps={{ shrink: true }}
-						required
-						onChange={(event) =>
-							event.target.files.length > 0 &&
-							setDocumentFile(event.target.files[0])
-						}
-					/>
+					 onChange={(event) =>
+						//	event.target.files.length > 0 &&
+						setDocumentFile(event.target.files[0])
+					} 
+					/> */}
 				</Grid>
 				<Grid item xs={6}>
 					<CreateButton type={'submit'} label={'upload document'} />

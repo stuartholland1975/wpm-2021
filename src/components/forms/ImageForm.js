@@ -34,36 +34,6 @@ const GET_IMAGE_TYPES = gql`
   }
 `;
 
-
-/* const GET_ORDER_LOCATION_IMAGES = gql`
-  query GetOrderLocationImages($sitelocationId: Int!) {
-    images(
-      filter: { sitelocationId: { equalTo: $sitelocationId } }
-      orderBy: IMAGE_TYPE_ID_ASC
-    ) {
-      nodes {
-        headerImageFile
-        id
-        createdAt
-        dateTakenManual
-        exif
-        imageTypeId
-        orderheaderId
-        sitelocationId
-        sitelocation {
-          reference
-          worksheetReference
-        }
-        imageType {
-          id
-          shortName
-          longName
-        }
-      }
-    }
-  }
-`; */
-
 const GET_SINGLE_LOCATION = gql`
 query GetSingleLocation($id: Int!) {
   sitelocationWithValue(id: $id) {

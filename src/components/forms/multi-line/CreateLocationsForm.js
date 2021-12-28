@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { Box, TextField, IconButton, Grid } from '@mui/material'
+import { TextField, IconButton, Grid } from '@mui/material'
 import { MdOutlineAdd, MdRemove } from "react-icons/md";
 import ReactModal from 'react-modal'
 import { useMutation, useReactiveVar } from '@apollo/client'
@@ -20,7 +20,7 @@ const defaultValues = {
 
 const LocationsForm = ({ hideModal }) => {
 
-    const { register, control, handleSubmit, reset, trigger, setError, formState: { errors } } = useForm({
+    const { register, control, handleSubmit, trigger, formState: { errors } } = useForm({
         mode: "onChange"
     });
     const { fields, append, remove } = useFieldArray({
@@ -58,7 +58,7 @@ const LocationsForm = ({ hideModal }) => {
 
     React.useEffect(() => {
         append(defaultValues)
-    }, [])
+    }, [append])
 
 
     console.log(errors)

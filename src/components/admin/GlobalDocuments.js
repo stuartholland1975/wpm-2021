@@ -78,7 +78,7 @@ const columnTypes = {
 function documentLink(params) {
 	let link;
 	link = document.createElement('a');
-	link.href = `http://workpm.ddns.net/documents/${params.data.headerDocumentFile.id}`;
+	link.href = `https://workpm.ddns.net/documents/${params.data.headerDocumentFile.id}`;
 	link.style = 'font-weight: bold';
 	link.innerText = 'Open Document';
 	link.target = '_blank';

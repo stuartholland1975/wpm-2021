@@ -2,23 +2,20 @@ import React from 'react';
 import CreateOrderheaderForm from './CreateOrderheaderForm';
 import CreateLocationWithDetailForm from './CreateLocationWithDetailForm'
 import CreateItemWithDetailForm from "./CreateItemWithDetailForm";
-import { useMutation } from '@apollo/client';
-import { CREATE_ORDERHEADER } from '../../../../gql/mutations/orderheaders';
+//import { useMutation } from '@apollo/client';
+//import { CREATE_ORDERHEADER } from '../../../../gql/mutations/orderheaders';
 
 
-const BlankForm = () => <div>BLANK FORM</div>
 
 const CreateOrderWithDetailForm = ({ hideModal }) => {
-	const [orderheaderValues, setOrderheaderValues] = React.useState()
-	const [locationValues, setLocationValues] = React.useState(false)
-	const [itemValues, setItemValues] = React.useState([])
+
+
+
 	const [step, setStep] = React.useState(1)
 	const nextStep = () => setStep(step => step + 1)
 	const prevStep = () => setStep(step => step - 1)
 
-	const [submitOrderData] = useMutation(CREATE_ORDERHEADER, {
-		onCompleted: data => setOrderheaderValues(data.createOrderheader.orderheader.orderheaderWithValueById)
-	})
+
 
 	const onSubmitOrderData = data => {
 		const { areaId, orderStatusId, worktypeId } = data
@@ -28,17 +25,17 @@ const CreateOrderWithDetailForm = ({ hideModal }) => {
 			orderStatusId: orderStatusId.id,
 			worktypeId: worktypeId.id
 		}
-		setOrderheaderValues(apiObject)
+		//setOrderheaderValues(apiObject)
 		nextStep()
 	}
 
 	const onSubmitLocationData = data => {
-		setLocationValues(data)
+
 		//nextStep()
 	}
 
 	const onSubmitItemData = data => {
-		setItemValues(data)
+
 		nextStep()
 	}
 
@@ -47,7 +44,7 @@ const CreateOrderWithDetailForm = ({ hideModal }) => {
 			return (
 				<CreateOrderheaderForm
 					nextStep={nextStep}
-					setOrderheaderValues={setOrderheaderValues}
+					//setOrderheaderValues={setOrderheaderValues}
 					hideModal={hideModal}
 					onSubmit={onSubmitOrderData}
 				/>
@@ -59,22 +56,12 @@ const CreateOrderWithDetailForm = ({ hideModal }) => {
 						prevStep={prevStep}
 						onSubmit={onSubmitLocationData}
 					/>
-					{locationValues && <CreateItemWithDetailForm
+					{<CreateItemWithDetailForm
 						onSubmit={onSubmitItemData}
 					/>}
 
 				</>
 			);
-		/* case 3:
-			return (
-				<CreateItemWithDetailForm
-					nextStep={nextStep}
-					prevStep={prevStep}
-					locationValues={locationValues}
-					setItemValues={setItemValues}
-					hideModal={hideModal}
-				/>
-			); */
 
 		case 3: return (
 			<h1>SUBMISSION PAGE</h1>

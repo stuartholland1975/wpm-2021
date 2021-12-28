@@ -2,7 +2,7 @@ import React from 'react';
 import { GET_ITEM_TYPES } from '../../../gql/queries/other';
 import { useQuery } from '@apollo/client';
 import { Controller } from 'react-hook-form';
-import { Autocomplete, TextField, CircularProgress, Select, MenuItem, InputLabel } from '@mui/material';
+import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 
 const SelectItemType = (props) => {
     const { control, fieldName } = props
