@@ -71,7 +71,7 @@ const postGraphOptions = {
     PgConnectionFilterPlugin,
     PgOrderByMultiColumnIndexPlugin,
     PgAggregatesPlugin,
-    PostGraphileNestedMutations,
+    // PostGraphileNestedMutations,
     PostGraphileUploadFieldPlugin,
     //postgraphilePolyRelationCorePlugin,
     addFakeUniqueConstraintFromIndex,
@@ -81,7 +81,7 @@ const postGraphOptions = {
   ],
   graphileBuildOptions: {
     connectionFilterRelations: true,
-    nestedMutationsSimpleFieldNames: false,
+    //  nestedMutationsSimpleFieldNames: true,
     connectionFilterPolymorphicForward: true,
     connectionFilterPolymorphicBackward: true,
     orderByRelatedColumnAggregates: true,

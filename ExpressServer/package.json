@@ -7,7 +7,7 @@
 		"start": "node server.js",
 		"server": "nodemon server.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"client": "npm start --prefix ../../WpmDevelopment/client",
+		"client": "npm start --prefix ../WpmDevelopment/client",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"production": "concurrently \"npm run server\" \"node node_server.js\""
 	},
