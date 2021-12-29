@@ -7,7 +7,7 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, createHttpLink } from '@apollo/client';
+import { ApolloClient, ApolloProvider, createHttpLink, ApolloLink, } from '@apollo/client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -15,6 +15,8 @@ import { cache } from './cache';
 import { ModalProvider } from 'react-modal-hook';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
 import { setContext } from '@apollo/client/link/context';
+import { onError } from 'apollo-link-error';
+import { createUploadLink } from 'apollo-upload-client';
 
 const httpLink = createHttpLink({
   //uri: 'https://workpm.ddns.net/graphql',
@@ -39,9 +41,7 @@ persistCache({
 });
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-
-  /* ApolloLink.from([
+  link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) =>
@@ -50,15 +50,37 @@ export const client = new ApolloClient({
           )
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
-    }), */
-  /*  createUploadLink({
+    }),
+    createUploadLink({
+      uri: 'http://developer-toshiba:5000/graphql',
+
+      // credentials: 'same-origin'
+    }),
+  ]),
+
+  cache,
+});
+/* export const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+ 
+   ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors)
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          )
+        );
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }), 
+   createUploadLink({
      uri: 'https://workpm.ddns.net/graphql',
      credentials: 'same-origin'
    }), 
- ]),*/
+ ]),
   cache,
 });
-
+ */
 function initialise() {
   if (cssHasLoaded('ag-theme-custom-react')) {
     ReactDOM.render(

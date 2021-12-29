@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SERVER" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/../../ExpressServer/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="server" />
+    </scripts>
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.17.6/bin/node" />
+    <package-manager value="npm" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

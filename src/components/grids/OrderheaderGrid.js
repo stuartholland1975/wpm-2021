@@ -159,6 +159,7 @@ const OrderheaderGrid = ({ data }) => {
       resizable: true,
       sortable: true,
       filter: true,
+      floatingFilter: true
     }),
     []
   );

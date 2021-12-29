@@ -113,7 +113,8 @@ const AttachDocumentForm = (props) => {
 			}));
 			const additionsApiObject = additions.map((item) => ({
 				orderheaderId: Number(selectedOrder.id),
-				documentId: Number(item),
+				documentId: Number(item)
+
 			}));
 			const result = Promise.all([
 				attachDocument({
@@ -123,6 +124,7 @@ const AttachDocumentForm = (props) => {
 					variables: { mnPatch: deletionsApiObject },
 				}),
 			]);
+			console.log(result)
 			result.then(props.hideModal());
 		}
 	};

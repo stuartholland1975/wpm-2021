@@ -39,7 +39,7 @@ const OrderheaderButtons = () => {
   }
 
   return (
-    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', mb: 2 }}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', mb: 2 }}>
       <Item>
         <AddOrderheaderForm />
       </Item>
