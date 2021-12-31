@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 		textTransform: 'uppercase',
 		'&:hover': {
-			background: 'linear-gradient(#000080, #0000cc)',
+			background: 'linear-gradient(#391427, #862d59)',
 		},
 		'&:disabled': {
 			cursor: 'not-allowed',
