@@ -124,7 +124,6 @@ const AttachDocumentForm = (props) => {
 					variables: { mnPatch: deletionsApiObject },
 				}),
 			]);
-			console.log(result)
 			result.then(props.hideModal());
 		}
 	};

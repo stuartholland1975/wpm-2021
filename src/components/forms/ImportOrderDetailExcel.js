@@ -105,7 +105,6 @@ const ImportData = () => {
   const history = useHistory()
 
 
-  console.log(initialData, apiData, mutationData, importedData, activityCodes, activityCheck, counter)
 
 
   const { data: header } = useQuery(GET_PROJECT_TITLE, {
@@ -132,13 +131,12 @@ const ImportData = () => {
       if (mutationData.length === counter) {
         history.push('/orders')
       }
-      else return console.log('ELSE')
+
     }
   })
 
   const [checkActivityCodeExists] = useLazyQuery(CHECK_ACTIVITY_CODE_EXISTS, {
     onCompleted: data => {
-      console.log(data)
       setActivityCheck(data.activitycodes.totalCount === activityCodes.length);
       getActivityInfo({
         variables: { codes: activityCodes }
@@ -177,7 +175,6 @@ const ImportData = () => {
     checkActivityCodeExists({
       variables: { codes: activityList }
     })
-    console.log(importedData, activityList, activityListSet)
   }
 
   async function handleSubmitData() {

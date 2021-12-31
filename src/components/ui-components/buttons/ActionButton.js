@@ -11,10 +11,11 @@ const useStyles = makeStyles({
 		fontWeight: 600,
 		border: '5px solid',
 		borderColor: 'white',
-		padding: 2,
+		padding: '5px 25px',
+
 		textTransform: 'uppercase',
 		'&:hover': {
-			background: 'linear-gradient(#391427, #862d59)',
+			background: 'linear-gradient(#000080, #0000cc)',
 		},
 		'&:disabled': {
 			cursor: 'not-allowed',
@@ -26,7 +27,7 @@ const ActionButton = (props) => {
 	const classes = useStyles();
 
 	return (
-		<Button variant='contained' className={classes.root} fullWidth {...props}>
+		<Button variant='contained' className={classes.root} fullWidth={true} {...props}>
 			{props.label}
 		</Button>
 	);

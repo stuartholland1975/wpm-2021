@@ -46,7 +46,6 @@ const LocationsForm = ({ hideModal }) => {
     })
 
     const onSubmit = data => {
-        console.log(data);
         const apiObject =
             data.sitelocation.map(item => ({
                 ...item,
@@ -61,7 +60,6 @@ const LocationsForm = ({ hideModal }) => {
     }, [append])
 
 
-    console.log(errors)
 
 
 

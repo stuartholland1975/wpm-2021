@@ -12,7 +12,6 @@ import SupervisorValueChart from './SupervisorValueChart';
 
 const ContractDashboard = () => {
 	const rendersCount = useRendersCount();
-	console.log(rendersCount);
 
 	return (
 		<>

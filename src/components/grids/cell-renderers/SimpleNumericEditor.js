@@ -20,7 +20,6 @@ export default forwardRef((props, ref) => {
 
   const onKeyPressListener = useCallback(event => {
     if (!numberOnly(event.nativeEvent)) {
-      console.log(numberOnly(event))
       event.preventDefault();
     }
   }, []);

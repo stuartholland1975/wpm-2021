@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
 const SiteWorkbookCoverSheet = ({ data }) => {
 
 
-	console.log(data);
 
 
 	return (

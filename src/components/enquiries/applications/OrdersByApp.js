@@ -136,7 +136,6 @@ const OrdersByApp = ({ orderData }) => {
 			),
 	});
 
-	console.log(tableData);
 
 	if (loading) return <CircularProgress />;
 

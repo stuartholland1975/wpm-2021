@@ -33,7 +33,6 @@ const LocationForm = ({ hideModal }) => {
     })
 
     const handleSubmit = (event) => {
-        console.log("END")
         event.preventDefault()
         let fd = new FormData(event.target);
 

@@ -93,15 +93,15 @@ const AreaByApp = ({ areaData }) => {
 			setTableData(() =>
 				areaData
 					? areaData.map((item) => ({
-							...item,
-							id: uuidv4(),
-							valueApplied: formatNumberTwoDecimals(item.valueApplied),
-					  }))
+						...item,
+						id: uuidv4(),
+						valueApplied: formatNumberTwoDecimals(item.valueApplied),
+					}))
 					: data.applicationDetailAreaLevels.nodes.map((item) => ({
-							...item,
-							id: uuidv4(),
-							valueApplied: formatNumberTwoDecimals(item.valueApplied),
-					  })),
+						...item,
+						id: uuidv4(),
+						valueApplied: formatNumberTwoDecimals(item.valueApplied),
+					})),
 			),
 	});
 
@@ -118,7 +118,7 @@ const AreaByApp = ({ areaData }) => {
 				columns={columns}
 				pageSize={10}
 				rowsPerPageOptions={[10]}
-				onRowClick={(params) => console.log(params, params.row)}
+
 			/>
 		</div>
 	);

@@ -86,7 +86,6 @@ const ExportApplicationData = () => {
 
 		XLSX.writeFile(wb, "Application.xlsx");
 	}
-	console.log(appHeader, appAreas, appLocations, appImages, appItems, appWorksheets, appOrders)
 
 	if (loading) return <CircularProgress />
 	return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LoginButton from '../login/LoginButton';
 
 
 const LoginForm = () => {
@@ -53,12 +54,7 @@ const LoginForm = () => {
                 />
             </div>
             <div className="flex mt3">
-                <button
-                    className="pointer mr2 button"
-                    onClick={() => console.log('onClick')}
-                >
-                    {formState.login ? 'login' : 'create account'}
-                </button>
+                <LoginButton />
                 <button
                     className="pointer button"
                     onClick={(e) =>

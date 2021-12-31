@@ -133,7 +133,7 @@ const OrderheaderForm = ({ hideModal }) => {
             { query: GET_ALL_ORDER_HEADERS }
         ],
         // awaitRefetchQueries: true,
-        onCompleted: data => { console.log(data); hideModal() }
+        onCompleted: data => hideModal()
     })
 
     React.useEffect(() => {

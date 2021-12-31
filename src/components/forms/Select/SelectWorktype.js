@@ -8,7 +8,6 @@ const SelectWorktype = (props) => {
 
     const { control } = props
 
-    console.log(props);
 
 
     const [worktypeOptions, setWorktypeOptions] = React.useState([])

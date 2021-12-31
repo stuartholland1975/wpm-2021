@@ -83,7 +83,6 @@ const ImageForm = ({ hideModal }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    console.log(event.target)
     let fd = new FormData(event.target)
     const dateTakenManual = fd.get("dateTakenManual")
     const exif = await exifr.parse(imageFile)

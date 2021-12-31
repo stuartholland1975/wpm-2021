@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material';
 const SiteWorkbook = () => {
     const { data, loading } = useQuery(GET_SINGLE_ORDERHEADER, {
         variables: { id: 15 },
-        onCompleted: data => console.log(data)
+
     })
 
     if (loading || !data) return <CircularProgress />

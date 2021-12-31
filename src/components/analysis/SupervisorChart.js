@@ -13,7 +13,6 @@ import { formatNumberNoDecimals, getFirstLetters } from '../../functions/commonF
 
 
 const SupervisorChart = ({ data }) => {
-    console.log(data)
     return (
         <div style={{ borderStyle: 'solid', borderWidth: '1px', background: "#f2f2f2" }}>
             <h3 style={{ textDecoration: 'underline' }}>TOP 10 VALUES BY SUPERVISOR</h3>

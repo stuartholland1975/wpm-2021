@@ -13,7 +13,6 @@ import { formatNumberNoDecimals } from '../../functions/commonFunctions';
 
 
 const OrderChart = ({ data }) => {
-    console.log(data)
     return (
         <div style={{ borderStyle: 'solid', borderWidth: '1px', background: "#f2f2f2" }}>
             <h3 style={{ textDecoration: 'underline' }}>VALUES BY ORDER NUMBER</h3>

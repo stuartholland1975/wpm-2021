@@ -11,7 +11,6 @@ const Login = () => {
 
 
   const authToken = localStorage.getItem(AUTH_TOKEN);
-  console.log(authToken)
   return (
     <SignIn />
   )

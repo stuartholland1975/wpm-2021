@@ -118,7 +118,7 @@ const ItemForm = ({ hideModal }) => {
         awaitRefetchQueries: true,
         onCompleted: data => {
             hideModal()
-            console.log(data)
+
         }
     })
 
@@ -141,7 +141,6 @@ const ItemForm = ({ hideModal }) => {
     }, [getRatesets, ratesetOptions.length, ratesetsOpen]);
 
     React.useEffect(() => {
-        console.log(selectedRateset)
         if (selectedRateset) {
             getRatesetPrices({
                 variables: { id: selectedRateset.id }
@@ -177,7 +176,6 @@ const ItemForm = ({ hideModal }) => {
         })
 
 
-        console.log(itemNumber, qtyOrdered, sitelocationId, itemTypeId, ratesetPriceId, valueBaseMaterials, packNumber)
     }
 
     if (maxItemNumberLoading) return <CircularProgress />

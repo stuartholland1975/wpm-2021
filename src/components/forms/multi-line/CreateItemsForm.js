@@ -42,7 +42,6 @@ const ItemsForm = ({ hideModal }) => {
         ratesetDescription: { id: 1, description: 'Contract Tendered Rates' },
         siteLocation: { id: orderLocations[0].id, reference: orderLocations[0].reference }
     }
-    console.log(defaultValues)
     const { register, control, handleSubmit } = useForm({
         mode: "onChange"
     });
@@ -83,7 +82,6 @@ const ItemsForm = ({ hideModal }) => {
         ],
         awaitRefetchQueries: true,
         onCompleted: () => hideModal()
-        //  onCompleted: data => console.log(data)
 
     })
     const onSubmit = data => {
@@ -100,7 +98,6 @@ const ItemsForm = ({ hideModal }) => {
         submitItems({
             variables: { input: apiObject }
         })
-        console.log(apiObject)
     }
 
     if (maxItemNumberLoading || locationsLoading) return <CircularProgress />

@@ -5,12 +5,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import NavLogo from './NavLogo';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation, Link } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function NavBar() {
   let routeMatch = useLocation();
   const history = useHistory();
   let text;
+
+  const { loginWithRedirect } = useAuth0();
 
   if (routeMatch.pathname === '/orders') {
     text = 'WORK ORDER LISTING';
@@ -113,6 +116,17 @@ export default function NavBar() {
             >
               LOGIN
             </IconButton>
+            {/* <IconButton
+              color='inherit'
+              sx={{ fontSize: 18, alignItems: 'middle' }}
+              component={NavLink}
+              to={'https://dev-xw5nv1fz.eu.auth0.com'}
+             onClick={() => loginWithRedirect()}
+            exact
+             activeStyle={{ color: 'blue' }}
+            >
+              AUTH
+            </IconButton> */}
           </div>
           <Typography
             sx={{ ml: 'auto', mr: -40, color: 'navy', fontWeight: 'bold' }}

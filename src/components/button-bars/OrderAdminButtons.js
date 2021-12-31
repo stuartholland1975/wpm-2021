@@ -87,9 +87,7 @@ const OrderAdminButtons = (props) => {
 				<ActionButton
 					label='Download Workbook'
 					startIcon={<DownloadIcon />}
-					onClick={() =>
-						console.log("WORKBOOK")
-					}
+
 				/>
 			</Item>
 		</Box>

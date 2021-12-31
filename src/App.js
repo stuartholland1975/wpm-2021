@@ -6,7 +6,7 @@ import { CircularProgress } from "@mui/material";
 //import ContractDashboard from './components/dashboard/ContractDashboard';
 import ApplicationEnquiry from './components/enquiries/applications/ApplicationEnquiry';
 //import Enquiries from './components/enquiries/Enquiries';
-import Login from './components/login/Login';
+import LoginForm from './components/forms/LoginForm'
 
 const Home = lazy(() => import('./components/home/Home'));
 const Orderheaders = lazy(() => import('./components/orderheaders/Orderheaders'));
@@ -59,7 +59,7 @@ function App() {
             <ApplicationEnquiry />
           </Route>
           <Route path={'/login'}>
-            <Login />
+            <LoginForm />
           </Route>
 
         </Switch>

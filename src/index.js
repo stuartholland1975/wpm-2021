@@ -7,33 +7,17 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, createHttpLink, ApolloLink, } from '@apollo/client';
+import { ApolloClient, ApolloProvider, ApolloLink, } from '@apollo/client';
 import './GridStyles.scss';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { cache } from './cache';
 import { ModalProvider } from 'react-modal-hook';
 import { persistCache, LocalStorageWrapper } from 'apollo3-cache-persist';
-import { setContext } from '@apollo/client/link/context';
 import { onError } from 'apollo-link-error';
 import { createUploadLink } from 'apollo-upload-client';
+import { Auth0Provider } from "@auth0/auth0-react";
 
-const httpLink = createHttpLink({
-  //uri: 'https://workpm.ddns.net/graphql',
-  uri: 'http://developer-toshiba:5000/graphql',
-});
-
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
-});
 
 persistCache({
   cache,
@@ -52,7 +36,7 @@ export const client = new ApolloClient({
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     createUploadLink({
-      uri: 'http://developer-toshiba:5000/graphql',
+      uri: 'https://workpm.ddns.net/graphql',
 
       // credentials: 'same-origin'
     }),
@@ -85,11 +69,19 @@ function initialise() {
   if (cssHasLoaded('ag-theme-custom-react')) {
     ReactDOM.render(
       <Router>
+        {/* <Auth0Provider
+          domain="dev-xw5nv1fz.eu.auth0.com"
+          clientId="t7amjkEQaKyBbHlmySNbP1cKpv34TVGj"
+          redirectUri="https://workpm.ddns.net"
+        > */}
         <ApolloProvider client={client}>
           <ModalProvider>
             <App />
           </ModalProvider>
         </ApolloProvider>
+        {/* //  </Auth0Provider> */}
+        ,
+
       </Router>,
       document.getElementById('root')
     );

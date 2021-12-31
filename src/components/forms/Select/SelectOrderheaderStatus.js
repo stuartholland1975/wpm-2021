@@ -8,7 +8,6 @@ const SelectStatus = (props) => {
 
     const { control } = props
 
-    console.log(props);
 
 
     const [orderStatusOptions, setOrderStatusOptions] = React.useState([])

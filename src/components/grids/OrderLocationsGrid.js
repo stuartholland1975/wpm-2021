@@ -162,7 +162,7 @@ const OrderLocationsGrid = ({ data }) => {
 
   };
 
-  useEffect(() => console.log(gridSelections))
+
 
   useEffect(() => {
     if (gridApi) {
@@ -186,7 +186,6 @@ const OrderLocationsGrid = ({ data }) => {
   useEffect(() => {
     gridSelectionsVar({ ...gridSelectionsVar(), selectedLocation: false });
   }, []);
-  console.log(gridSelectionsVar())
   return (
     <div style={{ marginLeft: 5, marginRight: 5 }}>
       <AgGridReact

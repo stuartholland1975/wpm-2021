@@ -8,7 +8,6 @@ const SelectArea = (props) => {
 
     const { control } = props
 
-    console.log(props);
 
 
     const [areaOptions, setAreaOptions] = React.useState([{ id: 1, description: 'North' }])

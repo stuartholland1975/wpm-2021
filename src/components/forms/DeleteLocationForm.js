@@ -21,7 +21,7 @@ const DeleteLocationForm = () => {
         awaitRefetchQueries: true,
     })
 
-    console.log(typeof selectedLocation?.id)
+
 
     const onSubmit = () => confirmAlert({
         customUI: ({ onClose }) => {
