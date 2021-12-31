@@ -1937,6 +1937,7 @@ type Query implements Node {
   ratesetPrice(id: Int!): RatesetPrice
   report(id: Int!): Report
   sitelocation(id: Int!): Sitelocation
+  sitelocationByReferenceAndOrderheaderId(reference: String!, orderheaderId: Int!): Sitelocation
   sitelocationWithValue(id: Int!): SitelocationWithValue
   sitelocationWithValueById(id: Int!): SitelocationWithValue
   submittedApplication(id: Int!): SubmittedApplication
@@ -28956,6 +28957,8 @@ enum SitelocationsOrderBy {
   WORKSHEET_REFERENCE_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
+  REFERENCE_ASC__ORDERHEADER_ID_ASC__REFERENCE_DESC__ORDERHEADER_ID_DESC
+  REFERENCE_DESC__ORDERHEADER_ID_DESC__REFERENCE_ASC_NULLS_FIRST__ORDERHEADER_ID_ASC_NULLS_FIRST
   WORKSHEETS_COUNT_ASC
   WORKSHEETS_COUNT_DESC
   WORKSHEETS_SUM_ID_ASC
@@ -61446,6 +61449,14 @@ type Mutation {
     input: UpdateSitelocationInput!
   ): UpdateSitelocationPayload
 
+  """Updates a single `Sitelocation` using a unique key and a patch."""
+  updateSitelocationByReferenceAndOrderheaderId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSitelocationByReferenceAndOrderheaderIdInput!
+  ): UpdateSitelocationPayload
+
   """
   Updates a single `SitelocationWithValue` using its globally unique id and a patch.
   """
@@ -61884,6 +61895,14 @@ type Mutation {
     input: DeleteSitelocationInput!
   ): DeleteSitelocationPayload
 
+  """Deletes a single `Sitelocation` using a unique key."""
+  deleteSitelocationByReferenceAndOrderheaderId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSitelocationByReferenceAndOrderheaderIdInput!
+  ): DeleteSitelocationPayload
+
   """Deletes a single `SitelocationWithValue` using its globally unique id."""
   deleteSitelocationWithValueByNodeId(
     """
@@ -62027,6 +62046,12 @@ type Mutation {
     """
     input: WorksheetUpdateBulkWorksheetsInput!
   ): WorksheetUpdateBulkWorksheetsPayload
+  wpmGraphqlImportOrderData(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: WpmGraphqlImportOrderDataInput!
+  ): WpmGraphqlImportOrderDataPayload
 
   """Creates one or many `Orderdetail`."""
   mnCreateOrderdetail(
@@ -64709,6 +64734,24 @@ input UpdateSitelocationInput {
   id: Int!
 }
 
+"""
+All input for the `updateSitelocationByReferenceAndOrderheaderId` mutation.
+"""
+input UpdateSitelocationByReferenceAndOrderheaderIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Sitelocation` being updated.
+  """
+  patch: SitelocationPatch!
+  reference: String!
+  orderheaderId: Int!
+}
+
 """The output of our update `SitelocationWithValue` mutation."""
 type UpdateSitelocationWithValuePayload {
   """
@@ -66112,6 +66155,19 @@ input DeleteSitelocationInput {
   id: Int!
 }
 
+"""
+All input for the `deleteSitelocationByReferenceAndOrderheaderId` mutation.
+"""
+input DeleteSitelocationByReferenceAndOrderheaderIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  reference: String!
+  orderheaderId: Int!
+}
+
 """The output of our delete `SitelocationWithValue` mutation."""
 type DeleteSitelocationWithValuePayload {
   """
@@ -66620,6 +66676,44 @@ input WorksheetUpdateBulkWorksheetsInput {
   """
   clientMutationId: String
   worksheets: [WorksheetInput]!
+}
+
+"""The output of our `wpmGraphqlImportOrderData` mutation."""
+type WpmGraphqlImportOrderDataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  orderdetails: [Orderdetail]
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `wpmGraphqlImportOrderData` mutation."""
+input WpmGraphqlImportOrderDataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  orderItem: [OrderImportInput]
+}
+
+"""An input for mutations affecting `OrderImport`"""
+input OrderImportInput {
+  reference: String
+  itemNumber: Int
+  qtyOrdered: BigFloat
+  itemTypeId: Int
+  packNumber: String
+  valueBaseMaterials: BigFloat
+  activityCode: String
+  ratesetId: Int
+  orderheaderId: Int
 }
 
 """The output of our many create `Orderdetail` mutation."""

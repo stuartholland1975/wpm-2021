@@ -24,8 +24,7 @@ const cors = require('cors');
 //const PassportLoginPlugin = require('./PassportLoginPlugin');
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
-const { auth } = require('express-oauth2-jwt-bearer');
-
+const { auth } = require('express-openid-connect');
 //const DOCUMENTS_UPLOAD_DIR_NAME = "/var/www/html/documents";
 const DOCUMENTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media/documents');
 //const IMAGES_UPLOAD_DIR_NAME = "/var/www/html/images";
@@ -40,6 +39,15 @@ const THUMBNAIL_IMAGES_UPLOAD_DIR_NAME = path.join(
 );
 //const REPORTS_UPLOAD_DIR_NAME = "/var/www/html/reports";
 const REPORTS_UPLOAD_DIR_NAME = path.join(__dirname, 'media.reports');
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: 'a long, randomly-generated string stored in env',
+  baseURL: 'https://workpm.ddns.net',
+  clientID: '06DLikEjI3eXsK1fP2pfEnpypRSz2XGp',
+  issuerBaseURL: 'https://dev-xw5nv1fz.eu.auth0.com'
+};
 
 
 const checkJwt = jwt({
@@ -144,6 +152,7 @@ const corsOptions = {
 };
 
 const app = express();
+//app.use(auth(config));
 app.use(express.json({ limit: '100mb', extended: true }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
@@ -154,6 +163,10 @@ app.use(cors(corsOptions));
 //app.use(cors('*'));
 app.use(express.static(path.join(__dirname, 'media')));
 app.use(middleware, express.json({ limit: '100mb', extended: true }));
+
+//app.get('/', (req, res) => {
+//  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+//});
 
 
 const server = app.listen(PORT, () => {
