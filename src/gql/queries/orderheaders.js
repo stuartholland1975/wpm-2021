@@ -1,39 +1,6 @@
 import { gql } from '@apollo/client'
 
-/*
-export const GET_SINGLE_ORDERHEADER = gql`
-	query GetSingleOrderheader($id: Int!) {
-		orderheaderWithValue(id: $id) {
-			area
-			averageItemValue
-			averageLocationValue
-			id
-			itemCount
-			itemCountBoq
-			itemCountVarn
-			itemsComplete
-			itemsCompleteBoq
-			itemsCompleteVarn
-			locationCount
-			locationsComplete
-			statusDescription
-			orderNumber
-			orderValueLabour
-			orderValueMaterials
-			orderValueOther
-			orderValueTotal
-			orderValueTotalApplied
-			orderValueTotalBoq
-			orderValueTotalComplete
-			orderValueTotalVarn
-			projectTitle
-			workType
-			issuedDate
-			documentCount
-			imageCount
-		}
-	}
-`;*/
+
 
 export const GET_SINGLE_ORDERHEADER = gql`
 query MyQuery($id: Int!) {
@@ -56,5 +23,37 @@ query MyQuery($id: Int!) {
     workType
   }
 }
-
 `
+
+export const GET_ALL_ORDER_HEADERS = gql`
+	query GetOrderheadersWithValues {
+		orderheaderWithValues {
+			nodes {
+				area
+				averageItemValue
+				averageLocationValue
+				id
+				itemCount
+				itemsComplete
+				locationsComplete
+				itemCountVarn
+				locationCount
+				orderNumber
+				projectTitle
+				workType
+				issuedDate
+				documentCount
+				orderValueTotal
+				orderValueTotalComplete
+				orderValueTotalApplied
+				imageCount
+				statusDescription
+				startDate
+				endDate
+				areaId
+				worktypeId
+				orderStatusId
+			}
+		}
+	}
+`;
