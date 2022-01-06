@@ -1,11 +1,11 @@
 import React from 'react';
-import { useModal } from 'react-modal-hook';
+import {useModal} from 'react-modal-hook';
 import ReactModal from 'react-modal';
-import { Grid, TextField } from '@mui/material';
-import CreateButton from '../ui-components/buttons/CreateButton';
-import CancelButton from '../ui-components/buttons/CancelButton';
-import { useMutation, gql, useReactiveVar } from '@apollo/client';
-import { gridSelectionsVar } from '../../cache';
+import {Grid, TextField} from '@mui/material';
+import CreateButton from '../../ui-components/buttons/CreateButton';
+import CancelButton from '../../ui-components/buttons/CancelButton';
+import {useMutation, gql, useReactiveVar} from '@apollo/client';
+import {gridSelectionsVar} from '../../../cache';
 
 const UPLOAD_GLOBAL_DOCUMENT = gql`
 	mutation UploadGlobalDocument($input: CreateDocumentInput!) {
@@ -32,9 +32,9 @@ const GET_GLOBAL_DOCUMENTS = gql`
 	}
 `;
 
-const DocumentForm = ({ hideModal }) => {
+const DocumentForm = ({hideModal}) => {
 
-	const [submitDocument] = useMutation(UPLOAD_GLOBAL_DOCUMENT, {
+	const [submitDocument] = useMutation (UPLOAD_GLOBAL_DOCUMENT, {
 		refetchQueries: [
 			{
 				query: GET_GLOBAL_DOCUMENTS,
@@ -46,11 +46,11 @@ const DocumentForm = ({ hideModal }) => {
 	});
 
 	const handleSubmit = (event) => {
-		event.preventDefault();
-		const fd = new FormData(event.target);
-		const title = fd.get("title");
-		const headerDocumentFile = fd.get("headerDocumentFile");
-		submitDocument({
+		event.preventDefault ();
+		const fd = new FormData (event.target);
+		const title = fd.get ("title");
+		const headerDocumentFile = fd.get ("headerDocumentFile");
+		submitDocument ({
 			variables: {
 				input: {
 					document: {
@@ -80,15 +80,15 @@ const DocumentForm = ({ hideModal }) => {
 						label="Select Document File"
 						type="file"
 						fullWidth
-						inputProps={{ accept: ".pdf" }}
+						inputProps={{accept: ".pdf"}}
 						variant="filled"
-						InputLabelProps={{ shrink: true }}
+						InputLabelProps={{shrink: true}}
 						name="headerDocumentFile"
 						required
 					/>
 				</Grid>
 				<Grid item xs={6}>
-					<CreateButton type={'submit'} label={'upload document'} />
+					<CreateButton type={'submit'} label={'upload document'}/>
 				</Grid>
 				<Grid item xs={6}>
 					<CancelButton
@@ -104,12 +104,12 @@ const DocumentForm = ({ hideModal }) => {
 };
 
 const AddDocumentForm = () => {
-	const selectedDocument = useReactiveVar(gridSelectionsVar).selectedDocument;
-	const [showModal, hideModal] = useModal(() => (
-		<ReactModal isOpen appElement={document.getElementById('root')}>
+	const selectedDocument = useReactiveVar (gridSelectionsVar).selectedDocument;
+	const [showModal, hideModal] = useModal (() => (
+		<ReactModal isOpen appElement={document.getElementById ('root')}>
 			<h3>UPLOAD IMAGE</h3>
-			<hr />
-			<DocumentForm hideModal={hideModal} />
+			<hr/>
+			<DocumentForm hideModal={hideModal}/>
 		</ReactModal>
 	));
 	return (

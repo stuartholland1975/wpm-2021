@@ -1,8 +1,8 @@
 import React from 'react';
 import {useReactiveVar, useLazyQuery, gql, useMutation} from '@apollo/client';
-import {gridSelectionsVar} from '../../cache';
-import CreateButton from '../ui-components/buttons/CreateButton';
-import CancelButton from '../ui-components/buttons/CancelButton';
+import {gridSelectionsVar} from '../../../cache';
+import CreateButton from '../../ui-components/buttons/CreateButton';
+import CancelButton from '../../ui-components/buttons/CancelButton';
 import {TextField, Grid, Autocomplete, CircularProgress} from '@mui/material';
 import {useModal} from 'react-modal-hook';
 import ReactModal from 'react-modal';

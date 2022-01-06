@@ -1,9 +1,8 @@
 import React from 'react';
 import {useModal} from 'react-modal-hook';
 import ReactModal from 'react-modal';
-import ImportOrderFromTemplate from "../forms/ImportOrderFromTemplate";
+import ImportOrderFromTemplate from "../forms/orderheaders/ImportOrderFromTemplate";
 import CreateButton from "../ui-components/buttons/CreateButton";
-import {useReactiveVar} from "@apollo/client";
 import {gridSelectionsVar} from "../../cache";
 
 function OrderImport (props) {

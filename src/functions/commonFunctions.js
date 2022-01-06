@@ -1,46 +1,46 @@
 /** @format */
 
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
 import numeral from 'numeral';
 
 export const formatNumberGridNoDecimals = (number) =>
-	numeral(number.value).format('0,0');
+	numeral (number.value).format ('0,0');
 export const formatNumberGridTwoDecimals = (number) =>
-	numeral(number.value).format('0,0.00');
+	numeral (number.value).format ('0,0.00');
 
-export const formatNumberNoDecimals = (number) => numeral(number).format('0,0');
+export const formatNumberNoDecimals = (number) => numeral (number).format ('0,0');
 export const formatNumberTwoDecimals = (number) =>
-	numeral(number).format('0,0.00');
+	numeral (number).format ('0,0.00');
 
 export const formatDateGrid = (date) =>
-	DateTime.fromISO(date.value).toFormat('dd/LL/y');
-export const formatDate = (date) => DateTime.fromISO(date).toFormat('dd/LL/y');
+	DateTime.fromISO (date.value).toFormat ('dd/LL/y');
+export const formatDate = (date) => DateTime.fromISO (date).toFormat ('dd/LL/y');
 export const formatExifDate = (date) =>
-	DateTime.fromFormat(date.slice(0, 10).replace(/:/g, '/'), 'y/LL/dd').toFormat(
+	DateTime.fromFormat (date.slice (0, 10).replace (/:/g, '/'), 'y/LL/dd').toFormat (
 		'dd/LL/y',
 	);
 
 export const formatDateGridText = (date) =>
-	DateTime.fromISO(date.value).toLocaleString();
-export const formatDateText = (date) => DateTime(date).toFormat('dd/LL/y');
+	DateTime.fromISO (date.value).toLocaleString ();
+export const formatDateText = (date) => DateTime (date).toFormat ('dd/LL/y');
 
-export const convertDateToLocal = date => DateTime.fromISO(date.slice(0, 10)).toFormat('dd/LL/y')
+export const convertDateToLocal = date => DateTime.fromISO (date.slice (0, 10)).toFormat ('dd/LL/y')
 
 
 export const parseDateGrid = (date) =>
-	DateTime.fromISO(date.value).toLocaleString();
+	DateTime.fromISO (date.value).toLocaleString ();
 
 export const removeCommon = (first, second) => {
 	const spread = [...first, ...second];
-	return spread.filter((el) => {
-		return !first.includes(el) && second.includes(el);
+	return spread.filter ((el) => {
+		return !first.includes (el) && second.includes (el);
 	});
 };
 
 export const removedFromInitial = (first, second) => {
 	const spread = [...first, ...second];
-	return spread.filter((el) => {
-		return first.includes(el) && !second.includes(el);
+	return spread.filter ((el) => {
+		return first.includes (el) && !second.includes (el);
 	});
 };
 
@@ -60,72 +60,70 @@ export const numberOnly = (event) => {
 	);
 };
 
-export const setDelay = (ms) => new Promise((res) => setTimeout(res, ms));
+export const setDelay = (ms) => new Promise ((res) => setTimeout (res, ms));
 
 export const textTruncate = (str, length, ending) => {
-	if (length == null) {
+	if ( length == null ) {
 		length = 100;
 	}
-	if (ending == null) {
+	if ( ending == null ) {
 		ending = '...';
 	}
-	if (str.length > length) {
-		return str.substring(0, length - ending.length) + ending;
+	if ( str.length > length ) {
+		return str.substring (0, length - ending.length) + ending;
 	} else {
 		return str;
 	}
 };
 
 export const getFirstLetters = (str) => {
-	const firstLetters = str
-		.split(' ')
-		.map((word) => word[0])
-		.join('');
-
-	return firstLetters;
+	return str
+		.split (' ')
+		.map ((word) => word[0])
+		.join ('');
 };
 
 export const fixKeys = (fn) => (obj) =>
-	Object.fromEntries(
-		Object.entries(obj).map(([k, v]) => [
-			fn(k),
-			Array.isArray(v)
-				? v.map(fixKeys(fn))
+	Object.fromEntries (
+		Object.entries (obj).map (([k, v]) => [
+			fn (k),
+			Array.isArray (v)
+				? v.map (fixKeys (fn))
 				: typeof v == 'object'
-					? fixKeys(fn)(v)
+					? fixKeys (fn) (v)
 					: v,
 		]),
 	);
 
-export function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
+export function capitalizeFirstLetter (string) {
+	return string.charAt (0).toUpperCase () + string.slice (1);
 }
 
 
-export const camelCase = (s) => s.replace(/_(.)/g, (s, c) => c.toUpperCase());
+export const camelCase = (s) => s.replace (/_(.)/g, (s, c) => c.toUpperCase ());
 
-export const snakeCase = (s) => s.replace(/_(.)/g, (s, c) => c.toLowerCase());
+export const snakeCase = (s) => s.replace (/_(.)/g, (s, c) => c.toLowerCase ());
 
-export const camelizeKeys = fixKeys(camelCase);
+export const camelizeKeys = fixKeys (camelCase);
 
-export const SnakeCaseToWords = fixKeys(snakeCase)
+export const SnakeCaseToWords = fixKeys (snakeCase)
 
-export function lowerCase(str) {
-	return str.toLowerCase();
+export function lowerCase (str) {
+	return str.toLowerCase ();
 }
 
 /**
  * "Safer" String.toUpperCase()
  */
-export function upperCase(str) {
-	return str.toUpperCase();
+export function upperCase (str) {
+	return str.toUpperCase ();
 }
 
 
-export function properCase(str) {
-	return str.split(' ').map((word) => {
-		return word[0].toUpperCase() + word.substring(1);
-	}).join(" ");
+export function properCase (str) {
+	return str.split (' ').map ((word) => {
+		return word[0].toUpperCase () + word.substring (1);
+	}).join (" ");
 }
 
 //const words = mySentence.split(" ");
@@ -135,15 +133,14 @@ export function properCase(str) {
 //}).join(" ");
 
 export const formatNumberForExcel = (num) => {
-	var m = Number((Math.abs(num) * 100).toPrecision(15));
-	return Math.round(m) / 100 * Math.sign(num);
+	const m = Number ((Math.abs (num) * 100).toPrecision (15));
+	return Math.round (m) / 100 * Math.sign (num);
 }
 
-export function divideIfNotZero(numerator, denominator) {
-	if (denominator === 0 || isNaN(denominator)) {
+export function divideIfNotZero (numerator, denominator) {
+	if ( denominator === 0 || isNaN (denominator) ) {
 		return null;
-	}
-	else {
+	} else {
 		return numerator / denominator;
 	}
 }

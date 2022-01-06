@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import {makeStyles} from '@mui/styles';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const useStyles = makeStyles ({
 		root: {
